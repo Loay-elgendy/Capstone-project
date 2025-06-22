@@ -1,0 +1,82 @@
+﻿@model Capstone_project.Models.Login
+
+@{
+    ViewData["Title"] = "Login";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/site.css" />
+
+<div class="container">
+    <div class="left">
+        <div class="logo">
+            <img src="~/Images/Logo white.png" alt="logo" />
+            <span>Pro Clinic</span>
+        </div>
+
+        <!-- Standard Login Form -->
+        <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
+            @Html.AntiForgeryToken()
+
+            @* Show all model errors *@
+            @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+
+            <div class="form-group">
+                <label asp-for="DoctorId" class="form-label"></label>
+                <input asp-for="DoctorId" class="form-control" placeholder="doc1234 / pat5678" />
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email" class="form-label"></label>
+                <input asp-for="Email" class="form-control" placeholder="example@domain.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password" class="form-label"></label>
+                <input asp-for="Password" class="form-control" placeholder="********" type="password" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <div class="remember">
+                <div class="form-check">
+                    <input asp-for="RememberMe" class="form-check-input" />
+                    <label asp-for="RememberMe" class="form-check-label"></label>
+                </div>
+                <a href="@Url.Action("Forgetpassword","Forget")" class="forgot">Forgot password?</a>
+            </div>
+
+            <div class="btns">
+                <button type="submit" class="btn-login">Login</button>
+                <a asp-controller="Account" asp-action="SignUp" class="btn-signup">Sign Up</a>
+            </div>
+        </form>
+
+        <div class="or">Or</div>
+
+        <!-- Google External-Login Form -->
+        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+            @Html.AntiForgeryToken()
+            <input type="hidden" name="provider" value="Google" />
+            <button type="submit" class="google-btn">
+                <img src="~/images/Google.png" alt="Google logo" />
+                <span>Sign in with Google</span>
+            </button>
+        </form>
+
+        <div class="copyright">
+            © 2025 Pro Clinic corporation
+        </div>
+    </div>
+
+    <div class="right">
+        <h2>Interact with the clinic digitally<br />and get better benefits than with an app</h2>
+        <h3>Pro Clinic!</h3>
+        <img src="~/images/Pro Clinic.png" alt="clinic illustration" />
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

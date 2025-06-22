@@ -1,0 +1,80 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Data Request</title>
+    <link rel="stylesheet" href="~/css/DataRequest.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="top-header">
+            <a href="@Url.Action("Home", "Home")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        </div>
+
+        <div class="top-logo">
+            <img src="~/Images/Logo white.png" alt="Logo" class="centered-logo" />
+        </div>
+
+        <!-- The form now includes name attributes on inputs -->
+        <form asp-controller="Details" asp-action="AddDetails" method="post" enctype="multipart/form-data">
+            <h2>Personal information</h2>
+            <div class="grid-2">
+                <input type="text" name="FirstName" placeholder="First Name" />
+                <input type="text" name="LastName" placeholder="Last Name" />
+                <input type="text" name="Age" placeholder="Age" />
+                <div class="gender-select">
+                    <label><input type="radio" name="Gender" value="Female" /> Female</label>
+                    <label><input type="radio" name="Gender" value="Male" /> Male</label>
+                    <label><input type="radio" name="Gender" value="Not Specified" /> Don't want to refer</label>
+                </div>
+                <input type="text" name="Height" placeholder="Height" />
+                <input type="text" name="Weight" placeholder="Weight" />
+            </div>
+
+            <h2>Main Complaint</h2>
+            <textarea name="MainComplaint" placeholder="What symptoms are you currently experiencing?"></textarea>
+            <input type="text" name="ComplaintStart" placeholder="When did these symptoms start?" />
+            <input type="text" name="ComplaintPattern" placeholder="Are these symptoms constant or do they come and go?" />
+
+            <h2>Severity of symptoms</h2>
+            <input type="text" name="PainSeverity" placeholder="Rate pain severity 1–10" />
+            <input type="text" name="Worsening" placeholder="Do symptoms worsen at specific times or activities?" />
+
+            <h2>Previous medical history</h2>
+            <input type="text" name="ChronicDiseases" placeholder="Do you have any chronic diseases?" />
+            <input type="text" name="HistoryTiming" placeholder="Did symptoms worsen at a certain time?" />
+            <input type="text" name="PastMedications" placeholder="Taken medications before for same symptoms?" />
+
+            <h2>Family history</h2>
+            <input type="text" name="FamilyHistory" placeholder="Any similar medical history in family?" />
+
+            <h2>Current medications</h2>
+            <input type="text" name="Medication1" placeholder="List current medications and strength" />
+
+            <h2>Sensitive</h2>
+            <input type="text" name="Allergies" placeholder="Any medication or food allergies?" />
+
+            <h2>Previous tests or x-rays</h2>
+            <textarea name="Tests" placeholder="Have you had any tests recently?"></textarea>
+
+            <!-- Media upload input -->
+            <label class="add-media" for="media-upload">
+                <i class="fas fa-paperclip"></i> Add Media
+            </label>
+            <input type="file" id="media-upload" name="mediaUpload" accept="image/*" style="display: none;" />
+
+            <h2>Lifestyle</h2>
+            <input type="text" name="LifestyleHabits" placeholder="Do you smoke or drink alcohol?" />
+            <input type="text" name="SleepHours" placeholder="How many hours of sleep per day?" />
+            <input type="text" name="PhysicalActivity" placeholder="Describe physical activity level" />
+
+            <a href="@Url.Action("Prescription", "Prescription")" class="submit-btn">Send</a>
+
+        </form>
+    </div>
+</body>
+</html>

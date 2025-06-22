@@ -1,0 +1,106 @@
+﻿@{
+    ViewData["Title"] = "Doctor Dashboard";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/Doctor.css" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+<main>
+    <header class="navbar">
+        <div class="logo">
+            <img src="~/images/Logoafteredit.png" alt="Store Icon">
+            <span>Pro clinic</span>
+        </div>
+        <nav class="nav-links">
+            <a href="#">Reservations</a>
+            <a href="#">Patients</a>
+            <a href="#">Info</a>
+        </nav>
+        <div class="search-section">
+            <input type="text" placeholder="Search for...">
+        </div>
+    </header>
+
+    <section class="reservations">
+        <h2>Reservations</h2>
+        <div class="reservation-card">
+            <div class="card-header">Patient : Salwa</div>
+            <div class="card-body">
+                <span>At 5pm</span>
+                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
+            </div>
+        </div>
+        <div class="reservation-card">
+            <div class="card-header">Patient : Mahmoud</div>
+            <div class="card-body">
+                <span>At 6pm</span>
+                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
+            </div>
+        </div>
+        <div class="reservation-card">
+            <div class="card-header">Patient : Ahmed</div>
+            <div class="card-body">
+                <span>At 7pm</span>
+                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
+            </div>
+        </div>
+    </section>
+
+    <section class="patients">
+        <h2>Patients</h2>
+        <div class="patients-list">
+            <div class="patient-card">
+                <img src="https://assets.medpagetoday.net/media/images/98xxx/98019.jpg" alt="Patient">
+                <p>Darrell Steward</p>
+                <button>select</button>
+            </div>
+            <div class="patient-card">
+                <img src="https://anmj.org.au/wp-content/uploads/2020/03/Older-patient-specialling-in-acute-MAIN-WEB.jpg" alt="Patient">
+                <p>Savannah Nguyen</p>
+                <button>select</button>
+            </div>
+            <div class="patient-card">
+                <img src="https://www.asge.org/images/default-source/sp/forpatients-conditions-square-600x600.jpg?sfvrsn=3f52a25c_0" alt="Patient">
+                <p>Dianne Russell</p>
+                <button>select</button>
+            </div>
+            <div class="patient-card">
+                <img src="https://www.cdc.gov/tobacco/media/images/2024/05/patient-care-1200x675-1.jpg" alt="Patient">
+                <p>Kristin Watson</p>
+                <button>select</button>
+            </div>
+        </div>
+        <div class="see-more-container">
+            <button class="see-more">See More</button>
+        </div>
+    </section>
+
+    <section class="info">
+        <h2>Information</h2>
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="icon">📌</div>
+                <p><strong>About the project</strong><br />تحسين الدقة وتقليل الوقت باستخدام التكنولوجيا.</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">⏱️</div>
+                <p><strong>Challenges</strong><br />الانتظار الطويل، جمع المعلومات اليدوي، أخطاء الكتابة.</p>
+            </div>
+            <div class="info-card">
+                <div class="icon">🚑</div>
+                <p><strong>Impact of the solution</strong><br />تقليل الأخطاء وتحسين الكفاءة للأطباء والمرضى.</p>
+            </div>
+        </div>
+    </section>
+</main>
+
+<footer>
+    <div class="socials">
+        <i class="fab fa-facebook-f"></i>
+        <i class="fab fa-twitter"></i>
+        <i class="fab fa-instagram"></i>
+        <i class="fab fa-linkedin-in"></i>
+    </div>
+    <p>Pro clinic © 2025. All rights reserved.</p>
+</footer>

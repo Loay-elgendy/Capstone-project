@@ -1,0 +1,66 @@
+﻿@model Capstone_project.Models.SignUp
+@{
+    ViewData["Title"] = "Sign Up";
+    Layout = null;
+}
+
+<link rel="stylesheet" href="~/css/SignUp.css" />
+
+<div class="container">
+    <div class="left">
+        <div class="logo">
+            <img src="~/Images/Logo white.png" alt="logo" />
+        </div>
+
+        <form asp-action="SignUp" method="post">
+            @Html.AntiForgeryToken()
+
+            <div class="name-fields">
+                <div class="form-group">
+                    <label asp-for="FirstName"></label>
+                    <input asp-for="FirstName" placeholder="Loay" />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+                <div class="form-group">
+                    <label asp-for="LastName"></label>
+                    <input asp-for="LastName" placeholder="Kamal" />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="DoctorId"></label>
+                <input asp-for="DoctorId" placeholder="Doc2345" />
+                <span asp-validation-for="DoctorId" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Email"></label>
+                <input asp-for="Email" placeholder="Verconica@gmail.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <label asp-for="Password"></label>
+                <input asp-for="Password" placeholder="********" />
+                <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <button type="submit" class="btn-login">Sign up</button>
+        </form>
+
+        <div class="copyright">
+            © Copyright 2025 Pro Clinic corporation
+        </div>
+    </div>
+
+    <div class="right">
+        <h2>Interact with the clinic digitally and get<br />better benefits than with an app</h2>
+        <h3>Pro Clinic!</h3>
+        <img src="~/images/Pro Clinic.png" alt="clinic illustration" />
+    </div>
+</div>
+
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+}

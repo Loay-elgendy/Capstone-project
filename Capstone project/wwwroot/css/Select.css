@@ -1,0 +1,110 @@
+﻿body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left-side, .right-side {
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.left-side {
+    background-color: #fff;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    /* Removed border-right to eliminate the dividing line */
+}
+
+.right-side {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    background-color: #fff;
+    text-align: center;
+}
+
+.back-logo {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    font-size: 20px;
+    font-weight: bold;
+    color: #0d47a1;
+    margin-bottom: 30px;
+}
+
+    .back-logo img {
+        width: 100px;
+        height: 50px;
+    }
+
+.appointment-info {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    margin-bottom: 40px;
+}
+
+.info-box {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    background-color: #f1f3f4;
+    padding: 15px;
+    border-radius: 12px;
+    font-size: 16px;
+}
+
+    .info-box i {
+        color: #0d47a1;
+        font-size: 20px;
+    }
+
+/* Button or link styled as a button */
+.book-btn {
+    display: inline-block;
+    text-align: center;
+    background-color: #0d47a1;
+    color: white;
+    padding: 12px 25px;
+    font-size: 16px;
+    border-radius: 10px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    margin-top: auto;
+    text-decoration: none; /* ensures <a> tag looks like a button */
+    border: none;
+}
+
+    .book-btn:hover {
+        background-color: #0b3c91;
+    }
+
+.footer {
+    text-align: center;
+    color: #999;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+.title {
+    font-size: 26px;
+    font-weight: bold;
+    margin-bottom: 30px;
+    color: #0d47a1;
+}
+
+.right-side img {
+    max-width: 80%;
+    height: auto;
+}

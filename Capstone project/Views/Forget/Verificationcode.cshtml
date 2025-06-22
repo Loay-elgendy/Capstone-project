@@ -1,0 +1,39 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Verification Code</title>
+    <link rel="stylesheet" href="~/css/Verificationcode.css" />
+</head>
+<body>
+    <div class="container">
+        <div class="logo-section">
+            <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" class="logo" />
+        </div>
+        <div class="form-box">
+            <p class="instruction">
+                You have requested a password reset. Please check your email and enter the code.
+            </p>
+
+            <form action="@Url.Action("CheckVerificationCode", "Forget")" method="post">
+                <label for="code">Code</label>
+                <input type="text" id="code" name="code" required />
+                <button type="submit" class="submit-btn">Confirm</button>
+            </form>
+
+            @if (TempData["Error"] != null)
+            {
+                <p class="error-message">@TempData["Error"]</p>
+            }
+
+            @if (TempData["Success"] != null)
+            {
+                <p class="success-message">@TempData["Success"]</p>
+            }
+        </div>
+    </div>
+</body>
+</html>

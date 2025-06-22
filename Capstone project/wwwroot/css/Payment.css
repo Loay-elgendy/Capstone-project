@@ -1,0 +1,150 @@
+﻿body {
+    margin: 0;
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #fff;
+}
+
+.container {
+    display: flex;
+    min-height: 100vh;
+}
+
+.left-section, .right-section {
+    flex: 1;
+    padding: 40px;
+    box-sizing: border-box;
+}
+
+.left-section {
+    display: flex;
+    flex-direction: column;
+    justify-content: center; /* Center the form vertically */
+}
+
+.header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.back-btn {
+    text-decoration: none;
+    color: #000;
+    font-size: 20px;
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    background: none;
+    border: none;
+    cursor: pointer;
+}
+
+.logo {
+    width: 100px;
+    height: auto;
+}
+
+.brand-name {
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.payment-title {
+    font-size: 20px;
+    font-weight: bold;
+    margin: 20px 0;
+}
+
+.payment-options {
+    display: flex;
+    gap: 15px;
+    margin-bottom: 20px;
+}
+
+.option {
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    padding: 12px 20px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 500;
+    background-color: #fff;
+}
+
+    .option.selected {
+        border: 2px solid #2979ff;
+    }
+
+.payment-form {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+    .payment-form label {
+        font-weight: bold;
+        margin-bottom: 4px;
+        display: block;
+    }
+
+    .payment-form input,
+    .payment-form select {
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #ccc;
+        width: 100%;
+    }
+
+.flex-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+    .flex-row > div {
+        flex: 1;
+        min-width: 100px;
+    }
+
+.card-icons img {
+    width: 40px;
+    margin-top: 8px;
+    margin-right: 5px;
+}
+
+.pay-btn {
+    margin-top: 20px;
+    padding: 12px;
+    background-color: #69a7f3;
+    border: none;
+    color: white;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    width: 100%;
+}
+
+    .pay-btn:hover {
+        background-color: #1e5ecb;
+    }
+
+.footer {
+    margin-top: 40px;
+    text-align: center;
+    font-size: 14px;
+    color: #888;
+}
+
+.right-section {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+    .right-section img {
+        max-width: 90%;
+        height: auto;
+    }

@@ -1,0 +1,124 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Client Dashboard - Pro Clinic</title>
+    <link rel="stylesheet" href="~/css/Home.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
+
+    <!-- Navbar -->
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="~/Images/Logoafteredit.png" alt="Pro Clinic Logo" />
+                <span>Pro Clinic</span>
+            </div>
+            <nav>
+                <a href="#doctors">Doctors</a>
+                <a href="#prescription">Prescription</a>
+                <a href="#info">Information</a>
+            </nav>
+        </div>
+        <div class="search-bar">
+            <i class="fas fa-search"></i>
+            <input type="text" placeholder="Search for..." />
+        </div>
+    </header>
+
+    <!-- Doctors -->
+    <div id="doctors" class="section-title">Doctors</div>
+    <div class="doctor-container">
+        <div class="doctor">
+            <img class="doctor-image" src="https://www.future-doctor.de/wp-content/uploads/2024/08/shutterstock_2480850611.jpg" alt="Doctor Ahmed" />
+            <p><strong>د. أحمد</strong><br />أخصائي باطنة</p>
+            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Ahmed Samy", price = "200", day = "Sunday", date = "20 / 4 / 2025" })">Select</a>
+        </div>
+
+        <div class="doctor">
+            <img class="doctor-image" src="https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg" alt="Doctor Mohamed" />
+            <p><strong>د. محمد</strong><br />أخصائي قلب</p>
+            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Mohamed Ali", price = "250", day = "Monday", date = "21 / 4 / 2025" })">Select</a>
+        </div>
+
+        <div class="doctor">
+            <img class="doctor-image" src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg" alt="Doctor Ali" />
+            <p><strong>د. علي</strong><br />أخصائي أعصاب</p>
+            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Ali Tarek", price = "230", day = "Tuesday", date = "22 / 4 / 2025" })">Select</a>
+        </div>
+
+        <div class="doctor">
+            <img class="doctor-image" src="https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg" alt="Doctor Zeyad" />
+            <p><strong>د. زياد</strong><br />أخصائي عظام</p>
+            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Zeyad Hassan", price = "300", day = "Wednesday", date = "23 / 4 / 2025" })">Select</a>
+        </div>
+    </div>
+    <a class="see-more" href="#">See More</a>
+
+    <!-- Prescription -->
+    <div id="prescription" class="section-title">Prescription</div>
+    <div class="card-container">
+        <div class="card large">
+            <p><strong>Prescription Title</strong></p>
+            <p>شرح للتشخيص ونتائج التحاليل.</p>
+        </div>
+        <div class="card large">
+            <p><strong>Prescription Title</strong></p>
+            <p>شرح للتشخيص ونتائج التحاليل.</p>
+        </div>
+    </div>
+    <a class="see-more" href="#">See More</a>
+
+
+    <section class="info" id="info">
+        <h2 class="section-title">Information</h2>
+        <div class="info-cards">
+            <div class="info-card">
+                <div class="icon"><i class="fas fa-lightbulb"></i></div>
+                <strong>About the project</strong>
+                <p>
+                    A smart system to reduce workload in clinics and<br>
+                    improve the accuracy of diagnoses and prescriptions<br>
+                    using modern digital technologies.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <div class="icon"><i class="fas fa-check"></i></div>
+                <strong>Challenges</strong>
+                <p>
+                    Crowded clinics and long waiting times.<br>
+                    Time wasted collecting information manually.<br>
+                    Prescription errors due to handwriting.
+                </p>
+            </div>
+
+            <div class="info-card">
+                <div class="icon"><i class="fas fa-ambulance"></i></div>
+                <strong>Impact of the solution</strong>
+                <p>
+                    On doctors: More time for diagnosis, fewer errors, higher productivity.<br>
+                    On patients: Reduced waiting times, easier experience, more accurate treatment.<br>
+                    On the market: Drives the digitization of medical services and increases user loyalty.
+                </p>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Footer -->
+    <footer>
+        <div class="socials">
+            <i class="fab fa-facebook-f"></i>
+            <i class="fab fa-twitter"></i>
+            <i class="fab fa-instagram"></i>
+            <i class="fab fa-linkedin-in"></i>
+        </div>
+        <p>Pro clinic © 2025. All rights reserved.</p>
+    </footer>
+</body>
+</html>

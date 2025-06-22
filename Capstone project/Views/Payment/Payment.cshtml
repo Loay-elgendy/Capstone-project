@@ -1,0 +1,70 @@
+﻿@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Payment Page</title>
+    <link rel="stylesheet" href="~/css/Payment.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+</head>
+<body>
+    <div class="container">
+        <div class="left-section">
+            <div class="content-wrapper">
+                <div class="header">
+                    <a href="@Url.Action("Select", "Select")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+                    <img src="~/Images/Logo white.png" alt="Pro Clinic" class="logo">
+                </div>
+
+                <form class="payment-form">
+                    <label>Card number</label>
+                    <input type="text" placeholder="1234 1234 1234 1234">
+                    <div class="card-icons">
+                        <img src="https://img.icons8.com/color/48/visa.png" />
+                        <img src="https://img.icons8.com/color/48/mastercard.png" />
+                        <img src="https://img.icons8.com/color/48/discover.png" />
+                    </div>
+
+                    <div class="flex-row">
+                        <div>
+                            <label>Expiry</label>
+                            <input type="number" placeholder="MM / YY">
+                        </div>
+
+                        <div>
+                            <label>CVC</label>
+                            <input type="text" placeholder="CVC">
+                        </div>
+                    </div>
+
+                    <div class="flex-row">
+                        <div>
+                            <label>Country</label>
+                            <select>
+                                <option>United States</option>
+                                <option>Egypt</option>
+                            </select>
+                        </div>
+                        <div>
+                            <label>Postal code</label>
+                            <input type="text" placeholder="90210">
+                        </div>
+                    </div>
+
+                    <a href="@Url.Action("AddDetails", "Details")" class="pay-btn">Pay</a>
+                </form>
+
+                <div class="footer">
+                    <i class="far fa-copyright"></i> Copyright 2025 Pro Clinic corporation
+                </div>
+            </div>
+        </div>
+
+        <div class="right-section">
+            <img src="~/Images/Pro Clinic.png" alt="Doctor Booking" />
+        </div>
+    </div>
+</body>
+</html>

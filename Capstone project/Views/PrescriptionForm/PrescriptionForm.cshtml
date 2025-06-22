@@ -1,0 +1,75 @@
+﻿@{
+    ViewData["Title"] = "Prescription";
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Prescription</title>
+    <link rel="stylesheet" href="~/css/PrescriptionForm.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+</head>
+<body>
+    <header class="header">
+        <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+        <div class="logo">
+            <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
+        </div>
+    </header>
+
+    <main class="container">
+        <h1 class="main-title">Prescription</h1>
+
+        @using (Html.BeginForm("SubmitPrescription", "Prescription", FormMethod.Post, new { enctype = "multipart/form-data" }))
+        {
+            <section class="form-section">
+                <h2 class="section-title">Diagnosis</h2>
+                <label for="diagnosis">A clear summary of the patient's condition (e.g., "acute bronchitis").</label>
+                <select id="diagnosis" name="Diagnosis">
+                    <option selected disabled>Select Item</option>
+                </select>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Medications</h2>
+                <label for="medication">Trade or scientific name.</label>
+                <select id="medication" name="Medication">
+                    <option selected disabled>Select Item</option>
+                </select>
+
+                <label for="dosage">Dosage</label>
+                <input type="text" id="dosage" name="Dosage" placeholder="e.g. 500mg twice daily" />
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Recommended Tests</h2>
+                <label for="tests">Type of analysis or examination.</label>
+                <select id="tests" name="Tests">
+                    <option selected disabled>Select Item</option>
+                </select>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Doctor's Notes</h2>
+                <label for="notes">General clinical notes.</label>
+                <textarea id="notes" name="Notes" rows="5" placeholder="Write your notes here..."></textarea>
+            </section>
+
+            <section class="form-section">
+                <h2 class="section-title">Signature</h2>
+                <div class="signature-upload">
+                    <label for="SignatureImage" class="upload-btn">
+                        <i class="fas fa-photo-video"></i> Add media
+                    </label>
+                    <input type="file" id="SignatureImage" name="SignatureImage" accept="image/*" style="display: none;" />
+                </div>
+            </section>
+
+            <div class="submit-container">
+                <button type="submit" class="submit-btn">Specify</button>
+            </div>
+        }
+    </main>
+</body>
+</html>

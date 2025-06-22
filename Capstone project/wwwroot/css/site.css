@@ -1,0 +1,228 @@
+@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
+
+* {
+    box-sizing: border-box;
+    font-family: 'Rubik', sans-serif;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    height: 100vh;
+    background: linear-gradient(to right, #dbeafe, #e0f7fa);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.container {
+    display: flex;
+    width: 90%;
+    max-width: 1200px;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+    overflow: hidden;
+}
+
+.left, .right {
+    flex: 1;
+    padding: 40px;
+}
+
+.left {
+    background: #fff;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 30px;
+}
+
+    .logo img {
+        width: 100px;
+    }
+
+    .logo span {
+        font-size: 20px;
+        font-weight: bold;
+        color: #444;
+    }
+
+/* form width & centering */
+.login-form {
+    max-width: 400px;
+    margin: 0 auto;
+}
+
+/* Inputs */
+.form-group {
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        display: block;
+        margin-bottom: 5px;
+        font-weight: 600;
+    }
+
+    .form-group .form-control {
+        width: 100%;
+        height: 48px;
+        padding: 0 12px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+    }
+
+/* Remember + forgot */
+.remember {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 14px;
+}
+
+    .remember input {
+        margin-right: 5px;
+    }
+
+.forgot {
+    color: #4f99d8;
+    text-decoration: none;
+}
+
+    .forgot:hover {
+        text-decoration: underline;
+    }
+
+/* Primary buttons */
+.btns {
+    display: flex;
+    gap: 10px;
+    margin-bottom: 20px;
+}
+
+.btn-login, .btn-signup {
+    flex: 1;
+    height: 48px;
+    line-height: 48px;
+    font-size: 16px;
+    border-radius: 8px;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+.btn-login {
+    background-color: #4f99d8;
+    color: #fff;
+    border: none;
+}
+
+.btn-signup {
+    background-color: #fcfcfc;
+    border: 1px solid #4f99d8;
+    color: #4f99d8;
+    transition: background-color .3s;
+}
+
+    .btn-signup:hover {
+        background-color: #e6f0fa;
+    }
+
+/* “Or” separator */
+.or {
+    text-align: center;
+    margin: 20px 0;
+    color: #999;
+    position: relative;
+}
+
+    .or::before,
+    .or::after {
+        content: '';
+        position: absolute;
+        top: 50%;
+        width: 40%;
+        height: 1px;
+        background: #ccc;
+    }
+
+    .or::before {
+        left: 0;
+    }
+
+    .or::after {
+        right: 0;
+    }
+
+/* Google button */
+.google-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    height: 48px;
+    padding: 0 12px;
+    border: 1px solid #dadce0;
+    border-radius: 8px;
+    background-color: #fff;
+    color: #3c4043;
+    font-size: 16px;
+    font-weight: 500;
+    text-decoration: none;
+    cursor: pointer;
+    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
+    transition: background-color .2s, box-shadow .2s;
+}
+
+    .google-btn img {
+        width: 18px;
+        height: 18px;
+        margin-right: 10px;
+    }
+
+    .google-btn:hover {
+        background-color: #f7f8fa;
+        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
+    }
+
+.copyright {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #777;
+}
+
+.right {
+    background: #ffffff;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+    .right h2 {
+        font-size: 22px;
+        font-weight: bold;
+        color: #333;
+        margin-bottom: 10px;
+        text-align: center;
+    }
+
+    .right h3 {
+        font-size: 18px;
+        color: #4f99d8;
+        margin-bottom: 20px;
+        text-align: center;
+    }
+
+    .right img {
+        width: 100%;
+        max-width: 450px;
+        border-radius: 12px;
+    }

@@ -1,0 +1,57 @@
+﻿@{
+    ViewData["Title"] = "Reservation Status";
+    Layout = null; // لو عندك Layout عام
+}
+<link rel="stylesheet" href="~/css/Status.css" />
+
+<div class="form-section">
+    <h2>Personal information</h2>
+    <div class="form-group"><label>First Name</label><input type="text" value="Loay"></div>
+    <div class="form-group"><label>Last Name</label><input type="text" value="Kamal"></div>
+    <div class="form-group"><label>Age</label><input type="text" value="Doc2345"></div>
+    <div class="form-group">
+        <label>Gender</label>
+        <div class="gender-buttons">
+            <button>Female</button><button>Male</button><button>LGBTQIA</button>
+        </div>
+    </div>
+    <div class="form-group"><label>Height</label><input type="text" value="169cm"></div>
+    <div class="form-group"><label>Weight</label><input type="text" value="70 kg"></div>
+
+    <h2>Main Complaint</h2>
+    <div class="form-group"><label>What symptoms are you currently experiencing?</label><input type="text"></div>
+    <div class="form-group"><label>When did these symptoms start?</label><input type="text"></div>
+    <div class="form-group"><label>Are these symptoms constant or do they come and go?</label><input type="text"></div>
+
+    <h2>Severity of symptoms</h2>
+    <div class="form-group"><label>Severity (1-10)</label><input type="text"></div>
+    <div class="form-group"><label>Do symptoms worsen at certain time/activity?</label><input type="text"></div>
+
+    <h2>Previous medical history</h2>
+    <div class="form-group"><label>Do you have any chronic diseases?</label><input type="text"></div>
+    <div class="form-group"><label>Worsen with certain activity?</label><input type="text"></div>
+    <div class="form-group"><label>Any medication before?</label><input type="text"></div>
+
+    <h2>Family history</h2>
+    <div class="form-group"><label>Similar issues in family?</label><input type="text"></div>
+
+    <h2>Current medications</h2>
+    <div class="form-group"><label>Medications (name and strength)</label><input type="text"></div>
+
+    <h2>Sensitive</h2>
+    <div class="form-group"><label>Allergies (meds/foods)?</label><input type="text"></div>
+
+    <h2>Previous tests or x-rays</h2>
+    <div class="form-group"><label>Have you had any?</label><input type="text"></div>
+    <div class="image-preview">
+        <div></div><div></div><div></div><div></div>
+    </div>
+
+    <h2>Lifestyle</h2>
+    <div class="form-group"><label>Do you smoke or drink alcohol?</label><input type="text"></div>
+    <div class="form-group"><label>Do you sleep well? How many hours?</label><input type="text"></div>
+    <div class="form-group"><label>Physical activity level</label><input type="text"></div>
+
+    <button class="submit" onclick="location.href='@Url.Action("PrescriptionForm", "PrescriptionForm")'">Submit</button>
+
+</div>
