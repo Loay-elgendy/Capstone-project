@@ -1,11 +1,13 @@
-﻿@{
+﻿@model Capstone_project.Models.AddClinic
+@{
     Layout = null;
 }
+
 <!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
-    <title>Select Doctor</title>
+    <title>Select Doctor – Pro Clinic</title>
     <link rel="stylesheet" href="~/css/Select.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 </head>
@@ -20,24 +22,32 @@
             <div class="appointment-info">
                 <div class="info-box">
                     <i class="fas fa-user-smile"></i>
-                    <span>Doctor: @ViewBag.Name</span>
+                    <span>Doctor: @Model.DoctorName</span>
                 </div>
                 <div class="info-box">
                     <i class="fas fa-wallet"></i>
-                    <span>Price: @ViewBag.Price$</span>
+                    <span>Price: @Model.ConsultationFee $</span>
                 </div>
                 <div class="info-box">
                     <i class="fas fa-clock"></i>
-                    <span>Appointment: @ViewBag.Day</span>
+                    <span>Time: @Model.AvailableTimes</span>
                 </div>
                 <div class="info-box">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Date: @ViewBag.Date</span>
+                    <span>Date: @Model.AvailableDays</span>
                 </div>
             </div>
-            <a href="@Url.Action("Payment", "Payment")" class="book-btn">Book now</a>
 
-            <p class="footer">© Copyright 2025 Pro Clinic corporation</p>
+            <div class="location-info">
+                <h3>Clinic Location</h3>
+                <p>@Model.Location</p>
+            </div>
+
+            <a href="@Url.Action("Payment", "Payment", new { clinicId = Model.Id })" class="book-btn">
+                Confirm & Pay
+            </a>
+
+            <p class="footer">© 2025 Pro Clinic corporation</p>
         </div>
 
         <div class="right-side">

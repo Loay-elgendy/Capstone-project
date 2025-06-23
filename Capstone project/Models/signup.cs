@@ -1,4 +1,5 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capstone_project.Models
 {
@@ -26,5 +27,9 @@ namespace Capstone_project.Models
         [Required]
         [DataType(DataType.Password)]
         public string Password { get; set; }
+
+
+        public ICollection<AddClinic> Clinics { get; set; }
+
     }
 }

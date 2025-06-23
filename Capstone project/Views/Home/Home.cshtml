@@ -1,4 +1,5 @@
-﻿@{
+﻿@model IEnumerable<Capstone_project.Models.home>
+@{
     Layout = null;
 }
 <!DOCTYPE html>
@@ -20,7 +21,7 @@
             </div>
             <nav>
                 <a href="#doctors">Doctors</a>
-                <a href="#prescription">Prescription</a>
+                <a href="#prescription">Reservation</a>
                 <a href="#info">Information</a>
             </nav>
         </div>
@@ -30,50 +31,51 @@
         </div>
     </header>
 
-    <!-- Doctors -->
+    <!-- Doctors Section -->
     <div id="doctors" class="section-title">Doctors</div>
     <div class="doctor-container">
-        <div class="doctor">
-            <img class="doctor-image" src="https://www.future-doctor.de/wp-content/uploads/2024/08/shutterstock_2480850611.jpg" alt="Doctor Ahmed" />
-            <p><strong>د. أحمد</strong><br />أخصائي باطنة</p>
-            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Ahmed Samy", price = "200", day = "Sunday", date = "20 / 4 / 2025" })">Select</a>
-        </div>
-
-        <div class="doctor">
-            <img class="doctor-image" src="https://images.theconversation.com/files/304957/original/file-20191203-66986-im7o5.jpg" alt="Doctor Mohamed" />
-            <p><strong>د. محمد</strong><br />أخصائي قلب</p>
-            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Mohamed Ali", price = "250", day = "Monday", date = "21 / 4 / 2025" })">Select</a>
-        </div>
-
-        <div class="doctor">
-            <img class="doctor-image" src="https://hips.hearstapps.com/hmg-prod/images/portrait-of-a-happy-young-doctor-in-his-clinic-royalty-free-image-1661432441.jpg" alt="Doctor Ali" />
-            <p><strong>د. علي</strong><br />أخصائي أعصاب</p>
-            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Ali Tarek", price = "230", day = "Tuesday", date = "22 / 4 / 2025" })">Select</a>
-        </div>
-
-        <div class="doctor">
-            <img class="doctor-image" src="https://familydoctor.org/wp-content/uploads/2018/02/41808433_l.jpg" alt="Doctor Zeyad" />
-            <p><strong>د. زياد</strong><br />أخصائي عظام</p>
-            <a class="see-more" href="@Url.Action("Select", "Select", new { name = "Zeyad Hassan", price = "300", day = "Wednesday", date = "23 / 4 / 2025" })">Select</a>
-        </div>
+        @if (Model != null)
+        {
+            foreach (var doctor in Model.DistinctBy(d => d.Name))
+            {
+                <div class="doctor">
+                    <p><strong>@doctor.Name</strong></p>
+                    <p>Specialty: @doctor.Specialty</p>
+                    <a href="@Url.Action("Select", "Select", new { clinicId = doctor.Id })">Select</a>
+                </div>
+            }
+        }
     </div>
-    <a class="see-more" href="#">See More</a>
 
-    <!-- Prescription -->
-    <div id="prescription" class="section-title">Prescription</div>
-    <div class="card-container">
-        <div class="card large">
-            <p><strong>Prescription Title</strong></p>
-            <p>شرح للتشخيص ونتائج التحاليل.</p>
-        </div>
-        <div class="card large">
-            <p><strong>Prescription Title</strong></p>
-            <p>شرح للتشخيص ونتائج التحاليل.</p>
-        </div>
+
+    <!-- Reservation Table -->
+    <div id="prescription" class="section-title">Reservation</div>
+    <div class="card large" style="width: 90%; margin: auto;">
+        <table style="width: 100%; border-collapse: collapse; text-align: center;">
+            <thead style="background-color: #e7f4ff;">
+                <tr>
+                    <th style="padding: 10px; border: 1px solid #ccc;">Name</th>
+                    <th style="padding: 10px; border: 1px solid #ccc;">Price</th>
+                    <th style="padding: 10px; border: 1px solid #ccc;">Date</th>
+                </tr>
+            </thead>
+            <tbody>
+                @if (Model != null && Model.Any())
+                {
+                    foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="padding: 10px; border: 1px solid #ccc;">@item.Name</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">@item.price</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">@item.Date</td>
+                        </tr>
+                    }
+                }
+            </tbody>
+        </table>
     </div>
-    <a class="see-more" href="#">See More</a>
 
-
+    <!-- Information Section -->
     <section class="info" id="info">
         <h2 class="section-title">Information</h2>
         <div class="info-cards">
@@ -108,7 +110,6 @@
             </div>
         </div>
     </section>
-
 
     <!-- Footer -->
     <footer>

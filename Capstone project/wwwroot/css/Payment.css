@@ -9,7 +9,8 @@
     min-height: 100vh;
 }
 
-.left-section, .right-section {
+.left-section,
+.right-section {
     flex: 1;
     padding: 40px;
     box-sizing: border-box;
@@ -18,14 +19,14 @@
 .left-section {
     display: flex;
     flex-direction: column;
-    justify-content: center; /* Center the form vertically */
+    justify-content: center;
 }
 
 .header {
     display: flex;
     align-items: center;
     gap: 10px;
-    margin-bottom: 20px;
+    margin-bottom: 30px;
 }
 
 .back-btn {
@@ -45,86 +46,44 @@
     height: auto;
 }
 
-.brand-name {
-    font-weight: bold;
-    font-size: 20px;
-}
-
-.payment-title {
-    font-size: 20px;
-    font-weight: bold;
-    margin: 20px 0;
-}
-
-.payment-options {
-    display: flex;
-    gap: 15px;
-    margin-bottom: 20px;
-}
-
-.option {
-    border: 1px solid #ddd;
-    border-radius: 10px;
-    padding: 12px 20px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    font-weight: 500;
-    background-color: #fff;
-}
-
-    .option.selected {
-        border: 2px solid #2979ff;
-    }
-
+/* Confirmation Section */
 .payment-form {
     display: flex;
     flex-direction: column;
-    gap: 15px;
+    gap: 25px;
 }
 
-    .payment-form label {
+    .payment-form h2 {
+        font-size: 26px;
         font-weight: bold;
-        margin-bottom: 4px;
-        display: block;
+        color: #333;
     }
 
-    .payment-form input,
-    .payment-form select {
-        padding: 10px;
-        border-radius: 8px;
-        border: 1px solid #ccc;
-        width: 100%;
-    }
-
-.flex-row {
-    display: flex;
-    gap: 20px;
-    flex-wrap: wrap;
+.confirmation-box {
+    background-color: #f2f4f8;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+    font-size: 18px;
+    color: #333;
+    line-height: 1.6;
 }
 
-    .flex-row > div {
-        flex: 1;
-        min-width: 100px;
+    .confirmation-box span {
+        font-weight: bold;
+        color: #007bff;
     }
-
-.card-icons img {
-    width: 40px;
-    margin-top: 8px;
-    margin-right: 5px;
-}
 
 .pay-btn {
-    margin-top: 20px;
-    padding: 12px;
-    background-color: #69a7f3;
+    padding: 14px;
+    background-color: #4a90e2;
     border: none;
     color: white;
     border-radius: 8px;
     font-size: 16px;
     cursor: pointer;
     width: 100%;
+    transition: background-color 0.3s ease;
 }
 
     .pay-btn:hover {

@@ -84,7 +84,9 @@ namespace Capstone_project.Controllers
             _context.Logins.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Home", "Home");
+            return model.DoctorId.StartsWith("doc")
+                ? RedirectToAction("AddClinic", "Home")
+                : RedirectToAction("Home", "Home");
         }
 
         // ------------------------ Reset Password ------------------------

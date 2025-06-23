@@ -1,83 +1,29 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
+using Capstone_project.data;
+using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
+using Capstone_project.Models;
 
 namespace Capstone_project.Controllers
 {
     public class SelectController : Controller
     {
-        // GET: SelectController
-        public ActionResult Select()
+        private readonly context _context;
+
+        public SelectController(context context)
         {
-            return View();
+            _context = context;
         }
 
-        // GET: SelectController/Details/5
-        public ActionResult Details(int id)
+        public async Task<IActionResult> Select(int clinicId)
         {
-            return View();
-        }
-
-        // GET: SelectController/Create
-        public ActionResult Create()
-        {
-            return View();
-        }
-
-        // POST: SelectController/Create
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Create(IFormCollection collection)
-        {
-            try
+            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == clinicId);
+            if (clinic == null)
             {
-                return RedirectToAction(nameof(Index));
+                return NotFound();
             }
-            catch
-            {
-                return View();
-            }
-        }
 
-        // GET: SelectController/Edit/5
-        public ActionResult Edit(int id)
-        {
-            return View();
-        }
-
-        // POST: SelectController/Edit/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Edit(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
-        }
-
-        // GET: SelectController/Delete/5
-        public ActionResult Delete(int id)
-        {
-            return View();
-        }
-
-        // POST: SelectController/Delete/5
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public ActionResult Delete(int id, IFormCollection collection)
-        {
-            try
-            {
-                return RedirectToAction(nameof(Index));
-            }
-            catch
-            {
-                return View();
-            }
+            return View(clinic);
         }
     }
 }

@@ -24,5 +24,5 @@ namespace Capstone_project.Models
 
 			[Display(Name = "Remember me")]
 			public bool RememberMe { get; set; }
-		}
+    }
 }

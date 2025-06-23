@@ -1,0 +1,153 @@
+﻿@model Capstone_project.Models.AddClinic
+@{
+    Layout = null;
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Clinic Info</title>
+    <link rel="stylesheet" href="~/css/Add.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+</head>
+<body>
+    <div class="form-container">
+        <form asp-action="AddClinic" asp-controller="Home" method="post">
+            <div class="form-section">
+                <h2><i class="fas fa-user-md"></i> Doctor & Appointment Info</h2>
+                <div class="form-row">
+                    <div class="form-group">
+                        <label asp-for="DoctorName"></label>
+                        <input asp-for="DoctorName" class="form-control" />
+                    </div>
+                    <div class="form-group">
+                        <label asp-for="ConsultationFee"></label>
+                        <input asp-for="ConsultationFee" class="form-control" />
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AvailableDays">What days are you available?</label>
+                    <div class="day-checkboxes">
+                        @foreach (var day in new[] { "Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday" })
+                        {
+                            <label>
+                                <input type="checkbox" name="AvailableDays" value="@day" />
+                                @day
+                            </label>
+                        }
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label asp-for="AvailableTimes">What are your available time slots?</label>
+                    <div class="time-checkboxes">
+                        @foreach (var slot in new[] {
+                        "9:00 AM - 11:00 AM", "11:00 AM - 1:00 PM", "2:00 PM - 4:00 PM",
+                        "5:00 PM - 7:00 PM", "7:00 PM - 9:00 PM" })
+                        {
+                            <label>
+                                <input type="checkbox" name="AvailableTimes" value="@slot" />
+                                @slot
+                            </label>
+                        }
+                    </div>
+                </div>
+            </div>
+
+            <div class="form-section">
+                <h2><i class="fas fa-clinic-medical"></i> Clinic Details</h2>
+                <div class="form-group">
+                    <label asp-for="Specialty"></label>
+                    <input asp-for="Specialty" class="form-control" />
+                </div>
+                <div class="form-group">
+                    <label asp-for="Location">Where is the clinic located?</label>
+                    <input asp-for="Location" class="form-control" id="clinicLocation" placeholder="Write address or choose from map" />
+                    <div class="location-buttons">
+                        <button type="button" class="map-btn" onclick="openMap()">🗺 Choose from Map</button>
+                        <button type="button" class="map-btn" onclick="getLiveLocation()">📍 Use My Live Location</button>
+                    </div>
+                    <div id="map" style="display:none; height: 300px; margin-top: 10px;"></div>
+                </div>
+            </div>
+
+            <div class="submit-container">
+                <button type="submit" class="submit-btn">🚀 Send Info</button>
+            </div>
+        </form>
+    </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        let mapInitialized = false;
+        let map, marker;
+
+        function openMap() {
+            const mapDiv = document.getElementById("map");
+            mapDiv.style.display = "block";
+
+            if (!mapInitialized) {
+                map = L.map("map").setView([30.0444, 31.2357], 13); // Default: Cairo
+                mapInitialized = true;
+
+                L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                    attribution: "&copy; OpenStreetMap contributors"
+                }).addTo(map);
+
+                marker = L.marker([30.0444, 31.2357], { draggable: true }).addTo(map);
+                marker.on("dragend", async () => {
+                    const { lat, lng } = marker.getLatLng();
+                    await updateAddressFromCoords(lat, lng);
+                });
+            }
+        }
+
+        async function updateAddressFromCoords(lat, lng) {
+            try {
+                const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lng}&format=json`);
+                const data = await res.json();
+                document.getElementById("clinicLocation").value = data.display_name || `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+            } catch {
+                document.getElementById("clinicLocation").value = `${lat.toFixed(5)}, ${lng.toFixed(5)}`;
+            }
+        }
+
+        function getLiveLocation() {
+            if (navigator.geolocation) {
+                navigator.geolocation.getCurrentPosition(async (position) => {
+                    const lat = position.coords.latitude;
+                    const lng = position.coords.longitude;
+
+                    document.getElementById("map").style.display = "block";
+
+                    if (!mapInitialized) {
+                        map = L.map("map").setView([lat, lng], 15);
+                        mapInitialized = true;
+
+                        L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+                            attribution: "&copy; OpenStreetMap contributors"
+                        }).addTo(map);
+
+                        marker = L.marker([lat, lng], { draggable: true }).addTo(map);
+                        marker.on("dragend", async () => {
+                            const { lat, lng } = marker.getLatLng();
+                            await updateAddressFromCoords(lat, lng);
+                        });
+                    } else {
+                        map.setView([lat, lng], 15);
+                        marker.setLatLng([lat, lng]);
+                    }
+
+                    await updateAddressFromCoords(lat, lng);
+                }, () => {
+                    alert("Unable to access your location. Please allow permission.");
+                });
+            } else {
+                alert("Geolocation is not supported by this browser.");
+            }
+        }
+    </script>
+</body>
+</html>

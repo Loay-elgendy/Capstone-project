@@ -10,6 +10,16 @@ namespace Capstone_project.data
 
         public DbSet<Login> Logins { get; set; }
         public DbSet<SignUp> SignUps { get; set; }
+        public DbSet<home> Homes { get; set; }
+        public DbSet<AddClinic> AddClinics { get; set; }
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<AddClinic>()
+                .HasOne(c => c.Patient)
+                .WithMany(p => p.Clinics)
+                .HasForeignKey(c => c.PatID)
+                .OnDelete(DeleteBehavior.Restrict); // أو .Cascade لو حابب الحذف يتبع
+        }
     }
 }
 

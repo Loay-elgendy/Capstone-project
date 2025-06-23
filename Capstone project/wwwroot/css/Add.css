@@ -1,0 +1,144 @@
+﻿body {
+    font-family: 'Segoe UI', sans-serif;
+    background-color: #f0f2f5;
+    margin: 0;
+    padding: 40px;
+}
+
+.form-container {
+    max-width: 850px;
+    margin: auto;
+    background-color: #fff;
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 6px 20px rgba(0, 0, 0, 0.06);
+}
+
+.form-section {
+    margin-bottom: 50px;
+}
+
+    .form-section h2 {
+        font-size: 26px;
+        color: #4ca1af;
+        margin-bottom: 25px;
+    }
+
+    .form-section i {
+        margin-right: 10px;
+        color: #2e80ff;
+    }
+
+.form-row {
+    display: flex;
+    gap: 20px;
+    flex-wrap: wrap;
+}
+
+.form-group {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    .form-group label {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #444;
+    }
+
+    .form-group input {
+        padding: 12px;
+        border: 1px solid #ccc;
+        border-radius: 10px;
+        font-size: 15px;
+        transition: border 0.2s ease;
+    }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: #4ca1af;
+        }
+
+.day-checkboxes,
+.time-checkboxes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 12px;
+    margin-top: 10px;
+}
+
+    .day-checkboxes label,
+    .time-checkboxes label {
+        background-color: #f2f4f8;
+        padding: 10px 16px;
+        border-radius: 10px;
+        border: 1px solid #ccc;
+        cursor: pointer;
+        font-size: 14px;
+        transition: all 0.2s ease;
+    }
+
+        .day-checkboxes label:hover,
+        .time-checkboxes label:hover {
+            background-color: #e0f4ff;
+            border-color: #4ca1af;
+        }
+
+    .day-checkboxes input,
+    .time-checkboxes input {
+        margin-right: 6px;
+    }
+
+/* Map */
+#map {
+    width: 100%;
+    height: 400px;
+    margin-top: 15px;
+    border-radius: 12px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+/* Map Button */
+.map-btn {
+    margin-top: 10px;
+    padding: 10px 18px;
+    background: linear-gradient(135deg, #4ca1af, #2e80ff);
+    color: white;
+    border: none;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    align-self: flex-start;
+}
+
+    .map-btn:hover {
+        background: linear-gradient(135deg, #2e80ff, #4ca1af);
+    }
+
+/* Submit Button */
+.submit-container {
+    text-align: center;
+    margin-top: 50px;
+}
+
+.submit-btn {
+    padding: 16px 40px;
+    font-size: 17px;
+    font-weight: bold;
+    color: white;
+    background: linear-gradient(135deg, #2e80ff, #4ca1af);
+    border: none;
+    border-radius: 14px;
+    cursor: pointer;
+    box-shadow: 0 6px 18px rgba(46, 128, 255, 0.3);
+    transition: all 0.3s ease;
+    letter-spacing: 1px;
+}
+
+    .submit-btn:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 10px 28px rgba(46, 128, 255, 0.4);
+    }
