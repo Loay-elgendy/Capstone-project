@@ -29,15 +29,19 @@ namespace Capstone_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.PrimitiveCollection<string>("AvailableDays")
+                    b.Property<string>("AvailableDays")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.PrimitiveCollection<string>("AvailableTimes")
+                    b.Property<string>("AvailableTimes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConsultationFee")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

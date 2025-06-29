@@ -47,6 +47,8 @@ namespace Capstone_project.Controllers
             }
 
 
+
+
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 

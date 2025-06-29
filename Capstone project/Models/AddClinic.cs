@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capstone_project.Models
 {
@@ -8,13 +7,15 @@ namespace Capstone_project.Models
         [Key]
         public int Id { get; set; }
 
+        public string DoctorId { get; set; } // New for linking with login
+
         public string DoctorName { get; set; }
 
         public string ConsultationFee { get; set; }
 
-        public List<string> AvailableDays { get; set; } = new List<string>();
+        public string AvailableDays { get; set; }
 
-        public List<string> AvailableTimes { get; set; } = new List<string>();
+        public string AvailableTimes { get; set; }
 
         public string Specialty { get; set; }
 

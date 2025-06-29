@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone_project.Migrations
 {
     [DbContext(typeof(context))]
-    [Migration("20250629093629_pro")]
+    [Migration("20250629155937_pro")]
     partial class pro
     {
         /// <inheritdoc />
@@ -32,15 +32,19 @@ namespace Capstone_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.PrimitiveCollection<string>("AvailableDays")
+                    b.Property<string>("AvailableDays")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.PrimitiveCollection<string>("AvailableTimes")
+                    b.Property<string>("AvailableTimes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConsultationFee")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
