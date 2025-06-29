@@ -1,5 +1,7 @@
 ﻿@model Capstone_project.Models.AddClinic
-
+@{
+    Layout = null;
+}
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,45 +9,82 @@
     <title>Select Doctor – Pro Clinic</title>
     <link rel="stylesheet" href="~/css/Select.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
 </head>
 <body>
     <div class="container">
         <!-- Left Side -->
         <div class="left-side">
-            <div class="back-logo">
-                <a href="@Url.Action("Home", "Home")">
-                    <i class="fas fa-arrow-left"></i>
-                </a>
-                <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
-            </div>
+            <form asp-action="Status" asp-controller="Status" method="post">
+                <div class="back-logo">
+                    <a href="@Url.Action("Home", "Home")">
+                        <i class="fas fa-arrow-left"></i>
+                    </a>
+                    <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
+                </div>
 
-            <div class="appointment-info">
-                <div class="info-box">
-                    <i class="fas fa-user-smile"></i>
-                    <span>Doctor: @Model.DoctorName</span>
-                </div>
-                <div class="info-box">
-                    <i class="fas fa-wallet"></i>
-                    <span>Price: @Model.ConsultationFee $</span>
-                </div>
-                <div class="info-box">
-                    <i class="fas fa-clock"></i>
-                    <span>Time: @string.Join(", ", Model.AvailableTimes)</span>
-                </div>
-                <div class="info-box">
-                    <i class="fas fa-calendar-alt"></i>
-                    <span>Date: @string.Join(", ", Model.AvailableDays)</span>
-                </div>
-            </div>
+                <div class="appointment-info">
+                    <div class="info-box">
+                        <i class="fas fa-user-smile"></i>
+                        <span>Doctor: @Model.DoctorName</span>
+                    </div>
+                    <div class="info-box">
+                        <i class="fas fa-wallet"></i>
+                        <span>Price: @Model.ConsultationFee $</span>
+                    </div>
 
-            <div class="location-info">
-                <h3>Clinic Location</h3>
-                <p>@Model.Location</p>
-            </div>
+                    <!-- Select Time -->
+                    <div class="info-box-card-section">
+                        <span>Select Time:</span>
+                        <div class="card-options">
+                            @foreach (var time in Model.AvailableTimes)
+                            {
+                                <label class="card-option">
+                                    <input type="radio"
+                                           name="selectedTime"
+                                           value="@time"
+                                           required />
+                                    <div class="card-content">
+                                        <i class="fas fa-clock"></i>
+                                        <p>@time</p>
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                    </div>
 
-            <a href="@Url.Action("Payment", "Payment", new { clinicId = Model.Id })" class="book-btn">
-                Confirm & Pay
-            </a>
+                    <!-- Select Day -->
+                    <div class="info-box-card-section">
+                        <span>Select Day:</span>
+                        <div class="card-options">
+                            @foreach (var day in Model.AvailableDays)
+                            {
+                                <label class="card-option">
+                                    <input type="radio"
+                                           name="selectedDay"
+                                           value="@day"
+                                           required />
+                                    <div class="card-content">
+                                        <i class="fas fa-calendar-alt"></i>
+                                        <p>@day</p>
+                                    </div>
+                                </label>
+                            }
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Clinic Location Section with Map -->
+                <div class="location-info">
+                    <h3>Clinic Location</h3>
+                    <p>@Model.Location</p>
+                    <div id="map" style="height: 300px; margin-top: 10px;"></div>
+                </div>
+
+                <button type="submit" class="book-btn">
+                    Confirm &amp; Pay
+                </button>
+            </form>
 
             <p class="footer">© 2025 Pro Clinic Corporation</p>
         </div>
@@ -56,5 +95,31 @@
             <img src="~/Images/Pro Clinic.png" alt="Booking Illustration" />
         </div>
     </div>
+
+    <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script>
+        window.onload = function () {
+            const locationText = `@Model.Location`;
+
+            fetch(`https://nominatim.openstreetmap.org/search?format=json&q=${encodeURIComponent(locationText)}`)
+                .then(res => res.json())
+                .then(data => {
+                    if (data.length > 0) {
+                        const lat = parseFloat(data[0].lat);
+                        const lon = parseFloat(data[0].lon);
+                        const map = L.map('map').setView([lat, lon], 15);
+                        L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+                            attribution: '&copy; OpenStreetMap contributors'
+                        }).addTo(map);
+                        L.marker([lat, lon]).addTo(map);
+                    } else {
+                        document.getElementById('map').innerHTML = 'Location not found';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('map').innerHTML = 'Error loading map';
+                });
+        };
+    </script>
 </body>
 </html>

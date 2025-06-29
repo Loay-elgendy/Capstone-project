@@ -41,9 +41,8 @@
                 <div class="doctor">
                     <h3>@clinic.DoctorName</h3>
                     <p>Specialty: @clinic.Specialty</p>
-                    <p>Consultation Fee: @clinic.ConsultationFee</p>
-                    <p>Available Days: @string.Join(", ", clinic.AvailableDays)</p>
-                    <a href="@Url.Action("select","select")">select</a>
+                    <a href="@Url.Action("Select", "Select", new { id = clinic.Id })">Book</a>
+
                 </div>
             }
         }

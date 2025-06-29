@@ -47,12 +47,15 @@ namespace Capstone_project.Controllers
             }
 
 
-
-
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Home");
+            return RedirectToAction("Dashboard");
+        }
+        [HttpGet]
+        public IActionResult Dashboard()
+        {
+            return View();
         }
     }
 }

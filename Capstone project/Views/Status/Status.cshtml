@@ -1,57 +1,132 @@
-﻿@{
+﻿@model Capstone_project.Models.statusmodel
+@{
     ViewData["Title"] = "Reservation Status";
-    Layout = null; // لو عندك Layout عام
+    Layout = null;
 }
+
 <link rel="stylesheet" href="~/css/Status.css" />
 
-<div class="form-section">
-    <h2>Personal information</h2>
-    <div class="form-group"><label>First Name</label><input type="text" value="Loay"></div>
-    <div class="form-group"><label>Last Name</label><input type="text" value="Kamal"></div>
-    <div class="form-group"><label>Age</label><input type="text" value="Doc2345"></div>
-    <div class="form-group">
-        <label>Gender</label>
-        <div class="gender-buttons">
-            <button>Female</button><button>Male</button><button>LGBTQIA</button>
+<form asp-action="Status" asp-controller="Status" method="post" enctype="multipart/form-data">
+    @Html.AntiForgeryToken()
+    <div class="form-section animate-fadeIn">
+        <h2>Personal information</h2>
+        <div class="form-group">
+            <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+            <span asp-validation-for="FirstName" class="text-danger"></span>
         </div>
+        <div class="form-group">
+            <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+            <span asp-validation-for="LastName" class="text-danger"></span>
+        </div>
+        <div class="form-group">
+            <input asp-for="Age" placeholder="Age" class="form-control" />
+            <span asp-validation-for="Age" class="text-danger"></span>
+        </div>
+
+        <div class="form-group">
+            <div class="gender-buttons">
+                <button type="button" class="gender-option" onclick="setGender('Female', this)">Female</button>
+                <button type="button" class="gender-option" onclick="setGender('Male', this)">Male</button>
+                <button type="button" class="gender-option" onclick="setGender('Don't want to say', this)">Don't want to say</button>
+            </div>
+            <input type="hidden" asp-for="Gender" id="GenderInput" />
+            <span asp-validation-for="Gender" class="text-danger"></span>
+        </div>
+
+        <div class="form-group"><input asp-for="Height" placeholder="Height" /></div>
+        <div class="form-group"><input asp-for="Weight" placeholder="Weight" /></div>
+
+        <h2>Main Complaint</h2>
+        <div class="form-group"><input asp-for="Symptoms" placeholder="What symptoms are you currently experiencing?" /></div>
+        <div class="form-group"><input asp-for="SymptomsStartDate" placeholder="When did these symptoms start?" /></div>
+        <div class="form-group"><input asp-for="SymptomsPattern" placeholder="Are these symptoms constant or do they come and go?" /></div>
+
+        <h2>Severity of symptoms</h2>
+        <div class="form-group"><input asp-for="SeverityLevel" placeholder="Severity (1-10)" /></div>
+        <div class="form-group"><input asp-for="SeverityCondition" placeholder="Do symptoms worsen at certain time/activity?" /></div>
+
+        <h2>Previous medical history</h2>
+        <div class="form-group"><input asp-for="ChronicDiseases" placeholder="Do you have any chronic diseases?" /></div>
+        <div class="form-group"><input asp-for="TriggerActivities" placeholder="Worsen with certain activity?" /></div>
+        <div class="form-group"><input asp-for="PreviousMedications" placeholder="Any medication before?" /></div>
+
+        <h2>Family history</h2>
+        <div class="form-group"><input asp-for="FamilyIssues" placeholder="Similar issues in family?" /></div>
+
+        <h2>Current medications</h2>
+        <div class="form-group"><input asp-for="CurrentMedications" placeholder="Medications (name and strength)" /></div>
+
+        <h2>Sensitive</h2>
+        <div class="form-group"><input asp-for="Allergies" placeholder="Allergies (meds/foods)?" /></div>
+
+        <h2>Previous tests or x-rays</h2>
+        <div class="form-group file-upload-group">
+            <label for="fileInput" class="custom-file-label animate-bounce">📁 Click to Upload Images or PDFs</label>
+            <input asp-for="UploadedFiles" type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" onchange="previewFiles()" />
+        </div>
+        <div class="image-preview" id="filePreview" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
+
+        <h2>Lifestyle</h2>
+        <div class="form-group"><input asp-for="SmokingOrDrinking" placeholder="Do you smoke or drink alcohol?" /></div>
+        <div class="form-group"><input asp-for="SleepPattern" placeholder="Do you sleep well? How many hours?" /></div>
+        <div class="form-group"><input asp-for="ActivityLevel" placeholder="Physical activity level" /></div>
+
+        <button class="submit fancy-btn animate-pulse" type="submit">
+            🚀 Send
+        </button>
     </div>
-    <div class="form-group"><label>Height</label><input type="text" value="169cm"></div>
-    <div class="form-group"><label>Weight</label><input type="text" value="70 kg"></div>
+</form>
 
-    <h2>Main Complaint</h2>
-    <div class="form-group"><label>What symptoms are you currently experiencing?</label><input type="text"></div>
-    <div class="form-group"><label>When did these symptoms start?</label><input type="text"></div>
-    <div class="form-group"><label>Are these symptoms constant or do they come and go?</label><input type="text"></div>
+@section Scripts {
+    <partial name="_ValidationScriptsPartial" />
+    <script>
+        function setGender(value, button) {
+            document.getElementById('GenderInput').value = value;
+            document.querySelectorAll('.gender-option').forEach(btn => btn.classList.remove('selected'));
+            button.classList.add('selected');
+        }
 
-    <h2>Severity of symptoms</h2>
-    <div class="form-group"><label>Severity (1-10)</label><input type="text"></div>
-    <div class="form-group"><label>Do symptoms worsen at certain time/activity?</label><input type="text"></div>
+        function previewFiles() {
+            const input = document.getElementById('fileInput');
+            const preview = document.getElementById('filePreview');
+            const newFiles = Array.from(input.files);
 
-    <h2>Previous medical history</h2>
-    <div class="form-group"><label>Do you have any chronic diseases?</label><input type="text"></div>
-    <div class="form-group"><label>Worsen with certain activity?</label><input type="text"></div>
-    <div class="form-group"><label>Any medication before?</label><input type="text"></div>
+            preview.innerHTML = "";
 
-    <h2>Family history</h2>
-    <div class="form-group"><label>Similar issues in family?</label><input type="text"></div>
+            const supportedImages = ['image/jpeg', 'image/png', 'image/jpg', 'image/webp'];
+            const supportedPDFs = ['application/pdf'];
 
-    <h2>Current medications</h2>
-    <div class="form-group"><label>Medications (name and strength)</label><input type="text"></div>
+            newFiles.forEach(file => {
+                const container = document.createElement("div");
+                container.className = "file-container";
 
-    <h2>Sensitive</h2>
-    <div class="form-group"><label>Allergies (meds/foods)?</label><input type="text"></div>
+                const label = document.createElement("div");
+                label.className = "file-label";
+                label.textContent = file.name;
 
-    <h2>Previous tests or x-rays</h2>
-    <div class="form-group"><label>Have you had any?</label><input type="text"></div>
-    <div class="image-preview">
-        <div></div><div></div><div></div><div></div>
-    </div>
+                if (supportedImages.includes(file.type)) {
+                    const img = document.createElement("img");
+                    img.src = URL.createObjectURL(file);
+                    img.onload = () => URL.revokeObjectURL(img.src);
+                    img.alt = file.name;
+                    container.appendChild(img);
+                } else if (supportedPDFs.includes(file.type)) {
+                    const icon = document.createElement("div");
+                    icon.className = "pdf-icon";
+                    icon.innerHTML = `<img src="https://cdn-icons-png.flaticon.com/512/337/337946.png" alt="PDF" style="width:40px;height:40px;"><div style="font-size:14px;color:#3a6ea5;">PDF</div>`;
+                    container.appendChild(icon);
+                } else {
+                    const error = document.createElement("div");
+                    error.className = "file-error";
+                    error.textContent = `❌ Unsupported file: ${file.name}`;
+                    container.appendChild(error);
+                }
 
-    <h2>Lifestyle</h2>
-    <div class="form-group"><label>Do you smoke or drink alcohol?</label><input type="text"></div>
-    <div class="form-group"><label>Do you sleep well? How many hours?</label><input type="text"></div>
-    <div class="form-group"><label>Physical activity level</label><input type="text"></div>
+                container.appendChild(label);
+                preview.appendChild(container);
+            });
 
-    <button class="submit" onclick="location.href='@Url.Action("PrescriptionForm", "PrescriptionForm")'">Submit</button>
-
-</div>
+            input.value = "";
+        }
+    </script>
+}
