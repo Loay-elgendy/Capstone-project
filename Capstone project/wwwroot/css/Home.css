@@ -193,9 +193,6 @@ nav {
         grid-area: card2;
     }
 
-    .info-cards .info-card:nth-child(3) {
-        grid-area: card3;
-    }
 /* Information Section */
 .info {
     padding: 60px 20px;
@@ -209,7 +206,23 @@ nav {
         font-weight: 700;
         margin-bottom: 40px;
     }
+.submit-btn {
+    display: inline-block;
+    background-color: #007bff;
+    color: white;
+    font-weight: 600;
+    padding: 10px 25px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 16px;
+    transition: background-color 0.3s ease;
+    cursor: pointer;
+    user-select: none;
+}
 
+    .submit-btn:hover {
+        background-color: #0056b3;
+    }
 /* Flex container to hold three equal cards side by side */
 .info-cards {
     display: flex;
@@ -282,7 +295,6 @@ nav {
     position: relative;
     z-index: 1;
 }
-
 
 /* Footer */
 footer {

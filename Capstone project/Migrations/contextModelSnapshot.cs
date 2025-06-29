@@ -29,11 +29,11 @@ namespace Capstone_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("AvailableDays")
+                    b.PrimitiveCollection<string>("AvailableDays")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("AvailableTimes")
+                    b.PrimitiveCollection<string>("AvailableTimes")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 

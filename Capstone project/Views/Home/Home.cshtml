@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Capstone_project.Models.home>
+﻿@model IEnumerable<Capstone_project.Models.AddClinic>
 @{
     Layout = null;
 }
@@ -36,12 +36,14 @@
     <div class="doctor-container">
         @if (Model != null)
         {
-            foreach (var doctor in Model.DistinctBy(d => d.Name))
+            @foreach (var clinic in Model)
             {
                 <div class="doctor">
-                    <p><strong>@doctor.Name</strong></p>
-                    <p>Specialty: @doctor.Specialty</p>
-                    <a href="@Url.Action("Select", "Select", new { clinicId = doctor.Id })">Select</a>
+                    <h3>@clinic.DoctorName</h3>
+                    <p>Specialty: @clinic.Specialty</p>
+                    <p>Consultation Fee: @clinic.ConsultationFee</p>
+                    <p>Available Days: @string.Join(", ", clinic.AvailableDays)</p>
+                    <a href="@Url.Action("select","select")">select</a>
                 </div>
             }
         }
@@ -65,9 +67,9 @@
                     foreach (var item in Model)
                     {
                         <tr>
-                            <td style="padding: 10px; border: 1px solid #ccc;">@item.Name</td>
-                            <td style="padding: 10px; border: 1px solid #ccc;">@item.price</td>
-                            <td style="padding: 10px; border: 1px solid #ccc;">@item.Date</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">@item.DoctorName</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;">@item.ConsultationFee</td>
+                            <td style="padding: 10px; border: 1px solid #ccc;"> @string.Join(", ", item.AvailableDays)</td>
                         </tr>
                     }
                 }

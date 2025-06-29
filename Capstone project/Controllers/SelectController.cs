@@ -15,15 +15,18 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
+        // GET: Select/Select?clinicId=1
         public async Task<IActionResult> Select(int clinicId)
         {
-            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == clinicId);
+            var clinic = await _context.AddClinics
+                .FirstOrDefaultAsync(c => c.Id == clinicId);
+
             if (clinic == null)
             {
                 return NotFound();
             }
 
-            return View(clinic);
+            return View(clinic); // Pass AddClinic model to the view
         }
     }
 }

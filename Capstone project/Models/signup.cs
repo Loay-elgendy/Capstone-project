@@ -29,7 +29,5 @@ namespace Capstone_project.Models
         public string Password { get; set; }
 
 
-        public ICollection<AddClinic> Clinics { get; set; }
-
     }
 }

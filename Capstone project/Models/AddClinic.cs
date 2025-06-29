@@ -12,19 +12,12 @@ namespace Capstone_project.Models
 
         public string ConsultationFee { get; set; }
 
-        public string AvailableDays { get; set; }
+        public List<string> AvailableDays { get; set; } = new List<string>();
 
-        public string AvailableTimes { get; set; }
+        public List<string> AvailableTimes { get; set; } = new List<string>();
 
         public string Specialty { get; set; }
 
         public string Location { get; set; }
-
-        // Foreign key to patient (SignUp)
-        [Display(Name = "Patient ID")]
-        public string PatID { get; set; }
-
-        [ForeignKey("PatID")]
-        public SignUp Patient { get; set; }
     }
 }

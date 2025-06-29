@@ -1,10 +1,7 @@
 ﻿@model Capstone_project.Models.AddClinic
-@{
-    Layout = null;
-}
 
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Select Doctor – Pro Clinic</title>
@@ -13,9 +10,12 @@
 </head>
 <body>
     <div class="container">
+        <!-- Left Side -->
         <div class="left-side">
             <div class="back-logo">
-                <a href="@Url.Action("Home", "Home")"><i class="fas fa-arrow-left"></i></a>
+                <a href="@Url.Action("Home", "Home")">
+                    <i class="fas fa-arrow-left"></i>
+                </a>
                 <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
             </div>
 
@@ -30,11 +30,11 @@
                 </div>
                 <div class="info-box">
                     <i class="fas fa-clock"></i>
-                    <span>Time: @Model.AvailableTimes</span>
+                    <span>Time: @string.Join(", ", Model.AvailableTimes)</span>
                 </div>
                 <div class="info-box">
                     <i class="fas fa-calendar-alt"></i>
-                    <span>Date: @Model.AvailableDays</span>
+                    <span>Date: @string.Join(", ", Model.AvailableDays)</span>
                 </div>
             </div>
 
@@ -47,9 +47,10 @@
                 Confirm & Pay
             </a>
 
-            <p class="footer">© 2025 Pro Clinic corporation</p>
+            <p class="footer">© 2025 Pro Clinic Corporation</p>
         </div>
 
+        <!-- Right Side -->
         <div class="right-side">
             <p class="title">Book your appointment with the doctor now</p>
             <img src="~/Images/Pro Clinic.png" alt="Booking Illustration" />
