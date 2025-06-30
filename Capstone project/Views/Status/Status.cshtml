@@ -3,86 +3,122 @@
     ViewData["Title"] = "Reservation Status";
     Layout = null;
 }
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Client Dashboard - Pro Clinic</title>
+    <link rel="stylesheet" href="~/css/Status.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+</head>
+<body>
 
-<link rel="stylesheet" href="~/css/Status.css" />
+    <form asp-action="Status" asp-controller="Status" method="post" enctype="multipart/form-data">
+        @Html.AntiForgeryToken()
 
-<form asp-action="Status" asp-controller="Status" method="post" enctype="multipart/form-data">
-    @Html.AntiForgeryToken()
-    <div class="form-section animate-fadeIn">
-        <h2>Personal information</h2>
-        <div class="form-group">
-            <input asp-for="FirstName" placeholder="First Name" class="form-control" />
-            <span asp-validation-for="FirstName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="LastName" placeholder="Last Name" class="form-control" />
-            <span asp-validation-for="LastName" class="text-danger"></span>
-        </div>
-        <div class="form-group">
-            <input asp-for="Age" placeholder="Age" class="form-control" />
-            <span asp-validation-for="Age" class="text-danger"></span>
-        </div>
-
-        <div class="form-group">
-            <div class="gender-buttons">
-                <button type="button" class="gender-option" onclick="setGender('Female', this)">Female</button>
-                <button type="button" class="gender-option" onclick="setGender('Male', this)">Male</button>
-                <button type="button" class="gender-option" onclick="setGender('Don't want to say', this)">Don't want to say</button>
+        <div class="form-section animate-fadeIn">
+            <h2>Personal Information</h2>
+            <div class="form-group">
+                <input asp-for="FirstName" placeholder="First Name" class="form-control" />
+                <span asp-validation-for="FirstName" class="text-danger"></span>
             </div>
-            <input type="hidden" asp-for="Gender" id="GenderInput" />
-            <span asp-validation-for="Gender" class="text-danger"></span>
+            <div class="form-group">
+                <input asp-for="LastName" placeholder="Last Name" class="form-control" />
+                <span asp-validation-for="LastName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Age" placeholder="Age" class="form-control" />
+                <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <div class="gender-buttons">
+                    <button type="button" class="gender-option" onclick="setGender('Female', this)">Female</button>
+                    <button type="button" class="gender-option" onclick="setGender('Male', this)">Male</button>
+                    <button type="button" class="gender-option" onclick="setGender('Don\'t want to say', this)">Don't want to say</button>
+                </div>
+                <input type="hidden" asp-for="Gender" id="GenderInput" />
+                <span asp-validation-for="Gender" class="text-danger"></span>
+            </div>
+
+            <div class="form-group">
+                <input asp-for="Height" placeholder="Height" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="Weight" placeholder="Weight" class="form-control" />
+            </div>
+
+            <h2>Main Complaint</h2>
+            <div class="form-group">
+                <input asp-for="Symptoms" placeholder="What symptoms are you currently experiencing?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="SymptomsStartDate" placeholder="When did these symptoms start?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="SymptomsPattern" placeholder="Are these symptoms constant or do they come and go?" class="form-control" />
+            </div>
+
+            <h2>Severity of Symptoms</h2>
+            <div class="form-group">
+                <input asp-for="SeverityLevel" placeholder="Severity (1-10)" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="SeverityCondition" placeholder="Do symptoms worsen at certain time/activity?" class="form-control" />
+            </div>
+
+            <h2>Previous Medical History</h2>
+            <div class="form-group">
+                <input asp-for="ChronicDiseases" placeholder="Do you have any chronic diseases?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="TriggerActivities" placeholder="Worsen with certain activity?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="PreviousMedications" placeholder="Any medication before?" class="form-control" />
+            </div>
+
+            <h2>Family History</h2>
+            <div class="form-group">
+                <input asp-for="FamilyIssues" placeholder="Similar issues in family?" class="form-control" />
+            </div>
+
+            <h2>Current Medications</h2>
+            <div class="form-group">
+                <input asp-for="CurrentMedications" placeholder="Medications (name and strength)" class="form-control" />
+            </div>
+
+            <h2>Allergies</h2>
+            <div class="form-group">
+                <input asp-for="Allergies" placeholder="Allergies (meds/foods)?" class="form-control" />
+            </div>
+
+            <h2>Previous Tests or X-rays</h2>
+            <div class="form-group file-upload-group">
+                <label for="fileInput" class="custom-file-label animate-bounce">📁 Click to Upload Images or PDFs</label>
+                <input asp-for="UploadedFiles" type="file" id="fileInput" class="form-control-file" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" onchange="previewFiles()" />
+            </div>
+            <div class="image-preview" id="filePreview"></div>
+
+            <h2>Lifestyle</h2>
+            <div class="form-group">
+                <input asp-for="SmokingOrDrinking" placeholder="Do you smoke or drink alcohol?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="SleepPattern" placeholder="Do you sleep well? How many hours?" class="form-control" />
+            </div>
+            <div class="form-group">
+                <input asp-for="ActivityLevel" placeholder="Physical activity level" class="form-control" />
+            </div>
+
+            <button class="submit fancy-btn animate-pulse" type="submit">🚀 Send</button>
         </div>
+    </form>
 
-        <div class="form-group"><input asp-for="Height" placeholder="Height" /></div>
-        <div class="form-group"><input asp-for="Weight" placeholder="Weight" /></div>
-
-        <h2>Main Complaint</h2>
-        <div class="form-group"><input asp-for="Symptoms" placeholder="What symptoms are you currently experiencing?" /></div>
-        <div class="form-group"><input asp-for="SymptomsStartDate" placeholder="When did these symptoms start?" /></div>
-        <div class="form-group"><input asp-for="SymptomsPattern" placeholder="Are these symptoms constant or do they come and go?" /></div>
-
-        <h2>Severity of symptoms</h2>
-        <div class="form-group"><input asp-for="SeverityLevel" placeholder="Severity (1-10)" /></div>
-        <div class="form-group"><input asp-for="SeverityCondition" placeholder="Do symptoms worsen at certain time/activity?" /></div>
-
-        <h2>Previous medical history</h2>
-        <div class="form-group"><input asp-for="ChronicDiseases" placeholder="Do you have any chronic diseases?" /></div>
-        <div class="form-group"><input asp-for="TriggerActivities" placeholder="Worsen with certain activity?" /></div>
-        <div class="form-group"><input asp-for="PreviousMedications" placeholder="Any medication before?" /></div>
-
-        <h2>Family history</h2>
-        <div class="form-group"><input asp-for="FamilyIssues" placeholder="Similar issues in family?" /></div>
-
-        <h2>Current medications</h2>
-        <div class="form-group"><input asp-for="CurrentMedications" placeholder="Medications (name and strength)" /></div>
-
-        <h2>Sensitive</h2>
-        <div class="form-group"><input asp-for="Allergies" placeholder="Allergies (meds/foods)?" /></div>
-
-        <h2>Previous tests or x-rays</h2>
-        <div class="form-group file-upload-group">
-            <label for="fileInput" class="custom-file-label animate-bounce">📁 Click to Upload Images or PDFs</label>
-            <input asp-for="UploadedFiles" type="file" id="fileInput" multiple accept=".jpg,.jpeg,.png,.webp,.pdf" onchange="previewFiles()" />
-        </div>
-        <div class="image-preview" id="filePreview" style="display: flex; flex-wrap: wrap; gap: 10px;"></div>
-
-        <h2>Lifestyle</h2>
-        <div class="form-group"><input asp-for="SmokingOrDrinking" placeholder="Do you smoke or drink alcohol?" /></div>
-        <div class="form-group"><input asp-for="SleepPattern" placeholder="Do you sleep well? How many hours?" /></div>
-        <div class="form-group"><input asp-for="ActivityLevel" placeholder="Physical activity level" /></div>
-
-        <button class="submit fancy-btn animate-pulse" type="submit">
-            🚀 Send
-        </button>
-    </div>
-</form>
-
-@section Scripts {
     <partial name="_ValidationScriptsPartial" />
     <script>
         function setGender(value, button) {
             document.getElementById('GenderInput').value = value;
-            document.querySelectorAll('.gender-option').forEach(btn => btn.classList.remove('selected'));
+            const buttons = document.querySelectorAll('.gender-option');
+            buttons.forEach(btn => btn.classList.remove('selected'));
             button.classList.add('selected');
         }
 
@@ -129,4 +165,5 @@
             input.value = "";
         }
     </script>
-}
+</body>
+</html>
