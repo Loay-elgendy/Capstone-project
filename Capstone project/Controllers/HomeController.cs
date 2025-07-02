@@ -2,7 +2,6 @@
 using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
 using Capstone_project.data;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Capstone_project.Controllers
@@ -16,21 +15,55 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // ---------------- Display Home Page with Clinics ----------------
-        public async Task<IActionResult> Home()
-        {
-            var clinics = await _context.AddClinics.ToListAsync();
-            return View(clinics); // Pass AddClinic list to the view
-        }
-
-        // ---------------- Show AddClinic Form ----------------
+        // GET: Login page
         [HttpGet]
-        public IActionResult AddClinic()
+        public IActionResult Login()
         {
             return View();
         }
 
-        // ---------------- Handle AddClinic Form Submission ----------------
+        // POST: Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(string doctorId)
+        {
+            if (string.IsNullOrEmpty(doctorId))
+            {
+                ModelState.AddModelError("", "Doctor ID is required.");
+                return View();
+            }
+
+            // Check if doctor already has a clinic
+            var existingClinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.DoctorID == doctorId);
+
+            if (existingClinic != null)
+            {
+                // Already added clinic -> go to dashboard
+                return RedirectToAction("Dashboard", new { doctorId = doctorId });
+            }
+
+            // Store the DoctorID in TempData for the AddClinic form
+            TempData["DoctorID"] = doctorId;
+            return RedirectToAction("AddClinic");
+        }
+
+        // GET: Show AddClinic form
+        [HttpGet]
+        public IActionResult AddClinic()
+        {
+            var model = new AddClinic();
+
+            if (TempData["DoctorID"] != null)
+            {
+                model.DoctorID = TempData["DoctorID"].ToString();
+                TempData.Keep("DoctorID");
+            }
+
+            ViewBag.DoctorID = model.DoctorID;
+            return View(model);
+        }
+
+        // POST: Handle AddClinic form
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddClinic(AddClinic model)
@@ -38,24 +71,39 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Get first available doctor
-            var doctor = await _context.SignUps.FirstOrDefaultAsync(d => d.DoctorId.StartsWith("doc"));
-            if (doctor == null)
+            if (string.IsNullOrEmpty(model.DoctorID))
             {
-                ModelState.AddModelError("", "No available doctor.");
+                model.DoctorID = TempData["DoctorID"]?.ToString();
+            }
+
+            if (string.IsNullOrEmpty(model.DoctorID))
+            {
+                ModelState.AddModelError("", "Doctor ID is missing.");
                 return View(model);
             }
 
+            TempData.Keep("DoctorID");
 
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard");
+            // Redirect to Dashboard with doctorId in query
+            return RedirectToAction("Dashboard", new { doctorId = model.DoctorID });
         }
+
+        // GET: Dashboard
         [HttpGet]
-        public IActionResult Dashboard()
+        public IActionResult Dashboard(string doctorId)
         {
+            ViewBag.DoctorID = doctorId;
             return View();
+        }
+
+        // Display all clinics (Home page)
+        public async Task<IActionResult> Home()
+        {
+            var clinics = await _context.AddClinics.ToListAsync();
+            return View(clinics);
         }
     }
 }

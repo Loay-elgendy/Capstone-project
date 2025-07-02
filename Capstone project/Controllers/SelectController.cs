@@ -38,16 +38,25 @@ namespace Capstone_project.Controllers
                 return NotFound();
             }
 
-            // Validate
             if (string.IsNullOrEmpty(selectedTime) || string.IsNullOrEmpty(selectedDay))
             {
                 ModelState.AddModelError(string.Empty, "Please select both a time and a day before proceeding.");
                 return View(clinic);
             }
 
-            // All good – store selections in TempData (or pass via route/query) and redirect:
-            TempData["SelectedTime"] = selectedTime;
-            TempData["SelectedDay"] = selectedDay;
+            // Create new Select reservation
+            var reservation = new Select
+            {
+                DoctorName = clinic.DoctorName,
+                Location = clinic.Location,
+                Time = selectedTime,
+                Day = selectedDay
+            };
+
+            _context.Selects.Add(reservation);
+            await _context.SaveChangesAsync();
+
+            // Redirect after successful booking
             return RedirectToAction("Status", "Status");
         }
     }

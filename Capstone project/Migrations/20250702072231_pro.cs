@@ -17,6 +17,7 @@ namespace Capstone_project.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     ConsultationFee = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AvailableDays = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     AvailableTimes = table.Column<string>(type: "nvarchar(max)", nullable: false),
@@ -26,6 +27,18 @@ namespace Capstone_project.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_AddClinics", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Dashs",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1")
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Dashs", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -61,23 +74,6 @@ namespace Capstone_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "SignUps",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_SignUps", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "Status",
                 columns: table => new
                 {
@@ -109,6 +105,61 @@ namespace Capstone_project.Migrations
                 {
                     table.PrimaryKey("PK_Status", x => x.Id);
                 });
+
+            migrationBuilder.CreateTable(
+                name: "Selects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DashId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Selects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Selects_Dashs_DashId",
+                        column: x => x.DashId,
+                        principalTable: "Dashs",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateTable(
+                name: "SignUps",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    FirstName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Email = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Password = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DashId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_SignUps", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_SignUps_Dashs_DashId",
+                        column: x => x.DashId,
+                        principalTable: "Dashs",
+                        principalColumn: "Id");
+                });
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Selects_DashId",
+                table: "Selects",
+                column: "DashId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_SignUps_DashId",
+                table: "SignUps",
+                column: "DashId");
         }
 
         /// <inheritdoc />
@@ -124,10 +175,16 @@ namespace Capstone_project.Migrations
                 name: "Logins");
 
             migrationBuilder.DropTable(
+                name: "Selects");
+
+            migrationBuilder.DropTable(
                 name: "SignUps");
 
             migrationBuilder.DropTable(
                 name: "Status");
+
+            migrationBuilder.DropTable(
+                name: "Dashs");
         }
     }
 }

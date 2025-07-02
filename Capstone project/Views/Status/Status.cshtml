@@ -12,6 +12,10 @@
 </head>
 <body>
 
+    <div class="top-header">
+        <a href="@Url.Action("Home", "Home")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+    </div>
+
     <form asp-action="Status" asp-controller="Status" method="post" enctype="multipart/form-data">
         @Html.AntiForgeryToken()
 

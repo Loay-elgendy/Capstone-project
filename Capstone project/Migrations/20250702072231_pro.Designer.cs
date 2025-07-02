@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone_project.Migrations
 {
     [DbContext(typeof(context))]
-    [Migration("20250630102935_pro")]
+    [Migration("20250702072231_pro")]
     partial class pro
     {
         /// <inheritdoc />
@@ -44,6 +44,10 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DoctorID")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DoctorName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -59,6 +63,19 @@ namespace Capstone_project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("AddClinics");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.Dash", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Dashs");
                 });
 
             modelBuilder.Entity("Capstone_project.Models.Login", b =>
@@ -89,6 +106,40 @@ namespace Capstone_project.Migrations
                     b.ToTable("Logins");
                 });
 
+            modelBuilder.Entity("Capstone_project.Models.Select", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("DashId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Day")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Location")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Time")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("DashId");
+
+                    b.ToTable("Selects");
+                });
+
             modelBuilder.Entity("Capstone_project.Models.SignUp", b =>
                 {
                     b.Property<int>("Id")
@@ -96,6 +147,9 @@ namespace Capstone_project.Migrations
                         .HasColumnType("int");
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<int?>("DashId")
+                        .HasColumnType("int");
 
                     b.Property<string>("DoctorId")
                         .IsRequired()
@@ -118,6 +172,8 @@ namespace Capstone_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("DashId");
 
                     b.ToTable("SignUps");
                 });
@@ -229,6 +285,27 @@ namespace Capstone_project.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Status");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.Select", b =>
+                {
+                    b.HasOne("Capstone_project.Models.Dash", null)
+                        .WithMany("Reservations")
+                        .HasForeignKey("DashId");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.SignUp", b =>
+                {
+                    b.HasOne("Capstone_project.Models.Dash", null)
+                        .WithMany("Patients")
+                        .HasForeignKey("DashId");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.Dash", b =>
+                {
+                    b.Navigation("Patients");
+
+                    b.Navigation("Reservations");
                 });
 #pragma warning restore 612, 618
         }

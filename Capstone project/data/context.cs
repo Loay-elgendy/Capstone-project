@@ -13,6 +13,8 @@ namespace Capstone_project.data
         public DbSet<home> Homes { get; set; }
         public DbSet<AddClinic> AddClinics { get; set; }
         public DbSet<statusmodel> Status { get; set; }
+        public DbSet<Dash> Dashs { get; set; }
+        public DbSet<Select> Selects { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Capstone_project.Models.Dash
+@{
     ViewData["Title"] = "Doctor Dashboard";
     Layout = null;
 }
@@ -24,55 +25,45 @@
 
     <section class="reservations">
         <h2>Reservations</h2>
-        <div class="reservation-card">
-            <div class="card-header">Patient : Salwa</div>
-            <div class="card-body">
-                <span>At 5pm</span>
-                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
-            </div>
-        </div>
-        <div class="reservation-card">
-            <div class="card-header">Patient : Mahmoud</div>
-            <div class="card-body">
-                <span>At 6pm</span>
-                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
-            </div>
-        </div>
-        <div class="reservation-card">
-            <div class="card-header">Patient : Ahmed</div>
-            <div class="card-body">
-                <span>At 7pm</span>
-                <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
-            </div>
-        </div>
+        @if (Model != null && Model.Reservations != null && Model.Reservations.Any())
+        {
+            foreach (var res in Model.Reservations)
+            {
+                <div class="reservation-card">
+                    <div class="card-header">Patient: @res.DoctorName</div>
+                    <div class="card-body">
+                        <span>At @res.Time on @res.Day</span><br />
+                        <span>Location: @res.Location</span>
+                        <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
+                    </div>
+                </div>
+            }
+        }
+        else
+        {
+            <p>No reservations found.</p>
+        }
     </section>
 
     <section class="patients">
         <h2>Patients</h2>
         <div class="patients-list">
-            <div class="patient-card">
-                <img src="https://assets.medpagetoday.net/media/images/98xxx/98019.jpg" alt="Patient">
-                <p>Darrell Steward</p>
-                <button>select</button>
-            </div>
-            <div class="patient-card">
-                <img src="https://anmj.org.au/wp-content/uploads/2020/03/Older-patient-specialling-in-acute-MAIN-WEB.jpg" alt="Patient">
-                <p>Savannah Nguyen</p>
-                <button>select</button>
-            </div>
-            <div class="patient-card">
-                <img src="https://www.asge.org/images/default-source/sp/forpatients-conditions-square-600x600.jpg?sfvrsn=3f52a25c_0" alt="Patient">
-                <p>Dianne Russell</p>
-                <button>select</button>
-            </div>
-            <div class="patient-card">
-                <img src="https://www.cdc.gov/tobacco/media/images/2024/05/patient-care-1200x675-1.jpg" alt="Patient">
-                <p>Kristin Watson</p>
-                <button>select</button>
-            </div>
-        </div>
-        <div class="see-more-container">
-            <button class="see-more">See More</button>
+            @if (Model != null && Model.Patients != null && Model.Patients.Any())
+            {
+                foreach (var patient in Model.Patients)
+                {
+                    <div class="doctor">
+                        <h3>@patient.FirstName @patient.LastName</h3>
+                        <p>Email: @patient.Email</p>
+                        <p>ID: @patient.DoctorId</p>
+                        <a href="@Url.Action("AddDetails", "Details", new { id = patient.DoctorId })">Details</a>
+                    </div>
+                }
+            }
+            else
+            {
+                <p>No patients found.</p>
+            }
         </div>
     </section>
 

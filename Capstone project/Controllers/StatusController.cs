@@ -84,7 +84,7 @@ namespace Capstone_project.Controllers
             _context.Status.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("PrescriptionForm", "PrescriptionForm");
+            return RedirectToAction("Prescription", "Prescription");
         }
     }
 }
