@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone_project.Migrations
 {
     [DbContext(typeof(context))]
-    [Migration("20250705174903_pro")]
+    [Migration("20250705184930_pro")]
     partial class pro
     {
         /// <inheritdoc />
@@ -137,9 +137,14 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int?>("statusmodelId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.HasIndex("DashId");
+
+                    b.HasIndex("statusmodelId");
 
                     b.ToTable("Selects");
                 });
@@ -301,6 +306,10 @@ namespace Capstone_project.Migrations
                     b.HasOne("Capstone_project.Models.Dash", null)
                         .WithMany("Reservations")
                         .HasForeignKey("DashId");
+
+                    b.HasOne("Capstone_project.Models.statusmodel", null)
+                        .WithMany("SelectedId")
+                        .HasForeignKey("statusmodelId");
                 });
 
             modelBuilder.Entity("Capstone_project.Models.SignUp", b =>
@@ -315,6 +324,11 @@ namespace Capstone_project.Migrations
                     b.Navigation("Patients");
 
                     b.Navigation("Reservations");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.statusmodel", b =>
+                {
+                    b.Navigation("SelectedId");
                 });
 #pragma warning restore 612, 618
         }

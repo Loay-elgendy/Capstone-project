@@ -42,6 +42,7 @@ namespace Capstone_project.Models
         public string? ActivityLevel { get; set; }
 
         public string PatientId { get; set; }
+        public string DoctorId { get; set; }
         public List<Select> SelectedId { get; set; } = new List<Select>();
     }
 }

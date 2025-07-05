@@ -43,8 +43,10 @@ namespace Capstone_project.Controllers
                 ModelState.AddModelError("", "No matching patient found.");
                 return View(model);
             }
+            else {
+                model.PatientId = matchedPatient.DoctorId;
+            }
 
-            model.PatientId = matchedPatient.DoctorId;
 
             if (string.IsNullOrEmpty(model.DoctorId))
             {

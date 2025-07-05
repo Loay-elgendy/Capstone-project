@@ -19,6 +19,7 @@
     <form asp-action="Status" asp-controller="Status" method="post">
         @Html.AntiForgeryToken()
         <input type="hidden" asp-for="PatientId" />
+        <input type="hidden" asp-for="DoctorId" />
 
         <div class="form-section animate-fadeIn">
             <h2>Personal Information</h2>

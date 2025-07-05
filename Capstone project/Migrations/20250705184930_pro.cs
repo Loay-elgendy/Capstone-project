@@ -108,29 +108,6 @@ namespace Capstone_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Selects",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "int", nullable: false)
-                        .Annotation("SqlServer:Identity", "1, 1"),
-                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    DashId = table.Column<int>(type: "int", nullable: true)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Selects", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_Selects_Dashs_DashId",
-                        column: x => x.DashId,
-                        principalTable: "Dashs",
-                        principalColumn: "Id");
-                });
-
-            migrationBuilder.CreateTable(
                 name: "SignUps",
                 columns: table => new
                 {
@@ -153,10 +130,44 @@ namespace Capstone_project.Migrations
                         principalColumn: "Id");
                 });
 
+            migrationBuilder.CreateTable(
+                name: "Selects",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Time = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DashId = table.Column<int>(type: "int", nullable: true),
+                    statusmodelId = table.Column<int>(type: "int", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Selects", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Selects_Dashs_DashId",
+                        column: x => x.DashId,
+                        principalTable: "Dashs",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Selects_Status_statusmodelId",
+                        column: x => x.statusmodelId,
+                        principalTable: "Status",
+                        principalColumn: "Id");
+                });
+
             migrationBuilder.CreateIndex(
                 name: "IX_Selects_DashId",
                 table: "Selects",
                 column: "DashId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Selects_statusmodelId",
+                table: "Selects",
+                column: "statusmodelId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_SignUps_DashId",
