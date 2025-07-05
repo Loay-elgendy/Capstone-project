@@ -47,6 +47,7 @@ namespace Capstone_project.Controllers
             // Create new Select reservation
             var reservation = new Select
             {
+                DoctorId = clinic.DoctorID,
                 DoctorName = clinic.DoctorName,
                 Location = clinic.Location,
                 Time = selectedTime,
@@ -57,7 +58,7 @@ namespace Capstone_project.Controllers
             await _context.SaveChangesAsync();
 
             // Redirect after successful booking
-            return RedirectToAction("Status", "Status");
+            return RedirectToAction("Status", "Status", new { DoctorId = clinic.DoctorID });
         }
     }
 }

@@ -83,8 +83,8 @@ namespace Capstone_project.Migrations
                     LastName = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Age = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Gender = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    Height = table.Column<double>(type: "float", nullable: true),
-                    Weight = table.Column<double>(type: "float", nullable: true),
+                    Height = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    Weight = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Symptoms = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SymptomsStartDate = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SymptomsPattern = table.Column<string>(type: "nvarchar(max)", nullable: true),
@@ -96,10 +96,11 @@ namespace Capstone_project.Migrations
                     FamilyIssues = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     CurrentMedications = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     Allergies = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    UploadedFilePaths = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SmokingOrDrinking = table.Column<string>(type: "nvarchar(max)", nullable: true),
                     SleepPattern = table.Column<string>(type: "nvarchar(max)", nullable: true),
-                    ActivityLevel = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                    ActivityLevel = table.Column<string>(type: "nvarchar(max)", nullable: true),
+                    PatientId = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -113,6 +114,7 @@ namespace Capstone_project.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     DoctorName = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorId = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Location = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Day = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     Time = table.Column<string>(type: "nvarchar(max)", nullable: false),

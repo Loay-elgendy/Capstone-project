@@ -11,7 +11,7 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone_project.Migrations
 {
     [DbContext(typeof(context))]
-    [Migration("20250702072231_pro")]
+    [Migration("20250705174903_pro")]
     partial class pro
     {
         /// <inheritdoc />
@@ -118,6 +118,10 @@ namespace Capstone_project.Migrations
                         .HasColumnType("int");
 
                     b.Property<string>("Day")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("DoctorId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -231,6 +235,10 @@ namespace Capstone_project.Migrations
                     b.Property<string>("CurrentMedications")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FamilyIssues")
                         .HasColumnType("nvarchar(max)");
 
@@ -242,10 +250,14 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Height")
-                        .HasColumnType("float");
+                    b.Property<string>("Height")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -276,11 +288,8 @@ namespace Capstone_project.Migrations
                     b.Property<string>("TriggerActivities")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UploadedFilePaths")
+                    b.Property<string>("Weight")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Weight")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

@@ -118,6 +118,10 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("DoctorName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -228,6 +232,10 @@ namespace Capstone_project.Migrations
                     b.Property<string>("CurrentMedications")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("DoctorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FamilyIssues")
                         .HasColumnType("nvarchar(max)");
 
@@ -239,10 +247,14 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<double?>("Height")
-                        .HasColumnType("float");
+                    b.Property<string>("Height")
+                        .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("LastName")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PatientId")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -273,11 +285,8 @@ namespace Capstone_project.Migrations
                     b.Property<string>("TriggerActivities")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("UploadedFilePaths")
+                    b.Property<string>("Weight")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<double?>("Weight")
-                        .HasColumnType("float");
 
                     b.HasKey("Id");
 

@@ -11,6 +11,9 @@ namespace Capstone_project.Models
         public string DoctorName { get; set; }
 
         [Required]
+        public string DoctorId { get; set; }
+
+        [Required]
         public string Location { get; set; }
 
         [Required]

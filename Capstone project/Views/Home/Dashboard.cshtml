@@ -27,23 +27,48 @@
         <h2>Reservations</h2>
         @if (Model != null && Model.Reservations != null && Model.Reservations.Any())
         {
-            foreach (var res in Model.Reservations)
-            {
-                <div class="reservation-card">
-                    <div class="card-header">Patient: @res.DoctorName</div>
-                    <div class="card-body">
-                        <span>At @res.Time on @res.Day</span><br />
-                        <span>Location: @res.Location</span>
-                        <a href="@Url.Action("Status", "Status")" class="status-btn">Check the status</a>
-                    </div>
-                </div>
-            }
+            <table class="reservation-table">
+                <thead>
+                    <tr>
+                        <th>Patient</th>
+                        <th>Time</th>
+                        <th>Day</th>
+                        <th>Location</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var res in Model.Reservations)
+                    {
+                        <tr>
+                            <td>@res.DoctorName</td>
+                            <td>@res.Time</td>
+                            <td>@res.Day</td>
+                            <td>@res.Location</td>
+                            
+                            @foreach (var Patient in Model.Patients)
+                            {
+                                @if (res.Id == Patient.Id-1){
+                                <td>
+                                    <a href="@Url.Action("AddDetails", "Details", new { id = Patient.DoctorId })">
+                                        Check Reservation
+                                    </a>
+                                </td>
+                            
+                                }
+                            }
+                            
+                        </tr>
+                    }
+                </tbody>
+            </table>
         }
         else
         {
             <p>No reservations found.</p>
         }
     </section>
+
 
     <section class="patients">
         <h2>Patients</h2>
@@ -56,7 +81,6 @@
                         <h3>@patient.FirstName @patient.LastName</h3>
                         <p>Email: @patient.Email</p>
                         <p>ID: @patient.DoctorId</p>
-                        <a href="@Url.Action("AddDetails", "Details", new { id = patient.DoctorId })">Details</a>
                     </div>
                 }
             }
@@ -72,15 +96,29 @@
         <div class="info-cards">
             <div class="info-card">
                 <div class="icon">📌</div>
-                <p><strong>About the project</strong><br />تحسين الدقة وتقليل الوقت باستخدام التكنولوجيا.</p>
+                <p>
+                    <strong>About the project</strong><br />
+                    A smart system to reduce workload in clinics and<br>
+                    improve the accuracy of diagnoses and prescriptions<br>
+                    using modern digital technologies.
+                </p>
             </div>
             <div class="info-card">
                 <div class="icon">⏱️</div>
-                <p><strong>Challenges</strong><br />الانتظار الطويل، جمع المعلومات اليدوي، أخطاء الكتابة.</p>
+                <p><strong>Challenges</strong><br />
+                    Crowded clinics and long waiting times.<br>
+                    Time wasted collecting information manually.<br>
+                    Prescription errors due to handwriting.
+                </p>
             </div>
             <div class="info-card">
                 <div class="icon">🚑</div>
-                <p><strong>Impact of the solution</strong><br />تقليل الأخطاء وتحسين الكفاءة للأطباء والمرضى.</p>
+                <p>
+                    <strong>Impact of the solution</strong><br>
+                    On doctors: More time for diagnosis, fewer errors, higher productivity.<br>
+                    On patients: Reduced waiting times, easier experience, more accurate treatment.<br>
+                    On the market: Drives the digitization of medical services and increases user loyalty.
+                </p>
             </div>
         </div>
     </section>

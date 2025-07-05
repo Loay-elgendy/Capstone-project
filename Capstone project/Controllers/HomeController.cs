@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
 using Capstone_project.data;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Capstone_project.Controllers
 {
@@ -15,39 +16,32 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: Login page
+        // ---------------- Display Dashboard ----------------
         [HttpGet]
-        public IActionResult Login()
-        {
-            return View();
-        }
-
-        // POST: Login
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(string doctorId)
+        public async Task<IActionResult> Dashboard(string doctorId)
         {
             if (string.IsNullOrEmpty(doctorId))
+                return RedirectToAction("Login", "Account");
+
+            var reservations = await _context.Selects
+                .Where(r => r.DoctorId == doctorId)
+                .ToListAsync();
+
+            var patients = await _context.SignUps
+                .Where(p => p.DoctorId.StartsWith("pat"))
+                .ToListAsync();
+
+            var model = new Dash
             {
-                ModelState.AddModelError("", "Doctor ID is required.");
-                return View();
-            }
+                Reservations = reservations,
+                Patients = patients
+            };
 
-            // Check if doctor already has a clinic
-            var existingClinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.DoctorID == doctorId);
-
-            if (existingClinic != null)
-            {
-                // Already added clinic -> go to dashboard
-                return RedirectToAction("Dashboard", new { doctorId = doctorId });
-            }
-
-            // Store the DoctorID in TempData for the AddClinic form
-            TempData["DoctorID"] = doctorId;
-            return RedirectToAction("AddClinic");
+            ViewBag.DoctorID = doctorId;
+            return View(model);
         }
 
-        // GET: Show AddClinic form
+        // ---------------- Show AddClinic Form ----------------
         [HttpGet]
         public IActionResult AddClinic()
         {
@@ -63,7 +57,7 @@ namespace Capstone_project.Controllers
             return View(model);
         }
 
-        // POST: Handle AddClinic form
+        // ---------------- Handle AddClinic POST ----------------
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> AddClinic(AddClinic model)
@@ -87,19 +81,8 @@ namespace Capstone_project.Controllers
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 
-            // Redirect to Dashboard with doctorId in query
             return RedirectToAction("Dashboard", new { doctorId = model.DoctorID });
         }
-
-        // GET: Dashboard
-        [HttpGet]
-        public IActionResult Dashboard(string doctorId)
-        {
-            ViewBag.DoctorID = doctorId;
-            return View();
-        }
-
-        // Display all clinics (Home page)
         public async Task<IActionResult> Home()
         {
             var clinics = await _context.AddClinics.ToListAsync();

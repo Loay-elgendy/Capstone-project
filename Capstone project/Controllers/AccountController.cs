@@ -84,9 +84,25 @@ namespace Capstone_project.Controllers
             _context.Logins.Add(model);
             await _context.SaveChangesAsync();
 
-            return model.DoctorId.StartsWith("doc")
-                ? RedirectToAction("AddClinic", "Home")
-                : RedirectToAction("Home", "Home");
+            // For doctors, check if they have already added a clinic
+            if (model.DoctorId.StartsWith("doc"))
+            {
+                var existingClinic = await _context.AddClinics
+                    .FirstOrDefaultAsync(c => c.DoctorID == model.DoctorId);
+
+                if (existingClinic != null)
+                {
+                    // Clinic already added -> redirect to Dashboard
+                    return RedirectToAction("Dashboard", "Home", new { doctorId = model.DoctorId });
+                }
+
+                // No clinic added yet -> store doctor ID and redirect to AddClinic
+                TempData["DoctorID"] = model.DoctorId;
+                return RedirectToAction("AddClinic", "Home");
+            }
+
+            // If patient -> go to patient Home
+            return RedirectToAction("Home", "Home");
         }
 
         // ------------------------ Reset Password ------------------------

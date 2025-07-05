@@ -15,6 +15,5 @@ namespace Capstone_project.Models
         [Display(Name = "Specialty")]
         public string Specialty { get; set; }
 
-
     }
 }

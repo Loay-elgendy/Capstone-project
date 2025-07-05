@@ -1,9 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Capstone_project.data;
 using Microsoft.EntityFrameworkCore;
+using Capstone_project.Models;
 using System.Linq;
 using System.Threading.Tasks;
-using Capstone_project.data;
-using Capstone_project.Models;
 
 namespace Capstone_project.Controllers
 {
@@ -16,35 +16,23 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // Combined Patients + Reservations for Doctor Dashboard
-        public async Task<IActionResult> Patients()
+        // GET: View full submitted data by doctor and patient ID
+        public async Task<IActionResult> AddDetails(string doctorId, string patientId)
         {
-            // Fetch patients where DoctorId starts with "pat"
-            var patients = await _context.SignUps
-                .Where(p => p.DoctorId.StartsWith("pat"))
-                .ToListAsync();
-
-            // Fetch all reservations
-            var reservations = await _context.Selects.ToListAsync();
-
-            // Defensive: initialize empty lists if null
-            patients ??= new List<SignUp>();
-            reservations ??= new List<Select>();
-
-            var dashModel = new Dash
+            if (string.IsNullOrEmpty(doctorId) || string.IsNullOrEmpty(patientId))
             {
-                Patients = patients,
-                Reservations = reservations
-            };
+                return BadRequest("Doctor ID or Patient ID is missing.");
+            }
 
-            return View("Dashboard", dashModel);
-        }
+            var statusData = await _context.Status
+                .FirstOrDefaultAsync(s => s.PatientId == patientId);
 
-        // Optional: open AddDetails form for a specific patient
-        public IActionResult AddDetails(string id)
-        {
-            ViewBag.PatientId = id;
-            return View();
+            if (statusData == null)
+            {
+                return NotFound("No patient data found for the specified IDs.");
+            }
+
+            return View("AddDetails", statusData);
         }
     }
 }
