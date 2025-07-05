@@ -2,7 +2,6 @@
 using Capstone_project.data;
 using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
-using System.Linq;
 using System.Threading.Tasks;
 
 namespace Capstone_project.Controllers
@@ -16,20 +15,20 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: View full submitted data by doctor and patient ID
-        public async Task<IActionResult> AddDetails(string doctorId, string patientId)
+        // GET: View patient data based on DoctorId + PatientId
+        public async Task<IActionResult> AddDetails(string patientId)
         {
-            if (string.IsNullOrEmpty(doctorId) || string.IsNullOrEmpty(patientId))
+            if (string.IsNullOrEmpty(patientId))
             {
-                return BadRequest("Doctor ID or Patient ID is missing.");
+                return BadRequest("Patient ID is missing.");
             }
 
             var statusData = await _context.Status
-                .FirstOrDefaultAsync(s => s.PatientId == patientId);
+                .FirstOrDefaultAsync(s => s.PatientId == patientId && s.DoctorId != null);
 
             if (statusData == null)
             {
-                return NotFound("No patient data found for the specified IDs.");
+                return NotFound("No patient data found for the specified Doctor and Patient IDs.");
             }
 
             return View("AddDetails", statusData);

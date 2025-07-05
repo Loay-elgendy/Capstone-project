@@ -35,19 +35,25 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
+            // Find patient by PatientId
             var matchedPatient = await _context.SignUps
-                .FirstOrDefaultAsync(x => x.FirstName == model.FirstName && x.LastName == model.LastName);
+                .FirstOrDefaultAsync(x => x.DoctorId == model.PatientId); // Assuming DoctorId is used as PatientId
 
             if (matchedPatient == null)
             {
-                ModelState.AddModelError("", "No matching patient found.");
+                ModelState.AddModelError("", "Patient ID not found in the system.");
                 return View(model);
             }
-            else {
-                model.PatientId = matchedPatient.DoctorId;
+
+            // Check if names match
+            if (!string.Equals(matchedPatient.FirstName, model.FirstName, StringComparison.OrdinalIgnoreCase) ||
+                !string.Equals(matchedPatient.LastName, model.LastName, StringComparison.OrdinalIgnoreCase))
+            {
+                ModelState.AddModelError("", "Patient ID exists, but the name does not match our records.");
+                return View(model);
             }
 
-
+            // Check if DoctorId is set
             if (string.IsNullOrEmpty(model.DoctorId))
             {
                 ModelState.AddModelError("", "Doctor ID is missing.");
@@ -59,5 +65,6 @@ namespace Capstone_project.Controllers
 
             return RedirectToAction("Home", "Home");
         }
+
     }
 }

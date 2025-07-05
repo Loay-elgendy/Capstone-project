@@ -41,23 +41,21 @@
                     @foreach (var res in Model.Reservations)
                     {
                         <tr>
-                            <td>@res.DoctorName</td>
-                            <td>@res.Time</td>
-                            <td>@res.Day</td>
-                            <td>@res.Location</td>
-                            
                             @foreach (var Patient in Model.Patients)
                             {
-                                @if (res.Id == Patient.Id-1){
-                                <td>
-                                    <a href="@Url.Action("AddDetails", "Details", new { id = Patient.DoctorId })">
-                                        Check Reservation
-                                    </a>
-                                </td>
-                            
+                                @if (res.Id == Patient.Id - 1)
+                                {
+                                    <td>@Patient.FirstName @Patient.LastName</td>
+                                    <td>@res.Time</td>
+                                    <td>@res.Day</td>
+                                    <td>@res.Location</td>
+                                    <td>
+                                        <a href="@Url.Action("AddDetails", "Details", new { PatientId = Patient.DoctorId })">
+                                            Check Reservation
+                                        </a>
+                                    </td>
                                 }
                             }
-                            
                         </tr>
                     }
                 </tbody>
