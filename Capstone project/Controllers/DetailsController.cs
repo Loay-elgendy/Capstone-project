@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Capstone_project.data;
 using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
+using Capstone_project.data;
 using System.Threading.Tasks;
 
 namespace Capstone_project.Controllers
@@ -15,8 +15,8 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: View patient data based on DoctorId + PatientId
-        public async Task<IActionResult> AddDetails(string patientId)
+        // GET: View patient data by primary key (Id) and PatientId
+        public async Task<IActionResult> AddDetails(string patientId, int id)
         {
             if (string.IsNullOrEmpty(patientId))
             {
@@ -24,11 +24,11 @@ namespace Capstone_project.Controllers
             }
 
             var statusData = await _context.Status
-                .FirstOrDefaultAsync(s => s.PatientId == patientId && s.DoctorId != null);
+                .FirstOrDefaultAsync(s => s.PatientId == patientId && !string.IsNullOrEmpty(s.DoctorId) && s.Id == id);
 
             if (statusData == null)
             {
-                return NotFound("No patient data found for the specified Doctor and Patient IDs.");
+                return NotFound("No record found with matching ID and Patient ID.");
             }
 
             return View("AddDetails", statusData);

@@ -2,6 +2,8 @@
 using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
 using Capstone_project.data;
+using System;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Capstone_project.Controllers
@@ -35,9 +37,9 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Find patient by PatientId
+            // Find patient by PatientId (assuming DoctorId is being used as PatientId)
             var matchedPatient = await _context.SignUps
-                .FirstOrDefaultAsync(x => x.DoctorId == model.PatientId); // Assuming DoctorId is used as PatientId
+                .FirstOrDefaultAsync(x => x.DoctorId == model.PatientId);
 
             if (matchedPatient == null)
             {
@@ -60,11 +62,31 @@ namespace Capstone_project.Controllers
                 return View(model);
             }
 
+            foreach (var prop in typeof(statusmodel).GetProperties())
+            {
+                if (prop.PropertyType == typeof(string))
+                {
+                    var value = prop.GetValue(model) as string;
+                    if (string.IsNullOrWhiteSpace(value))
+                    {
+                        prop.SetValue(model, "Not Answered");
+                    }
+                }
+                else if (prop.PropertyType == typeof(int?))
+                {
+                    var value = prop.GetValue(model) as int?;
+                    if (!value.HasValue)
+                    {
+                        prop.SetValue(model, -1);
+                    }
+                }
+            }
+
+
             _context.Status.Add(model);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Home", "Home");
         }
-
     }
 }

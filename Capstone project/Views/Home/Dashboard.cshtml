@@ -25,66 +25,66 @@
 
     <section class="reservations">
         <h2>Reservations</h2>
-        @if (Model != null && Model.Reservations != null && Model.Reservations.Any())
-        {
-            <table class="reservation-table">
-                <thead>
-                    <tr>
-                        <th>Patient</th>
-                        <th>Time</th>
-                        <th>Day</th>
-                        <th>Location</th>
-                        <th>Action</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @foreach (var res in Model.Reservations)
+        <table class="reservation-table">
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Patient</th>
+                    <th>Time</th>
+                    <th>Day</th>
+                    <th>Location</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                @{
+                    int id = 1;
+                    foreach (var res in Model.Reservations)
                     {
-                        <tr>
-                            @foreach (var Patient in Model.Patients)
-                            {
-                                @if (res.Id == Patient.Id - 1)
-                                {
-                                    <td>@Patient.FirstName @Patient.LastName</td>
-                                    <td>@res.Time</td>
-                                    <td>@res.Day</td>
-                                    <td>@res.Location</td>
-                                    <td>
-                                        <a href="@Url.Action("AddDetails", "Details", new { PatientId = Patient.DoctorId })">
-                                            Check Reservation
-                                        </a>
-                                    </td>
-                                }
-                            }
-                        </tr>
+                        var patient = Model.Patients.FirstOrDefault(p => p.Id == res.Id);
                     }
-                </tbody>
-            </table>
-        }
-        else
-        {
-            <p>No reservations found.</p>
-        }
-    </section>
+                }
 
+                @foreach (var res in Model.Reservations)
+                {
+                    var patient = Model.Patients.FirstOrDefault(p => p.Id == res.Id);
+                    <tr>
+                        <td>@id</td>
+                        <td>
+                            @(patient != null ? $"{patient.FirstName} {patient.LastName}" : "Not available")
+                        </td>
+                        <td>@res.Time</td>
+                        <td>@res.Day</td>
+                        <td>@res.Location</td>
+                        <td>
+                            @if (patient != null)
+                            {
+                                <a href="@Url.Action("AddDetails", "Details", new { patientId = patient.DoctorId, id = patient.Id })">
+                                    Check Reservation
+                                </a>
+                            }
+                            else
+                            {
+                                <span class="text-muted">No patient record</span>
+                            }
+                        </td>
+                    </tr>
+                    id++;
+                }
+            </tbody>
+        </table>
+    </section>
 
     <section class="patients">
         <h2>Patients</h2>
         <div class="patients-list">
-            @if (Model != null && Model.Patients != null && Model.Patients.Any())
+            @foreach (var patient in Model.Patients)
             {
-                foreach (var patient in Model.Patients)
-                {
-                    <div class="doctor">
-                        <h3>@patient.FirstName @patient.LastName</h3>
-                        <p>Email: @patient.Email</p>
-                        <p>ID: @patient.DoctorId</p>
-                    </div>
-                }
-            }
-            else
-            {
-                <p>No patients found.</p>
+                <div class="doctor">
+                    <h3>@patient.FirstName @patient.LastName</h3>
+                    <p>Email: @patient.Email</p>
+                    <p>ID: @patient.DoctorId</p>
+                </div>
             }
         </div>
     </section>
@@ -103,7 +103,8 @@
             </div>
             <div class="info-card">
                 <div class="icon">⏱️</div>
-                <p><strong>Challenges</strong><br />
+                <p>
+                    <strong>Challenges</strong><br />
                     Crowded clinics and long waiting times.<br>
                     Time wasted collecting information manually.<br>
                     Prescription errors due to handwriting.
