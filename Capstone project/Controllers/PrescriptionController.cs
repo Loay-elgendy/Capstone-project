@@ -16,40 +16,43 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // View prescription by DoctorId (string)
         [HttpGet]
         public IActionResult Prescription(string doctorId)
         {
             if (string.IsNullOrEmpty(doctorId))
                 return NotFound("Doctor ID is missing.");
 
-            // Get reservations linked to this doctor
-            var reservations = _context.Selects
+            var maxReservation = _context.Selects
                 .Where(r => r.DoctorId == doctorId)
-                .ToList();
+                .OrderByDescending(r => r.Id)
+                .FirstOrDefault();
 
-            if (reservations.Count == 0)
+            if (maxReservation == null)
                 return NotFound("No reservations found for this doctor.");
 
-            // Get prescription forms by doctor
-            var prescriptionForms = _context.PrescriptionForms
+            var latestPrescriptionForm = _context.PrescriptionForms
                 .Where(p => p.DoctorID == doctorId)
-                .ToList();
+                .OrderByDescending(p => p.Id)
+                .FirstOrDefault();
 
-            // Get status models related to those reservations
-            var reservationIds = reservations.Select(r => r.Id).ToList();
+            // FIX: Retrieve status by doctor + patient
             var patientStatus = _context.Status
-                .Where(s => reservationIds.Contains(s.Id))
+                .Where(s => s.DoctorId == doctorId && s.DoctorId == maxReservation.DoctorId)
+                .OrderByDescending(s => s.Id)
                 .ToList();
 
             var model = new Prescription
             {
-                Prescriptionforms = prescriptionForms,
+                Prescriptionforms = latestPrescriptionForm != null
+                    ? new List<PrescriptionForm> { latestPrescriptionForm }
+                    : new List<PrescriptionForm>(),
                 Prescriptions = patientStatus,
-                Reservations = reservations
+                Reservations = new List<Select> { maxReservation }
             };
 
             return View("Prescription", model);
         }
+
+
     }
 }

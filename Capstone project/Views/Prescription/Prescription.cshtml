@@ -15,7 +15,7 @@
             <img src="~/Images/Logo white.png" alt="Logo" />
             <h1>Pro Clinic</h1>
             <p>Electronic Prescription</p>
-            <p>@Model.Reservations.FirstOrDefault()?.DoctorName</p>
+            <p>Dr.@Model.Reservations.FirstOrDefault()?.DoctorName</p>
             <p>
                 Day and Time:
                 @Model.Reservations.FirstOrDefault()?.Day
@@ -45,7 +45,7 @@
             <p>@Model.Prescriptionforms.FirstOrDefault()?.Notes</p>
 
             <div class="signature">
-                <p>Dr. Mohamed</p>
+                <p>Dr.@Model.Reservations.FirstOrDefault()?.DoctorName</p>
             </div>
 
             <button class="download-btn">Download</button>
