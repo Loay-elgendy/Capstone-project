@@ -29,26 +29,45 @@ namespace Capstone_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> SignUp(SignUp model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
+            // Validate Doctor ID pattern
             if (!Regex.IsMatch(model.DoctorId ?? "", @"^(doc|pat)\d+$"))
             {
                 ModelState.AddModelError("DoctorId", "Doctor ID must start with 'doc' or 'pat' followed by numbers.");
                 return View(model);
             }
 
+            // Check if DoctorId is already used
+            if (await _context.SignUps.AnyAsync(u => u.DoctorId == model.DoctorId))
+            {
+                ModelState.AddModelError("DoctorId", "This Doctor ID is already in use.");
+                return View(model);
+            }
+
+            // Check if Email is already registered
             if (await _context.SignUps.AnyAsync(u => u.Email == model.Email))
             {
                 ModelState.AddModelError("Email", "This email is already registered.");
                 return View(model);
             }
 
+            // Validate password length
+            if (string.IsNullOrWhiteSpace(model.Password) || model.Password.Length < 8)
+            {
+                ModelState.AddModelError("Password", "Password must be at least 8 characters long.");
+                return View(model);
+            }
+
+            // Hash password and save
             model.Password = _signUpHasher.HashPassword(model, model.Password);
             _context.SignUps.Add(model);
             await _context.SaveChangesAsync();
 
             return RedirectToAction("Login");
         }
+
 
         // ------------------------ Login ------------------------
 
