@@ -15,6 +15,7 @@ namespace Capstone_project.data
         public DbSet<statusmodel> Status { get; set; }
         public DbSet<Dash> Dashs { get; set; }
         public DbSet<Select> Selects { get; set; }
+        public DbSet<PrescriptionForm> PrescriptionForms { get; set; }
 
     }
 }

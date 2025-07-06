@@ -74,6 +74,24 @@ namespace Capstone_project.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "PrescriptionForms",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Diagnosis = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    DoctorID = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Medication = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Dosage = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Tests = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Notes = table.Column<string>(type: "nvarchar(max)", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_PrescriptionForms", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Status",
                 columns: table => new
                 {
@@ -175,6 +193,9 @@ namespace Capstone_project.Migrations
 
             migrationBuilder.DropTable(
                 name: "Logins");
+
+            migrationBuilder.DropTable(
+                name: "PrescriptionForms");
 
             migrationBuilder.DropTable(
                 name: "Selects");

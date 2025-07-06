@@ -1,4 +1,5 @@
-﻿@{
+﻿@model Capstone_project.Models.PrescriptionForm
+@{
     ViewData["Title"] = "Prescription";
     Layout = null;
 }
@@ -12,7 +13,7 @@
 </head>
 <body>
     <header class="header">
-        <button class="back-btn"><i class="fas fa-arrow-left"></i></button>
+        <a href="@Url.Action("Dashboard", "Home")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
         <div class="logo">
             <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
         </div>
@@ -21,52 +22,90 @@
     <main class="container">
         <h1 class="main-title">Prescription</h1>
 
-        @using (Html.BeginForm("SubmitPrescription", "Prescription", FormMethod.Post, new { enctype = "multipart/form-data" }))
-        {
+        <form asp-action="Create" method="post">
+            <!-- Doctor ID -->
+            <section class="form-section">
+                <h2 class="section-title">Doctor ID</h2>
+                <label for="DoctorID">Enter your Doctor ID:</label>
+                <input asp-for="DoctorID" class="form-control" placeholder="Doc123" />
+                <span asp-validation-for="DoctorID" class="text-danger"></span>
+            </section>
+
+            <!-- Diagnosis -->
             <section class="form-section">
                 <h2 class="section-title">Diagnosis</h2>
                 <label for="diagnosis">A clear summary of the patient's condition (e.g., "acute bronchitis").</label>
-                <select id="diagnosis" name="Diagnosis">
+                <select asp-for="Diagnosis" class="form-control">
                     <option selected disabled>Select Item</option>
+                    <option value="Acute Bronchitis">Acute Bronchitis</option>
+                    <option value="Common Cold">Common Cold</option>
+                    <option value="Hypertension">Hypertension</option>
+                    <option value="Diabetes">Diabetes</option>
+                    <option value="Asthma">Asthma</option>
+                    <option value="COVID-19">COVID-19</option>
+                    <option value="Allergic Rhinitis">Allergic Rhinitis</option>
+                    <option value="Pneumonia">Pneumonia</option>
                 </select>
+                <span asp-validation-for="Diagnosis" class="text-danger"></span>
             </section>
 
+            <!-- Medications -->
             <section class="form-section">
                 <h2 class="section-title">Medications</h2>
                 <label for="medication">Trade or scientific name.</label>
-                <select id="medication" name="Medication">
+                <select asp-for="Medication" class="form-control">
                     <option selected disabled>Select Item</option>
+                    <option value="Paracetamol">Paracetamol</option>
+                    <option value="Amoxicillin">Amoxicillin</option>
+                    <option value="Ibuprofen">Ibuprofen</option>
+                    <option value="Azithromycin">Azithromycin</option>
+                    <option value="Metformin">Metformin</option>
+                    <option value="Amlodipine">Amlodipine</option>
+                    <option value="Ciprofloxacin">Ciprofloxacin</option>
+                    <option value="Loratadine">Loratadine</option>
                 </select>
+                <span asp-validation-for="Medication" class="text-danger"></span>
 
                 <label for="dosage">Dosage</label>
-                <input type="text" id="dosage" name="Dosage" placeholder="e.g. 500mg twice daily" />
+                <input asp-for="Dosage" class="form-control" placeholder="e.g. 500mg twice daily" />
+                <span asp-validation-for="Dosage" class="text-danger"></span>
             </section>
 
+            <!-- Tests -->
             <section class="form-section">
                 <h2 class="section-title">Recommended Tests</h2>
                 <label for="tests">Type of analysis or examination.</label>
-                <select id="tests" name="Tests">
+                <select asp-for="Tests" class="form-control">
                     <option selected disabled>Select Item</option>
+                    <option value="Blood Test">Blood Test</option>
+                    <option value="X-Ray">X-Ray</option>
+                    <option value="MRI">MRI</option>
+                    <option value="CT Scan">CT Scan</option>
+                    <option value="Urine Analysis">Urine Analysis</option>
+                    <option value="ECG">ECG</option>
+                    <option value="Allergy Test">Allergy Test</option>
                 </select>
+                <span asp-validation-for="Tests" class="text-danger"></span>
             </section>
 
+            <!-- Notes -->
             <section class="form-section">
                 <h2 class="section-title">Doctor's Notes</h2>
                 <label for="notes">General clinical notes.</label>
-                <textarea id="notes" name="Notes" rows="5" placeholder="Write your notes here..."></textarea>
+                <textarea asp-for="Notes" rows="5" placeholder="Write your notes here..." class="form-control"></textarea>
+                <span asp-validation-for="Notes" class="text-danger"></span>
             </section>
 
+            <!-- Submit -->
             <section class="form-section">
-                <h2 class="section-title">Signature</h2>
-                <div class="signature-upload">
-                    <label for="SignatureImage" class="upload-btn">
-                        <i class="fas fa-photo-video"></i> Add media
-                    </label>
-                    <input type="file" id="SignatureImage" name="SignatureImage" accept="image/*" style="display: none;" />
-                </div>
+                <button type="submit" class="back-btn">Send</button>
             </section>
-
-        }
+        </form>
     </main>
 </body>
 </html>
+
+@if (TempData["Message"] != null)
+{
+    <div>@TempData["Message"]</div>
+}
