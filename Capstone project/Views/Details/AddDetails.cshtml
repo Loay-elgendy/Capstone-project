@@ -56,6 +56,11 @@
         <p><strong>How many hours of sleep per day?</strong><br />@Model.SleepPattern</p>
         <p><strong>Describe physical activity level:</strong><br />@Model.ActivityLevel</p>
 
+        <div class="submit-container">
+            <a href="@Url.Action("PrescriptionForm", "PrescriptionForm")">
+                Add Prescription Form
+            </a>
+        </div>
     </div>
 </body>
 </html>

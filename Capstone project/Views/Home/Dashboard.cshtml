@@ -38,38 +38,32 @@
             </thead>
             <tbody>
                 @{
-                    int id = 1;
-                    foreach (var res in Model.Reservations)
-                    {
-                        var patient = Model.Patients.FirstOrDefault(p => p.Id == res.Id);
-                    }
-                }
+                    int count = 1;
 
-                @foreach (var res in Model.Reservations)
-                {
-                    var patient = Model.Patients.FirstOrDefault(p => p.Id == res.Id);
-                    <tr>
-                        <td>@id</td>
-                        <td>
-                            @(patient != null ? $"{patient.FirstName} {patient.LastName}" : "Not available")
-                        </td>
-                        <td>@res.Time</td>
-                        <td>@res.Day</td>
-                        <td>@res.Location</td>
-                        <td>
-                            @if (patient != null)
-                            {
-                                <a href="@Url.Action("AddDetails", "Details", new { patientId = patient.DoctorId, id = patient.Id })">
-                                    Check Reservation
-                                </a>
-                            }
-                            else
-                            {
-                                <span class="text-muted">No patient record</span>
-                            }
-                        </td>
-                    </tr>
-                    id++;
+                    foreach (var patient in Model.Patients)
+                    {
+                        var res = Model.Reservations
+                        .Where(r => r.Id == patient.Id)
+                        .OrderByDescending(r => r.Id)
+                        .FirstOrDefault();
+
+                        if (res != null)
+                        {
+                            <tr>
+                                <td>@count</td>
+                                <td>@($"{patient.FirstName} {patient.LastName}")</td>
+                                <td>@(res.Time ?? "N/A")</td>
+                                <td>@(res.Day ?? "N/A")</td>
+                                <td>@(res.Location ?? "N/A")</td>
+                                <td>
+                                    <a href="@Url.Action("AddDetails", "Details", new { patientId = patient.DoctorId })">
+                                        Check Reservation
+                                    </a>
+                                </td>
+                            </tr>
+                            count++;
+                        }
+                    }
                 }
             </tbody>
         </table>

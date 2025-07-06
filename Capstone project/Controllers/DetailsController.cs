@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
 using Capstone_project.data;
 using System.Threading.Tasks;
+using System.Linq;
 
 namespace Capstone_project.Controllers
 {
@@ -15,8 +16,8 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: View patient data by primary key (Id) and PatientId
-        public async Task<IActionResult> AddDetails(string patientId, int id)
+        // GET: View the latest patient data by PatientId (max Id entry)
+        public async Task<IActionResult> AddDetails(string patientId)
         {
             if (string.IsNullOrEmpty(patientId))
             {
@@ -24,14 +25,18 @@ namespace Capstone_project.Controllers
             }
 
             var statusData = await _context.Status
-                .FirstOrDefaultAsync(s => s.PatientId == patientId && !string.IsNullOrEmpty(s.DoctorId) && s.Id == id);
+                .Where(s => s.PatientId == patientId && !string.IsNullOrEmpty(s.DoctorId))
+                .OrderByDescending(s => s.Id)
+                .FirstOrDefaultAsync();
 
             if (statusData == null)
             {
-                return NotFound("No record found with matching ID and Patient ID.");
+                return NotFound("No record found with matching Patient ID.");
             }
-
-            return View("AddDetails", statusData);
+            else
+            {
+                return View("AddDetails", statusData);
+            }
         }
     }
 }
