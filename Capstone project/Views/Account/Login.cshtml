@@ -55,8 +55,9 @@
 
         <div class="or">Or</div>
 
-        <!-- Google External-Login Form -->
-        <form asp-controller="Account" asp-action="ExternalLogin" method="post">
+        <!-- Google External-Login Form (Hidden via class) -->
+        <!-- Google External-Login Form (Hidden) -->
+        <form asp-controller="Account" asp-action="ExternalLogin" method="post" style="display:none;">
             @Html.AntiForgeryToken()
             <input type="hidden" name="provider" value="Google" />
             <button type="submit" class="google-btn">
@@ -64,6 +65,8 @@
                 <span>Sign in with Google</span>
             </button>
         </form>
+
+
 
         <div class="copyright">
             © 2025 Pro Clinic corporation
