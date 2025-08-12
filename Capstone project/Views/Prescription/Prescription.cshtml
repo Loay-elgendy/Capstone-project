@@ -8,10 +8,21 @@
     <title>Prescription</title>
     <link rel="stylesheet" href="~/css/Prescription.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <style>
+        back-btn {
+            font-size: 20px;
+            color: #0d47a1;
+            text-decoration: none;
+            margin-left: 10px;
+        }
+    </style>
 </head>
 <body>
     <div class="container" id="prescription-content">
+
         <div class="header">
+
+            <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
             <img src="~/Images/Logo white.png" alt="Logo" />
             <h1>Pro Clinic</h1>
             <p>Electronic Prescription</p>

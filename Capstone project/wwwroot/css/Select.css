@@ -7,9 +7,12 @@
 
 .container {
     display: flex;
+    flex-direction: row;
     min-height: 100vh;
+    flex-wrap: wrap;
 }
 
+/* Left and Right Panel Styling */
 .left-side, .right-side {
     flex: 1;
     padding: 40px;
@@ -28,10 +31,28 @@
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    background-color: #fff;
+    background-color: #f0f4ff;
     text-align: center;
 }
 
+    .right-side img {
+        max-width: 80%;
+        height: auto;
+        animation: float 3s ease-in-out infinite;
+    }
+
+/* Float Animation */
+@keyframes float {
+    0%, 100% {
+        transform: translateY(0px);
+    }
+
+    50% {
+        transform: translateY(-10px);
+    }
+}
+
+/* Back Logo and Link */
 .back-logo {
     display: flex;
     align-items: center;
@@ -47,6 +68,33 @@
         height: 50px;
     }
 
+    .back-logo a {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        width: 40px;
+        height: 40px;
+        border-radius: 8px;
+        border: 2px solid #0d47a1;
+        background-color: white;
+        color: #0d47a1;
+        font-size: 18px;
+        transition: all 0.3s ease;
+        text-decoration: none;
+    }
+
+        .back-logo a:hover {
+            background-color: #0d47a1;
+            color: white;
+        }
+
+        .back-logo a:active {
+            background-color: #0a357e;
+            border-color: #0a357e;
+            color: white;
+        }
+
+/* Doctor Info Boxes */
 .appointment-info {
     display: flex;
     flex-direction: column;
@@ -74,7 +122,7 @@
         margin-bottom: 10px;
     }
 
-/* Cards for Time and Day */
+/* Cards Section */
 .info-box-card-section {
     margin-bottom: 30px;
 }
@@ -139,6 +187,7 @@
             color: white;
         }
 
+/* Location Display and Map */
 .location-info {
     background-color: #f1f3f4;
     padding: 15px 20px;
@@ -153,26 +202,41 @@
         margin-bottom: 10px;
     }
 
-.book-btn {
+#map {
+    width: 100%;
+    height: 300px;
+    border-radius: 12px;
+    margin-top: 10px;
+    border: 2px solid #e0e0e0;
+}
+
+/* Confirm Button */
+.confirm-btn {
     display: block;
     width: 100%;
-    text-align: center;
     background: linear-gradient(to right, #0d47a1, #1976d2);
     color: white;
     padding: 15px;
     font-size: 16px;
     font-weight: bold;
+    border: none;
     border-radius: 12px;
     cursor: pointer;
     transition: 0.3s ease;
-    margin-top: 30px;
-    text-decoration: none;
+    margin-top: 20px;
+    text-align: center;
 }
 
-    .book-btn:hover {
+    .confirm-btn:hover {
         background: linear-gradient(to right, #0b3c91, #115293);
     }
 
+    .confirm-btn:active {
+        transform: scale(0.98);
+        box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+    }
+
+/* Footer and Title */
 .footer {
     text-align: center;
     color: #999;
@@ -187,7 +251,6 @@
     color: #0d47a1;
 }
 
-.right-side img {
-    max-width: 80%;
-    height: auto;
+input[type="hidden"] {
+    display: none;
 }

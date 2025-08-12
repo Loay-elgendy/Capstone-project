@@ -10,20 +10,46 @@
     <link rel="stylesheet" href="~/css/Select.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <style>
+        .confirm-btn {
+            display: block;
+            width: 100%;
+            text-align: center;
+            background: linear-gradient(to right, #0d47a1, #1976d2);
+            color: white;
+            padding: 15px 0;
+            font-size: 16px;
+            font-weight: bold;
+            border-radius: 12px;
+            border: none;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            margin-top: 30px;
+            text-decoration: none;
+        }
+
+            .confirm-btn:hover {
+                background: linear-gradient(to right, #0b3c91, #115293);
+            }
+
+            .confirm-btn:active {
+                transform: scale(0.98);
+            }
+
+  </style>
 </head>
 <body>
     <div class="container">
         <!-- Left Side -->
         <div class="left-side">
+
             <form asp-action="Select" asp-controller="Select" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Id" />
                 <input type="hidden" name="DoctorId" value="@Model.DoctorID" />
 
                 <div class="back-logo">
-                    <a href="@Url.Action("Home", "Home")">
-                        <i class="fas fa-arrow-left"></i>
-                    </a>
+                    <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
                     <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
                 </div>
 
@@ -80,9 +106,7 @@
                 </div>
 
                 <div style="margin-top: 20px;">
-                    <button class="confirm-btn" type="submit">
-                        Confirm &amp; Pay
-                    </button>
+                    <button class="confirm-btn" type="submit">Confirm & Pay</button>
                 </div>
             </form>
 

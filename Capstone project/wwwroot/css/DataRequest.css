@@ -48,12 +48,14 @@
     color: #0d47a1;
 }
 
+/* Section headers */
 h2 {
     color: #72bcd4;
     margin: 25px 0 15px;
     font-size: 22px;
 }
 
+/* Two-column layout for inputs (optional) */
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
@@ -61,6 +63,7 @@ h2 {
     margin-bottom: 20px;
 }
 
+/* Inputs and textareas */
 input[type="text"], select, textarea {
     padding: 10px;
     border: 1px solid #ccc;
@@ -90,6 +93,7 @@ textarea {
         font-size: 14px;
     }
 
+/* Add media button */
 .add-media {
     padding: 10px 15px;
     background-color: #f1f3f4;
@@ -100,6 +104,7 @@ textarea {
     margin-bottom: 20px;
 }
 
+/* Submit button */
 .submit-btn {
     display: block;
     margin: 30px auto 0;
@@ -116,3 +121,24 @@ textarea {
     .submit-btn:hover {
         background-color: #0b3c91;
     }
+
+/* ✅ MISSING: Styling for the 'Add Prescription Form' link */
+.submit-container {
+    margin-top: 40px;
+    text-align: center;
+}
+
+    .submit-container a {
+        display: inline-block;
+        padding: 12px 24px;
+        background-color: #0d47a1;
+        color: white;
+        text-decoration: none;
+        font-weight: bold;
+        border-radius: 10px;
+        transition: background-color 0.3s ease;
+    }
+
+        .submit-container a:hover {
+            background-color: #0b3c91;
+        }

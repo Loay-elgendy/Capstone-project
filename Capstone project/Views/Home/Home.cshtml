@@ -2,13 +2,49 @@
 @{
     Layout = null;
 }
-<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
     <title>Client Dashboard - Pro Clinic</title>
+
+    <!-- Site‑wide stylesheet -->
     <link rel="stylesheet" href="~/css/Home.css" />
+
+    <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+
+    <!-- Button style so <a class="doctor-link"> looks like a modern button -->
+    <style>
+        .doctor-link {
+            display: inline-block;
+            padding: 10px 20px;
+            background: #fff;
+            color: #007bff;
+            border: 2px solid #007bff;
+            border-radius: 8px;
+            font-weight: 600;
+            font-size: 14px;
+            text-decoration: none;
+            transition: .3s all ease;
+            cursor: pointer
+        }
+
+            .doctor-link:hover {
+                background: #007bff;
+                color: #fff
+            }
+
+            .doctor-link:active {
+                background: #0056b3;
+                border-color: #0056b3;
+                color: #fff
+            }
+
+            .doctor-link:focus {
+                outline: none;
+                box-shadow: 0 0 0 2px rgba(0,123,255,.4)
+            }
+    </style>
 </head>
 <body>
 
@@ -36,18 +72,16 @@
     <div class="doctor-container">
         @if (Model != null)
         {
-            @foreach (var clinic in Model)
+            foreach (var clinic in Model)
             {
                 <div class="doctor">
                     <h3>@clinic.DoctorName</h3>
                     <p>Specialty: @clinic.Specialty</p>
-                    <a href="@Url.Action("Select", "Select", new { id = clinic.Id })">Book</a>
-
+                    <a class="doctor-link" href="@Url.Action("Select","Select", new { id = clinic.Id })">Book</a>
                 </div>
             }
         }
     </div>
-
 
     <!-- Reservation Table -->
     <div id="prescription" class="section-title">Reservation</div>
@@ -61,7 +95,7 @@
                 </tr>
             </thead>
             <tbody>
-                @if (Model != null && Model.Any())
+                @if (Model?.Any() == true)
                 {
                     foreach (var item in Model)
                     {
@@ -69,7 +103,7 @@
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.DoctorName</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.ConsultationFee</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">
-                                <a href="@Url.Action("Prescription", "Prescription", new { DoctorId = item.DoctorID })">Check Reservation</a>
+                                <a class="doctor-link" href="@Url.Action("Prescription","Prescription", new { DoctorId = item.DoctorID })">Check Reservation</a>
                             </td>
                         </tr>
                     }
@@ -86,8 +120,8 @@
                 <div class="icon"><i class="fas fa-lightbulb"></i></div>
                 <strong>About the project</strong>
                 <p>
-                    A smart system to reduce workload in clinics and<br>
-                    improve the accuracy of diagnoses and prescriptions<br>
+                    A smart system to reduce workload in clinics and<br />
+                    improve the accuracy of diagnoses and prescriptions<br />
                     using modern digital technologies.
                 </p>
             </div>
@@ -96,8 +130,8 @@
                 <div class="icon"><i class="fas fa-check"></i></div>
                 <strong>Challenges</strong>
                 <p>
-                    Crowded clinics and long waiting times.<br>
-                    Time wasted collecting information manually.<br>
+                    Crowded clinics and long waiting times.<br />
+                    Time wasted collecting information manually.<br />
                     Prescription errors due to handwriting.
                 </p>
             </div>
@@ -106,8 +140,8 @@
                 <div class="icon"><i class="fas fa-ambulance"></i></div>
                 <strong>Impact of the solution</strong>
                 <p>
-                    On doctors: More time for diagnosis, fewer errors, higher productivity.<br>
-                    On patients: Reduced waiting times, easier experience, more accurate treatment.<br>
+                    On doctors: More time for diagnosis, fewer errors, higher productivity.<br />
+                    On patients: Reduced waiting times, easier experience, more accurate treatment.<br />
                     On the market: Drives the digitization of medical services and increases user loyalty.
                 </p>
             </div>

@@ -13,7 +13,7 @@
 </head>
 <body>
     <header class="header">
-        <a href="@Url.Action("Dashboard", "Home")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+        <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
         <div class="logo">
             <img src="~/Images/Logo white.png" alt="Pro Clinic Logo" />
         </div>
@@ -21,8 +21,7 @@
 
     <main class="container">
         <h1 class="main-title">Prescription</h1>
-
-        <form asp-action="Create" method="post">
+        <form asp-action="Dashboard" asp-controller="Home" method="post">
             <!-- Doctor ID -->
             <section class="form-section">
                 <h2 class="section-title">Doctor ID</h2>

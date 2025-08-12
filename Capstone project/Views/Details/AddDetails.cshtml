@@ -9,11 +9,32 @@
     <title>Submitted Patient Data</title>
     <link rel="stylesheet" href="~/css/DataRequest.css" />
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .submit-container {
+            margin-top: 40px;
+            text-align: center;
+        }
+
+            .submit-container a {
+                display: inline-block;
+                padding: 12px 24px;
+                background-color: #0d47a1;
+                color: white;
+                text-decoration: none;
+                font-weight: bold;
+                border-radius: 10px;
+                transition: background-color 0.3s ease;
+            }
+
+                .submit-container a:hover {
+                    background-color: #0b3c91;
+                }
+    </style>
 </head>
 <body>
     <div class="container">
         <div class="top-header">
-            <a href="@Url.Action("Dashboard", "Home")" class="back-btn"><i class="fas fa-arrow-left"></i></a>
+            <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
         </div>
 
         <div class="top-logo">

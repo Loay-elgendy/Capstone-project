@@ -102,60 +102,87 @@ nav {
     padding: 0 20px;
 }
 
-/* Cards */
-.card,
+/* Doctor Cards */
 .doctor {
     background-color: #fff;
     border-radius: 14px;
     width: 300px;
     padding: 22px;
     text-align: center;
-    box-shadow: 0 4px 14px rgba(0,0,0,0.08);
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.08);
     transition: transform 0.3s ease;
 }
 
-    .card:hover,
     .doctor:hover {
         transform: translateY(-6px);
     }
 
-    .card.large {
-        width: 90%;
-    }
-
-    .card img {
-        width: 100%;
-        height: 100px;
-        object-fit: cover;
-        border-radius: 6px;
+    .doctor h3 {
+        color: #333;
+        font-size: 20px;
         margin-bottom: 10px;
     }
 
-.doctor-image {
-    width: 100%;
-    height: 120px;
-    object-fit: cover;
-    border-radius: 8px;
-    margin-bottom: 12px;
-}
-
-.see-more {
-    display: block;
-    margin: 30px auto;
-    padding: 10px 20px;
-    background-color: #007bff;
-    color: white;
-    font-weight: 600;
-    border: none;
-    border-radius: 6px;
-    text-align: center;
-    text-decoration: none;
-    transition: background-color 0.3s ease;
-}
-
-    .see-more:hover {
-        background-color: #0056b3;
+    .doctor p {
+        font-size: 14px;
+        color: #666;
+        margin-bottom: 15px;
     }
+
+/* Unified Link/Button Style */
+.doctor-link {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: white;
+    color: #007bff;
+    border: 2px solid #007bff;
+    border-radius: 8px;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 14px;
+    transition: all 0.3s ease;
+    position: relative;
+    overflow: hidden;
+    cursor: pointer;
+}
+
+    .doctor-link:hover {
+        background-color: #007bff;
+        color: white;
+    }
+
+    .doctor-link:active {
+        background-color: #0056b3;
+        border-color: #0056b3;
+        color: white;
+    }
+
+    .doctor-link:focus {
+        outline: none;
+        box-shadow: 0 0 0 2px rgba(0, 123, 255, 0.4);
+    }
+
+/* Reservation Table */
+table {
+    width: 100%;
+    border-collapse: collapse;
+    text-align: center;
+    margin: 20px 0;
+}
+
+thead {
+    background-color: #e7f4ff;
+}
+
+th, td {
+    padding: 12px;
+    border: 1px solid #ccc;
+    font-size: 14px;
+}
+
+tbody tr:hover {
+    background-color: #f2fbff;
+}
 
 /* Enhanced Information Section */
 .info {
@@ -171,59 +198,6 @@ nav {
         margin-bottom: 40px;
     }
 
-/* Grid layout: two top cards side-by-side, third spans below */
-.info-cards {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: auto auto;
-    grid-template-areas:
-        "card1 card2"
-        "card3 card3";
-    gap: 60px;
-    max-width: 1000px;
-    margin: 0 auto;
-    align-items: start;
-}
-
-    .info-cards .info-card:nth-child(1) {
-        grid-area: card1;
-    }
-
-    .info-cards .info-card:nth-child(2) {
-        grid-area: card2;
-    }
-
-/* Information Section */
-.info {
-    padding: 60px 20px;
-    background: #fff;
-    text-align: center;
-}
-
-    .info .section-title {
-        color: #4ca1af;
-        font-size: 28px;
-        font-weight: 700;
-        margin-bottom: 40px;
-    }
-.submit-btn {
-    display: inline-block;
-    background-color: #007bff;
-    color: white;
-    font-weight: 600;
-    padding: 10px 25px;
-    border-radius: 6px;
-    text-decoration: none;
-    font-size: 16px;
-    transition: background-color 0.3s ease;
-    cursor: pointer;
-    user-select: none;
-}
-
-    .submit-btn:hover {
-        background-color: #0056b3;
-    }
-/* Flex container to hold three equal cards side by side */
 .info-cards {
     display: flex;
     justify-content: space-between;
@@ -233,12 +207,11 @@ nav {
     margin: 0 auto;
 }
 
-/* Each card is a flex item of equal width */
 .info-card {
     background: linear-gradient(135deg, #e0f7ff, #ffffff);
     border-radius: 12px;
-    box-shadow: 0 6px 16px rgba(0,0,0,0.06);
-    width: calc(33.333% - 13.333px); /* three cards per row with 20px gaps */
+    box-shadow: 0 6px 16px rgba(0, 0, 0, 0.06);
+    width: calc(33.333% - 13.333px);
     padding: 30px 20px;
     display: flex;
     flex-direction: column;
@@ -248,21 +221,9 @@ nav {
 
     .info-card:hover {
         transform: translateY(-6px);
-        box-shadow: 0 10px 24px rgba(0,0,0,0.1);
+        box-shadow: 0 10px 24px rgba(0, 0, 0, 0.1);
     }
 
-    /* Force square-ish aspect ratio if you like: */
-    .info-card::before {
-        content: "";
-        display: block;
-        padding-top: 100%; /* makes card height = card width */
-    }
-
-    .info-card > * {
-        position: absolute;
-    }
-
-    /* Icon */
     .info-card .icon {
         width: 60px;
         height: 60px;
@@ -276,25 +237,18 @@ nav {
         margin-bottom: 16px;
     }
 
-    /* Title */
     .info-card strong {
         font-size: 18px;
         margin-bottom: 10px;
         color: #333;
     }
 
-    /* Text */
     .info-card p {
         font-size: 14px;
         color: #444;
         line-height: 1.6;
+        text-align: center;
     }
-
-/* Ensure the card contents sit on top of the ::before spacer */
-.info-cards .info-card > * {
-    position: relative;
-    z-index: 1;
-}
 
 /* Footer */
 footer {

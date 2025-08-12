@@ -18,6 +18,7 @@ namespace Capstone_project.Controllers
 
         // ---------------- Display Dashboard ----------------
         [HttpGet]
+        [HttpPost]
         public async Task<IActionResult> Dashboard(string doctorId)
         {
             if (string.IsNullOrEmpty(doctorId))
@@ -40,6 +41,7 @@ namespace Capstone_project.Controllers
             ViewBag.DoctorID = doctorId;
             return View(model);
         }
+
 
         // ---------------- Show AddClinic Form ----------------
         [HttpGet]
