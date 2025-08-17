@@ -18,7 +18,6 @@
 
     <form asp-action="Status" asp-controller="Status" method="post">
         @Html.AntiForgeryToken()
-        <input type="hidden" asp-for="DoctorId" />
 
         <div class="form-section animate-fadeIn">
             <h2>Personal Information</h2>
@@ -29,10 +28,6 @@
             <div class="form-group">
                 <input asp-for="LastName" placeholder="Last Name" class="form-control" />
                 <span asp-validation-for="LastName" class="text-danger"></span>
-            </div>
-            <div class="form-group">
-                <input asp-for="PatientId" placeholder="PatientId" class="form-control" />
-                <span asp-validation-for="PatientId" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <input asp-for="Age" placeholder="Age" class="form-control" />

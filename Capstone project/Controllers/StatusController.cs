@@ -18,15 +18,9 @@ namespace Capstone_project.Controllers
         }
 
         [HttpGet]
-        public IActionResult Status(string doctorId)
+        public IActionResult Status()
         {
             var model = new statusmodel();
-
-            if (!string.IsNullOrEmpty(doctorId))
-            {
-                model.DoctorId = doctorId;
-            }
-
             return View(model);
         }
 
@@ -34,54 +28,50 @@ namespace Capstone_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Status(statusmodel model)
         {
-            if (!ModelState.IsValid)
-                return View(model);
-
-            // Find patient by PatientId (assuming DoctorId is being used as PatientId)
+            // Fetch logged-in patient securely
+            var currentUserEmail = User.Identity.Name;
             var matchedPatient = await _context.SignUps
-                .FirstOrDefaultAsync(x => x.DoctorId == model.PatientId);
+                .FirstOrDefaultAsync(x => x.Email == currentUserEmail);
 
             if (matchedPatient == null)
             {
-                ModelState.AddModelError("", "Patient ID not found in the system.");
+                ModelState.AddModelError("", "User not found.");
                 return View(model);
             }
 
-            // Check if names match
-            if (!string.Equals(matchedPatient.FirstName, model.FirstName, StringComparison.OrdinalIgnoreCase) ||
-                !string.Equals(matchedPatient.LastName, model.LastName, StringComparison.OrdinalIgnoreCase))
+            if (string.IsNullOrEmpty(matchedPatient.Role) ||
+                !matchedPatient.Role.Equals("patient", StringComparison.OrdinalIgnoreCase))
             {
-                ModelState.AddModelError("", "Patient ID exists, but the name does not match our records.");
+                ModelState.AddModelError("", "Only patients can submit a status.");
                 return View(model);
             }
 
-            // Check if DoctorId is set
-            if (string.IsNullOrEmpty(model.DoctorId))
-            {
-                ModelState.AddModelError("", "Doctor ID is missing.");
-                return View(model);
-            }
+            // Auto-fill required fields before validation
+            model.PatientId = matchedPatient.Id;
+            model.FirstName = matchedPatient.FirstName;
+            model.LastName = matchedPatient.LastName;
 
+
+            // Now validate the model
+            if (!ModelState.IsValid)
+                return View(model);
+
+            // Fill other empty string and int? fields
             foreach (var prop in typeof(statusmodel).GetProperties())
             {
                 if (prop.PropertyType == typeof(string))
                 {
                     var value = prop.GetValue(model) as string;
                     if (string.IsNullOrWhiteSpace(value))
-                    {
                         prop.SetValue(model, "Not Answered");
-                    }
                 }
                 else if (prop.PropertyType == typeof(int?))
                 {
                     var value = prop.GetValue(model) as int?;
                     if (!value.HasValue)
-                    {
                         prop.SetValue(model, -1);
-                    }
                 }
             }
-
 
             _context.Status.Add(model);
             await _context.SaveChangesAsync();

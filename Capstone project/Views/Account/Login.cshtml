@@ -6,6 +6,44 @@
 }
 
 <link rel="stylesheet" href="~/css/site.css" />
+<style>
+    /* Role dropdown */
+    .form-group select {
+        padding: 10px;
+        border: 1px solid #ccc;
+        border-radius: 8px;
+        font-size: 16px;
+        width: 100%;
+        background-color: #fff;
+        appearance: none;
+    }
+
+    /* Adjust spacing for form groups */
+    .form-group {
+        margin-bottom: 20px;
+        display: flex;
+        flex-direction: column;
+    }
+
+    /* Professional Sign Up link */
+    .signup-link {
+        text-align: center;
+        margin-top: 20px;
+        font-size: 14px;
+    }
+
+        .signup-link a {
+            color: #4f99d8;
+            font-weight: 600;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+
+            .signup-link a:hover {
+                color: #407fc0;
+                text-decoration: underline;
+            }
+</style>
 
 <div class="container">
     <div class="left">
@@ -13,29 +51,35 @@
             <img src="~/Images/Logo white.png" alt="logo" />
         </div>
 
-        <!-- Standard Login Form -->
         <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
             @Html.AntiForgeryToken()
 
-            @* Show all model errors *@
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <div class="form-group">
-                <label asp-for="DoctorId" class="form-label"></label>
-                <input asp-for="DoctorId" class="form-control" placeholder="doc1234 / pat5678" />
-                <span asp-validation-for="DoctorId" class="text-danger"></span>
-            </div>
-
+            <!-- Email -->
             <div class="form-group">
                 <label asp-for="Email" class="form-label"></label>
                 <input asp-for="Email" class="form-control" placeholder="example@domain.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
+            <!-- Password -->
             <div class="form-group">
                 <label asp-for="Password" class="form-label"></label>
                 <input asp-for="Password" class="form-control" placeholder="********" type="password" />
                 <span asp-validation-for="Password" class="text-danger"></span>
+            </div>
+
+            <!-- Role selection -->
+            <div class="form-group">
+                <label asp-for="Role" class="form-label">Role</label>
+                <select asp-for="Role" class="form-control">
+                    <option value="" disabled selected>Select Role</option>
+                    <option value="Doctor">Doctor</option>
+                    <option value="Patient">Patient</option>
+                    <option value="Admin">Admin</option>
+                </select>
+                <span asp-validation-for="Role" class="text-danger"></span>
             </div>
 
             <div class="remember">
@@ -48,13 +92,11 @@
 
             <div class="btns">
                 <button type="submit" class="btn-login">Login</button>
-                <a asp-controller="Account" asp-action="SignUp" class="btn-signup">Sign Up</a>
             </div>
         </form>
 
         <div class="or">Or</div>
 
-        <!-- Google External-Login Form (Hidden via class) -->
         <!-- Google External-Login Form (Hidden) -->
         <form asp-controller="Account" asp-action="ExternalLogin" method="post" style="display:none;">
             @Html.AntiForgeryToken()
@@ -65,7 +107,11 @@
             </button>
         </form>
 
-
+        <!-- Professional Sign Up link -->
+        <div class="signup-link">
+            Don't have an account?
+            <a asp-controller="Account" asp-action="SignUp">Sign Up</a>
+        </div>
 
         <div class="copyright">
             © 2025 Pro Clinic corporation

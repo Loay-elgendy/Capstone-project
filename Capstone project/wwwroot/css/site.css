@@ -1,18 +1,18 @@
-@import url('https://fonts.googleapis.com/css2?family=Rubik&display=swap');
-
+/* General resets */
 * {
     box-sizing: border-box;
-    font-family: 'Rubik', sans-serif;
     margin: 0;
     padding: 0;
+    font-family: 'Rubik', sans-serif;
 }
 
+/* Body and container */
 body {
     height: 100vh;
-    background: linear-gradient(to right, #dbeafe, #e0f7fa);
     display: flex;
     justify-content: center;
     align-items: center;
+    background: linear-gradient(to right, #dbeafe, #e0f7fa);
 }
 
 .container {
@@ -25,13 +25,10 @@ body {
     overflow: hidden;
 }
 
-.left, .right {
+/* Left panel (form) */
+.left {
     flex: 1;
     padding: 40px;
-}
-
-.left {
-    background: #fff;
 }
 
 .logo {
@@ -45,36 +42,63 @@ body {
         width: 100px;
     }
 
-    .logo span {
-        font-size: 20px;
-        font-weight: bold;
-        color: #444;
-    }
-
-/* form width & centering */
+/* Form */
 .login-form {
     max-width: 400px;
     margin: 0 auto;
 }
 
-/* Inputs */
 .form-group {
     margin-bottom: 20px;
+    display: flex;
+    flex-direction: column;
 }
 
     .form-group label {
-        display: block;
         margin-bottom: 5px;
         font-weight: 600;
+        color: #333;
     }
 
-    .form-group .form-control {
-        width: 100%;
-        height: 48px;
-        padding: 0 12px;
+    .form-group input,
+    .form-group select {
+        padding: 10px;
         border: 1px solid #ccc;
         border-radius: 8px;
         font-size: 16px;
+    }
+
+/* Buttons */
+.btn-login {
+    width: 100%;
+    padding: 12px;
+    background-color: #4f99d8;
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    .btn-login:hover {
+        background-color: #407fc0;
+    }
+
+.btn-signup {
+    width: 100%;
+    padding: 12px;
+    background-color: #fcfcfc;
+    border: 1px solid #4f99d8;
+    border-radius: 8px;
+    color: #4f99d8;
+    font-size: 16px;
+    cursor: pointer;
+    transition: background 0.3s;
+}
+
+    .btn-signup:hover {
+        background-color: #e6f0fa;
     }
 
 /* Remember + forgot */
@@ -99,41 +123,6 @@ body {
         text-decoration: underline;
     }
 
-/* Primary buttons */
-.btns {
-    display: flex;
-    gap: 10px;
-    margin-bottom: 20px;
-}
-
-.btn-login, .btn-signup {
-    flex: 1;
-    height: 48px;
-    line-height: 48px;
-    font-size: 16px;
-    border-radius: 8px;
-    text-align: center;
-    text-decoration: none;
-    cursor: pointer;
-}
-
-.btn-login {
-    background-color: #4f99d8;
-    color: #fff;
-    border: none;
-}
-
-.btn-signup {
-    background-color: #fcfcfc;
-    border: 1px solid #4f99d8;
-    color: #4f99d8;
-    transition: background-color .3s;
-}
-
-    .btn-signup:hover {
-        background-color: #e6f0fa;
-    }
-
 /* “Or” separator */
 .or {
     text-align: center;
@@ -154,56 +143,22 @@ body {
 
     .or::before {
         left: 0;
-    }
+/    }
 
     .or::after {
         right: 0;
     }
 
-/* Google button */
-.google-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 100%;
-    height: 48px;
-    padding: 0 12px;
-    border: 1px solid #dadce0;
-    border-radius: 8px;
-    background-color: #fff;
-    color: #3c4043;
-    font-size: 16px;
-    font-weight: 500;
-    text-decoration: none;
-    cursor: pointer;
-    box-shadow: 0 1px 1px rgba(0,0,0,0.1);
-    transition: background-color .2s, box-shadow .2s;
-}
-
-    .google-btn img {
-        width: 18px;
-        height: 18px;
-        margin-right: 10px;
-    }
-
-    .google-btn:hover {
-        background-color: #f7f8fa;
-        box-shadow: 0 2px 4px rgba(0,0,0,0.15);
-    }
-
-.copyright {
-    text-align: center;
-    margin-top: 30px;
-    font-size: 12px;
-    color: #777;
-}
-
+/* Right panel (illustration) */
 .right {
+    flex: 1;
     background: #ffffff;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    padding: 40px;
+    text-align: center;
 }
 
     .right h2 {
@@ -211,14 +166,12 @@ body {
         font-weight: bold;
         color: #333;
         margin-bottom: 10px;
-        text-align: center;
     }
 
     .right h3 {
         font-size: 18px;
         color: #4f99d8;
         margin-bottom: 20px;
-        text-align: center;
     }
 
     .right img {
@@ -226,3 +179,12 @@ body {
         max-width: 450px;
         border-radius: 12px;
     }
+
+/* Copyright */
+.copyright {
+    text-align: center;
+    margin-top: 30px;
+    font-size: 12px;
+    color: #777;
+}
+

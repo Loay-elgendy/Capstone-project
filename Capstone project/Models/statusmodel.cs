@@ -1,11 +1,12 @@
 ﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capstone_project.Models
 {
     public class statusmodel
     {
         [Key]
-        public int Id { get; set; }
+        public int id { get; set; }
 
         [Required(ErrorMessage = "First Name is required")]
         public string FirstName { get; set; }
@@ -41,7 +42,10 @@ namespace Capstone_project.Models
         public string? SleepPattern { get; set; }
         public string? ActivityLevel { get; set; }
 
-        public string PatientId { get; set; }
-        public string DoctorId { get; set; }
+        // Foreign key to SignUp
+        [ForeignKey("SignUp")]
+        public int PatientId { get; set; }
+
+        public SignUp Id { get; set; } // Navigation property
     }
 }

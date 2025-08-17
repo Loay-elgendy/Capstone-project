@@ -46,7 +46,6 @@
             <form asp-action="Select" asp-controller="Select" method="post">
                 @Html.AntiForgeryToken()
                 <input type="hidden" name="id" value="@Model.Id" />
-                <input type="hidden" name="DoctorId" value="@Model.DoctorID" />
 
                 <div class="back-logo">
                     <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>

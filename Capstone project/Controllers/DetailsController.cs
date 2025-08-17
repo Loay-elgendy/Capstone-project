@@ -25,7 +25,7 @@ namespace Capstone_project.Controllers
             }
 
             var statusData = await _context.Status
-                .Where(s => s.PatientId == patientId && !string.IsNullOrEmpty(s.DoctorId))
+                .Where(s => s.PatientId.ToString() == patientId )
                 .OrderByDescending(s => s.Id)
                 .FirstOrDefaultAsync();
 

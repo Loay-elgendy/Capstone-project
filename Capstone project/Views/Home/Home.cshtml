@@ -13,7 +13,6 @@
     <!-- Font Awesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    <!-- Button style so <a class="doctor-link"> looks like a modern button -->
     <style>
         .doctor-link {
             display: inline-block;
@@ -26,24 +25,33 @@
             font-size: 14px;
             text-decoration: none;
             transition: .3s all ease;
-            cursor: pointer
+            cursor: pointer;
         }
 
             .doctor-link:hover {
                 background: #007bff;
-                color: #fff
+                color: #fff;
             }
 
             .doctor-link:active {
                 background: #0056b3;
                 border-color: #0056b3;
-                color: #fff
+                color: #fff;
             }
 
             .doctor-link:focus {
                 outline: none;
-                box-shadow: 0 0 0 2px rgba(0,123,255,.4)
+                box-shadow: 0 0 0 2px rgba(0,123,255,.4);
             }
+
+        /* Logout link style */
+        .logout-link {
+            color: #fff;
+            font-weight: 600;
+            cursor: pointer;
+            margin-left: 20px;
+            text-decoration: underline;
+        }
     </style>
 </head>
 <body>
@@ -59,6 +67,7 @@
                 <a href="#doctors">Doctors</a>
                 <a href="#prescription">Reservation</a>
                 <a href="#info">Information</a>
+                <span class="logout-link" id="logoutLink">Logout</span>
             </nav>
         </div>
         <div class="search-bar">
@@ -66,6 +75,15 @@
             <input type="text" placeholder="Search for..." />
         </div>
     </header>
+
+    <script>
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Logout", "Account")';
+            }
+        });
+    </script>
 
     <!-- Doctors Section -->
     <div id="doctors" class="section-title">Doctors</div>
@@ -103,7 +121,7 @@
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.DoctorName</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.ConsultationFee</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">
-                                <a class="doctor-link" href="@Url.Action("Prescription","Prescription", new { DoctorId = item.DoctorID })">Check Reservation</a>
+                                <a class="doctor-link" href="@Url.Action("Prescription","Prescription", new { id = item.Id })">Check Reservation</a>
                             </td>
                         </tr>
                     }

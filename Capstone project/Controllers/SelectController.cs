@@ -19,11 +19,14 @@ namespace Capstone_project.Controllers
         [HttpGet]
         public async Task<IActionResult> Select(int id)
         {
+            // id comes from previous page (Home) — clinic ID
             var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == id);
             if (clinic == null)
             {
                 return NotFound();
             }
+
+            ViewBag.ClinicId = id; // pass it to the view if needed
             return View(clinic);
         }
 
@@ -44,21 +47,28 @@ namespace Capstone_project.Controllers
                 return View(clinic);
             }
 
+            // Get logged-in user's ID to save as PatientId in Select
+            var currentUserEmail = User.Identity.Name;
+            var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
+
+            if (user == null)
+                return RedirectToAction("Login", "Account");
+
             // Create new Select reservation
             var reservation = new Select
             {
-                DoctorId = clinic.DoctorID,
                 DoctorName = clinic.DoctorName,
                 Location = clinic.Location,
                 Time = selectedTime,
-                Day = selectedDay
+                Day = selectedDay,
+                PatientId = user.Id // link reservation to logged-in patient
             };
 
             _context.Selects.Add(reservation);
             await _context.SaveChangesAsync();
 
             // Redirect after successful booking
-            return RedirectToAction("Status", "Status", new { DoctorId = clinic.DoctorID });
+            return RedirectToAction("Status", "Status", new { id = reservation.Id });
         }
     }
 }

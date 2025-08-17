@@ -11,8 +11,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Capstone_project.Migrations
 {
     [DbContext(typeof(context))]
-    [Migration("20250706185131_pro3")]
-    partial class pro3
+    [Migration("20250817093113_pro")]
+    partial class pro
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -41,10 +41,6 @@ namespace Capstone_project.Migrations
                         .HasColumnType("nvarchar(max)");
 
                     b.Property<string>("ConsultationFee")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DoctorID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -86,10 +82,6 @@ namespace Capstone_project.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -100,6 +92,10 @@ namespace Capstone_project.Migrations
 
                     b.Property<bool>("RememberMe")
                         .HasColumnType("bit");
+
+                    b.Property<string>("Role")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
 
@@ -115,10 +111,6 @@ namespace Capstone_project.Migrations
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
                     b.Property<string>("Diagnosis")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<string>("DoctorID")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
@@ -157,10 +149,6 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("DoctorName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -191,10 +179,6 @@ namespace Capstone_project.Migrations
                     b.Property<int?>("DashId")
                         .HasColumnType("int");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Email")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -209,6 +193,9 @@ namespace Capstone_project.Migrations
 
                     b.Property<string>("Password")
                         .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Role")
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
@@ -249,11 +236,11 @@ namespace Capstone_project.Migrations
 
             modelBuilder.Entity("Capstone_project.Models.statusmodel", b =>
                 {
-                    b.Property<int>("Id")
+                    b.Property<int>("id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("id"));
 
                     b.Property<string>("ActivityLevel")
                         .HasColumnType("nvarchar(max)");
@@ -271,10 +258,6 @@ namespace Capstone_project.Migrations
                     b.Property<string>("CurrentMedications")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("DoctorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("FamilyIssues")
                         .HasColumnType("nvarchar(max)");
 
@@ -289,13 +272,15 @@ namespace Capstone_project.Migrations
                     b.Property<string>("Height")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("Id1")
+                        .HasColumnType("int");
+
                     b.Property<string>("LastName")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("PatientId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("PatientId")
+                        .HasColumnType("int");
 
                     b.Property<string>("PreviousMedications")
                         .HasColumnType("nvarchar(max)");
@@ -327,7 +312,9 @@ namespace Capstone_project.Migrations
                     b.Property<string>("Weight")
                         .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("Id");
+                    b.HasKey("id");
+
+                    b.HasIndex("Id1");
 
                     b.ToTable("Status");
                 });
@@ -344,6 +331,17 @@ namespace Capstone_project.Migrations
                     b.HasOne("Capstone_project.Models.Dash", null)
                         .WithMany("Patients")
                         .HasForeignKey("DashId");
+                });
+
+            modelBuilder.Entity("Capstone_project.Models.statusmodel", b =>
+                {
+                    b.HasOne("Capstone_project.Models.SignUp", "Id")
+                        .WithMany()
+                        .HasForeignKey("Id1")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Id");
                 });
 
             modelBuilder.Entity("Capstone_project.Models.Dash", b =>

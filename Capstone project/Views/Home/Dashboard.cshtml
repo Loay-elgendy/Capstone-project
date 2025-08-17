@@ -17,11 +17,21 @@
             <a href="#">Reservations</a>
             <a href="#">Patients</a>
             <a href="#">Info</a>
+            <a href="#" id="logoutLink">Logout</a>
         </nav>
         <div class="search-section">
             <input type="text" placeholder="Search for...">
         </div>
     </header>
+
+    <script>
+        document.getElementById('logoutLink').addEventListener('click', function(e) {
+            e.preventDefault();
+            if (confirm("Are you sure you want to log out?")) {
+                window.location.href = '@Url.Action("Login", "Account")';
+            }
+        });
+    </script>
 
     <section class="reservations">
         <h2>Reservations</h2>
@@ -39,7 +49,6 @@
             <tbody>
                 @{
                     int count = 1;
-
                     foreach (var patient in Model.Patients)
                     {
                         var res = Model.Reservations
@@ -56,7 +65,7 @@
                                 <td>@(res.Day ?? "N/A")</td>
                                 <td>@(res.Location ?? "N/A")</td>
                                 <td>
-                                    <a href="@Url.Action("AddDetails", "Details", new { patientId = patient.DoctorId })">
+                                    <a href="@Url.Action("AddDetails", "Details", new { id = patient.Id })">
                                         Check Reservation
                                     </a>
                                 </td>
@@ -76,8 +85,7 @@
             {
                 <div class="doctor">
                     <h3>@patient.FirstName @patient.LastName</h3>
-                    <p>Email: @patient.Email</p>
-                    <p>ID: @patient.DoctorId</p>
+                    <p>ID: @patient.Role</p>
                 </div>
             }
         </div>
@@ -99,8 +107,8 @@
                 <div class="icon">⏱️</div>
                 <p>
                     <strong>Challenges</strong><br />
-                    Crowded clinics and long waiting times.<br>
-                    Time wasted collecting information manually.<br>
+                    Crowded clinics and long waiting times.<br />
+                    Time wasted collecting information manually.<br />
                     Prescription errors due to handwriting.
                 </p>
             </div>

@@ -1,5 +1,4 @@
 ﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Capstone_project.Models
 {
@@ -17,10 +16,6 @@ namespace Capstone_project.Models
         public string LastName { get; set; }
 
         [Required]
-        [Display(Name = "Doctor ID")]
-        public string DoctorId { get; set; }
-
-        [Required]
         [EmailAddress]
         public string Email { get; set; }
 
@@ -28,6 +23,7 @@ namespace Capstone_project.Models
         [DataType(DataType.Password)]
         public string Password { get; set; }
 
-
+        [Display(Name = "Role")]
+        public string? Role { get; set; }   // Doctor / Patient (Optional)
     }
 }

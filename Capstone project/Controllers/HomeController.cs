@@ -19,17 +19,16 @@ namespace Capstone_project.Controllers
         // ---------------- Display Dashboard ----------------
         [HttpGet]
         [HttpPost]
-        public async Task<IActionResult> Dashboard(string doctorId)
+        public async Task<IActionResult> Dashboard(int id)
         {
-            if (string.IsNullOrEmpty(doctorId))
-                return RedirectToAction("Login", "Account");
-
+            // Fetch reservation by Select.Id (previously DoctorID)
             var reservations = await _context.Selects
-                .Where(r => r.DoctorId == doctorId)
+                .Where(r => r.Id == id)
                 .ToListAsync();
 
+            // Fetch all patients
             var patients = await _context.SignUps
-                .Where(p => p.DoctorId.StartsWith("pat"))
+                .Where(p => p.Role == "Patient")
                 .ToListAsync();
 
             var model = new Dash
@@ -38,24 +37,15 @@ namespace Capstone_project.Controllers
                 Patients = patients
             };
 
-            ViewBag.DoctorID = doctorId;
+            ViewBag.Id = id;
             return View(model);
         }
-
 
         // ---------------- Show AddClinic Form ----------------
         [HttpGet]
         public IActionResult AddClinic()
         {
             var model = new AddClinic();
-
-            if (TempData["DoctorID"] != null)
-            {
-                model.DoctorID = TempData["DoctorID"].ToString();
-                TempData.Keep("DoctorID");
-            }
-
-            ViewBag.DoctorID = model.DoctorID;
             return View(model);
         }
 
@@ -67,28 +57,23 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            if (string.IsNullOrEmpty(model.DoctorID))
-            {
-                model.DoctorID = TempData["DoctorID"]?.ToString();
-            }
-
-            if (string.IsNullOrEmpty(model.DoctorID))
-            {
-                ModelState.AddModelError("", "Doctor ID is missing.");
-                return View(model);
-            }
-
-            TempData.Keep("DoctorID");
-
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard", new { doctorId = model.DoctorID });
+            return RedirectToAction("Dashboard", new { id = model.Id });
         }
-        public async Task<IActionResult> Home()
+
+        // ---------------- Home Page ----------------
+        public async Task<IActionResult> Home(int id)
         {
+            // id comes from the previous page (Dashboard, AddClinic, etc.)
+
+            // Fetch all clinics (or filter if you want by user ID)
             var clinics = await _context.AddClinics.ToListAsync();
+
+            ViewBag.UserId = id; // pass the ID to the view if needed
             return View(clinics);
         }
+
     }
 }

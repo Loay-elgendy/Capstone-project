@@ -3,9 +3,9 @@ using Capstone_project.data;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Linq;
+using System.ComponentModel.DataAnnotations;
 
 namespace Capstone_project.Controllers
 {
@@ -21,7 +21,6 @@ namespace Capstone_project.Controllers
         }
 
         // ------------------------ SignUp ------------------------
-
         [HttpGet]
         public IActionResult SignUp() => View();
 
@@ -32,45 +31,56 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid)
                 return View(model);
 
-            // Validate Doctor ID pattern
-            if (!Regex.IsMatch(model.DoctorId ?? "", @"^(doc|pat)\d+$"))
-            {
-                ModelState.AddModelError("DoctorId", "Doctor ID must start with 'doc' or 'pat' followed by numbers.");
-                return View(model);
-            }
+            // Validate FirstName & LastName
+            if (string.IsNullOrWhiteSpace(model.FirstName))
+                ModelState.AddModelError("FirstName", "First name is required.");
+            if (string.IsNullOrWhiteSpace(model.LastName))
+                ModelState.AddModelError("LastName", "Last name is required.");
 
-            // Check if DoctorId is already used
-            if (await _context.SignUps.AnyAsync(u => u.DoctorId == model.DoctorId))
-            {
-                ModelState.AddModelError("DoctorId", "This Doctor ID is already in use.");
-                return View(model);
-            }
+            // Validate Role
+            if (string.IsNullOrWhiteSpace(model.Role))
+                ModelState.AddModelError("Role", "Please select a role.");
 
-            // Check if Email is already registered
-            if (await _context.SignUps.AnyAsync(u => u.Email == model.Email))
-            {
+            // Validate email
+            if (string.IsNullOrWhiteSpace(model.Email))
+                ModelState.AddModelError("Email", "Email is required.");
+            else if (!new EmailAddressAttribute().IsValid(model.Email))
+                ModelState.AddModelError("Email", "Invalid email address.");
+            else if (!model.Email.ToLower().EndsWith("@gmail.com"))
+                ModelState.AddModelError("Email", "Email must be a Gmail address (@gmail.com).");
+            else if (await _context.SignUps.AnyAsync(u => u.Email == model.Email))
                 ModelState.AddModelError("Email", "This email is already registered.");
-                return View(model);
-            }
 
-            // Validate password length
-            if (string.IsNullOrWhiteSpace(model.Password) || model.Password.Length < 8)
-            {
+            // Prevent using Admin email
+            if (model.Email?.ToLower() == "admin@gmail.com")
+                ModelState.AddModelError("Email", "This email is reserved for admin login only.");
+
+            // Validate password
+            if (string.IsNullOrWhiteSpace(model.Password))
+                ModelState.AddModelError("Password", "Password is required.");
+            else if (model.Password.Length < 8)
                 ModelState.AddModelError("Password", "Password must be at least 8 characters long.");
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Password, @"[A-Z]"))
+                ModelState.AddModelError("Password", "Password must contain at least one uppercase letter.");
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Password, @"[0-9]"))
+                ModelState.AddModelError("Password", "Password must contain at least one number.");
+            else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Password, @"[\W_]"))
+                ModelState.AddModelError("Password", "Password must contain at least one special character.");
+
+            if (!ModelState.IsValid)
                 return View(model);
-            }
 
             // Hash password and save
             model.Password = _signUpHasher.HashPassword(model, model.Password);
             _context.SignUps.Add(model);
             await _context.SaveChangesAsync();
 
+            TempData["Success"] = "Account created successfully. You can now login.";
             return RedirectToAction("Login");
         }
 
 
         // ------------------------ Login ------------------------
-
         [HttpGet]
         public IActionResult Login()
         {
@@ -84,14 +94,13 @@ namespace Capstone_project.Controllers
         {
             if (!ModelState.IsValid) return View(model);
 
-            if (!Regex.IsMatch(model.DoctorId ?? "", @"^(doc|pat)\d+$"))
+            // Special case: Admin login
+            if (model.Email.ToLower() == "admin@gmail.com" && model.Password == "admin1234")
             {
-                ModelState.AddModelError("DoctorId", "Doctor ID must start with 'doc' or 'pat' followed by numbers.");
-                return View(model);
+                return RedirectToAction("AdminDashboard", "Admin");
             }
 
-            var user = await _context.SignUps
-                .FirstOrDefaultAsync(u => u.Email == model.Email && u.DoctorId == model.DoctorId);
+            var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email == model.Email);
 
             if (user == null ||
                 _signUpHasher.VerifyHashedPassword(user, user.Password, model.Password) != PasswordVerificationResult.Success)
@@ -103,29 +112,26 @@ namespace Capstone_project.Controllers
             _context.Logins.Add(model);
             await _context.SaveChangesAsync();
 
-            // For doctors, check if they have already added a clinic
-            if (model.DoctorId.StartsWith("doc"))
+            // Role based redirection
+            if (user.Role?.ToLower() == "doctor")
             {
                 var existingClinic = await _context.AddClinics
-                    .FirstOrDefaultAsync(c => c.DoctorID == model.DoctorId);
+                    .FirstOrDefaultAsync(c => c.Id == user.Id);
 
                 if (existingClinic != null)
                 {
-                    // Clinic already added -> redirect to Dashboard
-                    return RedirectToAction("Dashboard", "Home", new { doctorId = model.DoctorId });
+                    return RedirectToAction("Dashboard", "Home", new { Id = user.Id });
                 }
 
-                // No clinic added yet -> store doctor ID and redirect to AddClinic
-                TempData["DoctorID"] = model.DoctorId;
+                TempData["DoctorID"] = user.Role;
                 return RedirectToAction("AddClinic", "Home");
             }
 
-            // If patient -> go to patient Home
+            // Patient goes to Home
             return RedirectToAction("Home", "Home");
         }
 
         // ------------------------ Reset Password ------------------------
-
         [HttpGet]
         public IActionResult ResetPassword() => View();
 

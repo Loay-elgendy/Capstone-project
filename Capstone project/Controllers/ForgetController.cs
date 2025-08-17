@@ -8,23 +8,23 @@ namespace Capstone_project.Controllers
 {
     public class ForgetController : Controller
     {
-        public IActionResult Forgetpassword()
+        public IActionResult ForgetPassword()
         {
             return View();
         }
 
-        public IActionResult Verificationcode()
+        public IActionResult VerificationCode()
         {
             return View();
         }
 
         [HttpPost]
-        public IActionResult Verificationcode(string email)
+        public IActionResult VerificationCode(string email)
         {
-            if (string.IsNullOrEmpty(email))
+            if (string.IsNullOrWhiteSpace(email))
             {
                 TempData["Error"] = "Please enter a valid email.";
-                return RedirectToAction("Forgetpassword");
+                return RedirectToAction("ForgetPassword");
             }
 
             // Generate 6-digit random code
@@ -33,23 +33,20 @@ namespace Capstone_project.Controllers
             try
             {
                 var message = new MimeMessage();
-                message.From.Add(MailboxAddress.Parse("technotrendsza@gmail.com")); // Your email here
-                message.To.Add(MailboxAddress.Parse(email)); // Recipient's email here
+                message.From.Add(MailboxAddress.Parse("technotrendsza@gmail.com"));
+                message.To.Add(MailboxAddress.Parse(email));
                 message.Subject = "Reset Password Verification Code";
-                message.Body = new TextPart("plain")
-                {
-                    Text = $"Your verification code is: {code}"
-                };
+                message.Body = new TextPart("plain") { Text = $"Your verification code is: {code}" };
 
                 using (var smtp = new SmtpClient())
                 {
                     smtp.Connect("smtp.gmail.com", 587, SecureSocketOptions.StartTls);
-                    smtp.Authenticate("technotrendsza@gmail.com", "olmq biql vpce qtpp"); // Your email & app password here
+                    smtp.Authenticate("technotrendsza@gmail.com", "olmqbiqlvpceqtpp"); // Use your app password
                     smtp.Send(message);
                     smtp.Disconnect(true);
                 }
 
-                // Store for future use
+                // Preserve TempData for next request
                 TempData["VerificationCode"] = code;
                 TempData["TargetEmail"] = email;
                 TempData["Success"] = "Verification code sent successfully!";
@@ -59,7 +56,7 @@ namespace Capstone_project.Controllers
                 TempData["Error"] = "Failed to send email. Please try again.";
             }
 
-            return RedirectToAction("Verificationcode");
+            return RedirectToAction("VerificationCode");
         }
 
         [HttpPost]
@@ -68,18 +65,18 @@ namespace Capstone_project.Controllers
             var storedCode = TempData["VerificationCode"] as string;
             var email = TempData["TargetEmail"] as string;
 
-            if (storedCode == code)
+            if (!string.IsNullOrEmpty(storedCode) && storedCode == code)
             {
-                // Store email for reset page
-                TempData["Email"] = email;
-                return RedirectToAction("Restpassword");
+                TempData["Email"] = email; // Store email for reset page
+                return RedirectToAction("ResetPassword");
             }
 
             TempData["Error"] = "Invalid verification code.";
-            return RedirectToAction("Verificationcode");
+            return RedirectToAction("VerificationCode");
         }
 
-        public IActionResult Restpassword()
+        [HttpGet]
+        public IActionResult RestPassword()
         {
             return View();
         }

@@ -17,27 +17,23 @@ namespace Capstone_project.Controllers
         }
 
         [HttpGet]
-        public IActionResult Prescription(string doctorId)
+        public IActionResult Prescription()
         {
-            if (string.IsNullOrEmpty(doctorId))
-                return NotFound("Doctor ID is missing.");
-
+            // Get the latest reservation (no doctor filtering needed)
             var maxReservation = _context.Selects
-                .Where(r => r.DoctorId == doctorId)
                 .OrderByDescending(r => r.Id)
                 .FirstOrDefault();
 
             if (maxReservation == null)
-                return NotFound("No reservations found for this doctor.");
+                return NotFound("No reservations found.");
 
+            // Get the latest prescription form (no DoctorID)
             var latestPrescriptionForm = _context.PrescriptionForms
-                .Where(p => p.DoctorID == doctorId)
                 .OrderByDescending(p => p.Id)
                 .FirstOrDefault();
 
-            // FIX: Retrieve status by doctor + patient
+            // Get all patient statuses (no DoctorID)
             var patientStatus = _context.Status
-                .Where(s => s.DoctorId == doctorId && s.DoctorId == maxReservation.DoctorId)
                 .OrderByDescending(s => s.Id)
                 .ToList();
 
@@ -47,12 +43,10 @@ namespace Capstone_project.Controllers
                     ? new List<PrescriptionForm> { latestPrescriptionForm }
                     : new List<PrescriptionForm>(),
                 Prescriptions = patientStatus,
-                Reservations = new List<Select> { maxReservation }
+                Reservations = maxReservation != null ? new List<Select> { maxReservation } : new List<Select>()
             };
 
             return View("Prescription", model);
         }
-
-
     }
 }

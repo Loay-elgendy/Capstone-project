@@ -12,9 +12,6 @@ namespace Capstone_project.Models
         public string Diagnosis { get; set; }
 
         [Required]
-        public string DoctorID { get; set; }
-
-        [Required]
         public string Medication { get; set; }
 
         [Required]
@@ -24,6 +21,5 @@ namespace Capstone_project.Models
         public string Tests { get; set; }
 
         public string? Notes { get; set; }
-
     }
 }

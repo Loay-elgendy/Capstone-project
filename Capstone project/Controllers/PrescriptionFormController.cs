@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Capstone_project.Models;
 using Capstone_project.data;
+using System.Threading.Tasks;
 
 namespace Capstone_project.Controllers
 {
@@ -13,10 +14,12 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
+        // GET: /PrescriptionForm
         public IActionResult PrescriptionForm()
         {
-            return View(); // Requires Views/Prescription/Index.cshtml
+            return View(); // Uses Views/PrescriptionForm/PrescriptionForm.cshtml
         }
+
         // GET: /PrescriptionForm/Create
         [HttpGet]
         public IActionResult Create()
@@ -27,18 +30,26 @@ namespace Capstone_project.Controllers
         // POST: /PrescriptionForm/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(PrescriptionForm model)
+        public async Task<IActionResult> Create(PrescriptionForm model)
         {
-            if (ModelState.IsValid)
+            if (!ModelState.IsValid)
             {
-                _context.PrescriptionForms.Add(model);
-                _context.SaveChanges();
-
-                TempData["Message"] = "Prescription saved!";
-                return RedirectToAction("Dashboard", "Home"); 
+                return View("PrescriptionForm", model);
             }
 
-            return View("PrescriptionForm", model);
+            // Remove DoctorID validation as it's no longer required
+            if (string.IsNullOrWhiteSpace(model.Diagnosis) || string.IsNullOrWhiteSpace(model.Medication)
+                || string.IsNullOrWhiteSpace(model.Dosage) || string.IsNullOrWhiteSpace(model.Tests))
+            {
+                ModelState.AddModelError(string.Empty, "All required fields must be filled.");
+                return View("PrescriptionForm", model);
+            }
+
+            await _context.PrescriptionForms.AddAsync(model);
+            await _context.SaveChangesAsync();
+
+            TempData["Message"] = "Prescription saved successfully!";
+            return RedirectToAction("Dashboard", "Home");
         }
     }
 }

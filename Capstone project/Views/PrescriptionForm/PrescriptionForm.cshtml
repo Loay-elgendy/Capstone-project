@@ -22,13 +22,6 @@
     <main class="container">
         <h1 class="main-title">Prescription</h1>
         <form asp-action="Dashboard" asp-controller="Home" method="post">
-            <!-- Doctor ID -->
-            <section class="form-section">
-                <h2 class="section-title">Doctor ID</h2>
-                <label for="DoctorID">Enter your Doctor ID:</label>
-                <input asp-for="DoctorID" class="form-control" placeholder="Doc123" />
-                <span asp-validation-for="DoctorID" class="text-danger"></span>
-            </section>
 
             <!-- Diagnosis -->
             <section class="form-section">

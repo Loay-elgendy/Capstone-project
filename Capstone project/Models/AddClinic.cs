@@ -10,8 +10,6 @@ namespace Capstone_project.Models
 
         public string DoctorName { get; set; }
 
-        public string DoctorID { get; set; }
-
         public string ConsultationFee { get; set; }
 
         public List<string> AvailableDays { get; set; } = new List<string>();
