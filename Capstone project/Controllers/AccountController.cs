@@ -95,9 +95,9 @@ namespace Capstone_project.Controllers
             if (!ModelState.IsValid) return View(model);
 
             // Special case: Admin login
-            if (model.Email.ToLower() == "admin@gmail.com" && model.Password == "admin1234")
+            if (model.Email.ToLower() == "admin@admin.com" && model.Password == "admin1234")
             {
-                return RedirectToAction("AdminDashboard", "Admin");
+                return RedirectToAction("Users", "Admin");
             }
 
             var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email == model.Email);

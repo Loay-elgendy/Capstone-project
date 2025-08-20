@@ -49,10 +49,6 @@ namespace Capstone_project.Controllers
 
             // Get logged-in user's ID to save as PatientId in Select
             var currentUserEmail = User.Identity.Name;
-            var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email == currentUserEmail);
-
-            if (user == null)
-                return RedirectToAction("Login", "Account");
 
             // Create new Select reservation
             var reservation = new Select
@@ -61,7 +57,6 @@ namespace Capstone_project.Controllers
                 Location = clinic.Location,
                 Time = selectedTime,
                 Day = selectedDay,
-                PatientId = user.Id // link reservation to logged-in patient
             };
 
             _context.Selects.Add(reservation);

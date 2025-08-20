@@ -1,0 +1,196 @@
+/* Global Reset & Base */
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+    font-family: 'Segoe UI', sans-serif;
+}
+
+html, body {
+    height: 100%;
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+/* Full Page Layout */
+.full-page {
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    padding: 30px 50px;
+}
+
+/* Navbar */
+.navbar {
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+    padding: 15px 20px;
+    margin-bottom: 30px;
+}
+
+.navbar-brand {
+    font-size: 1.5rem;
+    color: #2a2a2a;
+    font-weight: 600;
+}
+
+.navbar .nav-link {
+    color: #555;
+    margin-right: 15px;
+    font-weight: 500;
+    transition: color 0.2s;
+}
+
+    .navbar .nav-link:hover {
+        color: #1d4e89;
+    }
+
+    .navbar .nav-link.active {
+        color: #fff;
+        background-color: #1d4e89;
+        border-radius: 6px;
+        padding: 5px 15px;
+    }
+
+/* Buttons */
+.btn, .fancy-btn {
+    padding: 8px 18px;
+    border-radius: 6px;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    transition: all 0.2s;
+}
+
+.fancy-btn {
+    background-color: #1d4e89;
+    color: #fff;
+}
+
+    .fancy-btn:hover, .btn:hover {
+        background-color: #153b62;
+        transform: translateY(-2px);
+    }
+
+.btn-info {
+    background-color: #4a90e2;
+    color: #fff;
+}
+
+.btn-danger {
+    background-color: #d9534f;
+    color: #fff;
+}
+
+.btn-secondary {
+    background-color: #6c757d;
+    color: #fff;
+}
+
+/* Page Header */
+h2 {
+    font-size: 26px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 30px;
+}
+
+/* Table Section */
+.table-container {
+    width: 100%;
+    max-width: 1200px;
+    margin: auto;
+}
+
+.table-responsive {
+    background: #fff;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.05);
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 15px;
+}
+
+    table th, table td {
+        padding: 12px 10px;
+        border: 1px solid #ddd;
+        text-align: left;
+        font-size: 14px;
+    }
+
+    table th {
+        background-color: #1d4e89;
+        color: #fff;
+        font-weight: 500;
+    }
+
+    table tr:hover {
+        background-color: #f0f7ff;
+    }
+
+/* Bottom Info Cards */
+.row.g-4 {
+    margin-top: 40px;
+}
+
+.info-card {
+    padding: 30px 20px;
+    border-radius: 10px;
+    text-align: center;
+    background-color: #1d4e89;
+    color: white;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.1);
+    transition: all 0.2s;
+}
+
+    .info-card:hover {
+        transform: translateY(-3px);
+        box-shadow: 0 5px 20px rgba(0,0,0,0.15);
+    }
+
+    .info-card h5 {
+        font-size: 16px;
+        margin-bottom: 10px;
+    }
+
+    .info-card h2 {
+        font-size: 28px;
+        font-weight: 600;
+    }
+
+/* Patient & Doctor Card Colors */
+.bg-patient {
+    background-color: #2a73b9;
+}
+
+.bg-doctor {
+    background-color: #4a90e2;
+}
+
+/* Responsive for laptops */
+@media (max-width: 1440px) {
+    .full-page {
+        padding: 20px 40px;
+    }
+
+    .table-responsive {
+        padding: 15px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    .info-card h2 {
+        font-size: 26px;
+    }
+
+    .info-card h5 {
+        font-size: 15px;
+    }
+}

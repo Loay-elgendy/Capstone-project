@@ -1,0 +1,103 @@
+@model IEnumerable<Capstone_project.Models.Select>
+@{
+    ViewData["Title"] = "Bookings";
+    Layout = null;
+}
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
+<link href="~/css/admin.css" rel="stylesheet" />
+
+<!-- Navbar (same as Users page) -->
+<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg rounded-3 animate-fadeIn py-3 mb-4">
+    <div class="container">
+        <a class="navbar-brand fw-bold text-primary" href="#">Admin Panel</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
+                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+        </button>
+        <div class="collapse navbar-collapse" id="navbarContent">
+            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                <li class="nav-item">
+                    <a class="nav-link @((ViewData["Title"]?.ToString() == "Admin Dashboard" ? "fw-bold text-primary" : ""))"
+                       asp-controller="Admin" asp-action="Users">Users</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link @((ViewData["Title"]?.ToString() == "Bookings" ? "active fw-bold text-primary" : ""))"
+                       asp-controller="Admin" asp-action="Bookings">Bookings</a>
+                </li>
+            </ul>
+            <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
+                <button type="submit" class="btn fancy-btn btn-sm shadow-sm">Logout</button>
+            </form>
+        </div>
+    </div>
+</nav>
+
+<div class="form-section animate-fadeIn">
+    <h2>Bookings Management</h2>
+    <div class="table-responsive">
+        <table class="table table-hover table-bordered shadow-sm align-middle">
+            <thead class="table-dark">
+                <tr>
+                    <th>Doctor</th>
+                    <th>Day</th>
+                    <th>Time</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var b in Model)
+                {
+                    <tr>
+                        <td>@b.DoctorName</td>
+                        <td>@b.Day</td>
+                        <td>@b.Time</td>
+                        <td>@b.Location</td>
+                        <td>
+                            <!-- Details/Edit Modal -->
+                            <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#bookingModal-@b.Id">Details / Edit</button>
+
+                            <!-- Delete -->
+                            <form asp-action="DeleteBooking" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@b.Id" />
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this booking?')">Delete</button>
+                            </form>
+
+                            <!-- Modal -->
+                            <div class="modal fade" id="bookingModal-@b.Id" tabindex="-1">
+                                <div class="modal-dialog modal-dialog-centered">
+                                    <div class="modal-content">
+                                        <div class="modal-header">
+                                            <h5 class="modal-title">Booking Details</h5>
+                                            <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+                                        </div>
+                                        <div class="modal-body">
+                                            <form asp-action="EditBooking" method="post">
+                                                <input type="hidden" name="id" value="@b.Id" />
+                                                <p><strong>Patient:</strong> @b.Id</p>
+                                                <div class="mb-2">
+                                                    <label>Day</label>
+                                                    <input type="text" name="day" value="@b.Day" class="form-control" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label>Time</label>
+                                                    <input type="text" name="time" value="@b.Time" class="form-control" />
+                                                </div>
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn fancy-btn btn-sm">Save</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                        </td>
+                    </tr>
+                }
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

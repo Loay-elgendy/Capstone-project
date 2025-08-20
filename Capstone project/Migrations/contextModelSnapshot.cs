@@ -94,6 +94,9 @@ namespace Capstone_project.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("Id");
 
                     b.ToTable("Logins");
@@ -255,6 +258,10 @@ namespace Capstone_project.Migrations
                     b.Property<string>("CurrentMedications")
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<string>("Email")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.Property<string>("FamilyIssues")
                         .HasColumnType("nvarchar(max)");
 
@@ -268,9 +275,6 @@ namespace Capstone_project.Migrations
 
                     b.Property<string>("Height")
                         .HasColumnType("nvarchar(max)");
-
-                    b.Property<int>("Id1")
-                        .HasColumnType("int");
 
                     b.Property<string>("LastName")
                         .IsRequired()
@@ -311,8 +315,6 @@ namespace Capstone_project.Migrations
 
                     b.HasKey("id");
 
-                    b.HasIndex("Id1");
-
                     b.ToTable("Status");
                 });
 
@@ -328,17 +330,6 @@ namespace Capstone_project.Migrations
                     b.HasOne("Capstone_project.Models.Dash", null)
                         .WithMany("Patients")
                         .HasForeignKey("DashId");
-                });
-
-            modelBuilder.Entity("Capstone_project.Models.statusmodel", b =>
-                {
-                    b.HasOne("Capstone_project.Models.SignUp", "Id")
-                        .WithMany()
-                        .HasForeignKey("Id1")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Id");
                 });
 
             modelBuilder.Entity("Capstone_project.Models.Dash", b =>

@@ -8,6 +8,8 @@ namespace Capstone_project.Models
         [Key]
         public int Id { get; set; }
 
+        public int UserId { get; set; }
+
         [Required(ErrorMessage = "Please select your role")]
         [Display(Name = "Role")]
         public string Role { get; set; }  // Doctor, Patient, Admin

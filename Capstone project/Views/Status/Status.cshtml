@@ -3,6 +3,7 @@
     ViewData["Title"] = "Reservation Status";
     Layout = null;
 }
+<!DOCTYPE html>
 <html lang="en">
 <head>
     <meta charset="utf-8" />
@@ -32,6 +33,10 @@
             <div class="form-group">
                 <input asp-for="Age" placeholder="Age" class="form-control" />
                 <span asp-validation-for="Age" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input asp-for="Email" placeholder="Email" class="form-control"  />
+                <span asp-validation-for="Email" class="text-danger"></span>
             </div>
             <div class="form-group">
                 <div class="gender-buttons">

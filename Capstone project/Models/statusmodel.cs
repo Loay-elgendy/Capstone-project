@@ -14,6 +14,9 @@ namespace Capstone_project.Models
         [Required(ErrorMessage = "Last Name is required")]
         public string LastName { get; set; }
 
+        [Required(ErrorMessage = "Email is required")]
+        public string Email { get; set; }
+
         [Required(ErrorMessage = "Age is required")]
         public string Age { get; set; }
 
@@ -42,10 +45,7 @@ namespace Capstone_project.Models
         public string? SleepPattern { get; set; }
         public string? ActivityLevel { get; set; }
 
-        // Foreign key to SignUp
-        [ForeignKey("SignUp")]
         public int PatientId { get; set; }
 
-        public SignUp Id { get; set; } // Navigation property
     }
 }

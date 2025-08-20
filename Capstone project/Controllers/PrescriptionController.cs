@@ -34,7 +34,7 @@ namespace Capstone_project.Controllers
 
             // Get all patient statuses (no DoctorID)
             var patientStatus = _context.Status
-                .OrderByDescending(s => s.Id)
+                .OrderByDescending(s => s.id)
                 .ToList();
 
             var model = new Prescription
