@@ -1,8 +1,8 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
 using Capstone_project.Models;
 using Capstone_project.data;
 using System.Threading.Tasks;
+using Microsoft.EntityFrameworkCore;
 
 namespace Capstone_project.Controllers
 {
@@ -25,20 +25,27 @@ namespace Capstone_project.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Status(statusmodel model)
         {
-            // Get logged-in user's email
-            var email = User.Identity?.Name;
-            if (string.IsNullOrWhiteSpace(email))
+            if (string.IsNullOrWhiteSpace(model.Email))
+            {
+                ModelState.AddModelError("Email", "Email is required.");
                 return View(model);
+            }
 
             // Find patient by email
-            var patient = await _context.SignUps.FirstOrDefaultAsync(x => x.Email == email);
+            var patient = await _context.SignUps.FirstOrDefaultAsync(x => x.Email == model.Email);
             if (patient == null)
+            {
+                ModelState.AddModelError("Email", "No user found with this email.");
                 return View(model);
+            }
 
-            // Save patient Id
+            // Assign PatientId
             model.PatientId = patient.Id;
 
-            // Save data
+            // Ensure EF Core generates the identity
+            model.id = 0;
+
+            // Save to database
             _context.Status.Add(model);
             await _context.SaveChangesAsync();
 

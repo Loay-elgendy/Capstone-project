@@ -63,6 +63,7 @@ namespace Capstone_project.Controllers
             return RedirectToAction("Dashboard", new { id = model.Id });
         }
 
+
         // ---------------- Home Page ----------------
         public async Task<IActionResult> Home(int id)
         {

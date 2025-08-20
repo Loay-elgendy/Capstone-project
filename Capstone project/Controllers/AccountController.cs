@@ -120,7 +120,7 @@ namespace Capstone_project.Controllers
 
                 if (existingClinic != null)
                 {
-                    return RedirectToAction("Dashboard", "Home", new { Id = user.Id });
+                    return RedirectToAction("Dashboard", "Home", new { Email = user.Email });
                 }
 
                 TempData["DoctorID"] = user.Role;
