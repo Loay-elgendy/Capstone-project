@@ -15,27 +15,28 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: /Select/Select/{id}
+        // GET: /Select/Select/{id}?userId={userId}
         [HttpGet]
-        public async Task<IActionResult> Select(int id)
+        public async Task<IActionResult> Select(int id, int userId)
         {
-            // id comes from previous page (Home) — clinic ID
-            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == id);
+            // id = clinic Id, userId = doctor's UserId
+            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
             if (clinic == null)
             {
                 return NotFound();
             }
 
-            ViewBag.ClinicId = id; // pass it to the view if needed
+            ViewBag.ClinicId = id;
+            ViewBag.DoctorUserId = userId; // pass to view if needed
             return View(clinic);
         }
 
-        // POST: /Select/Select/{id}
+        // POST: /Select/Select/{id}?userId={userId}
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Select(int id, string selectedTime, string selectedDay)
+        public async Task<IActionResult> Select(int id, int userId, string selectedTime, string selectedDay)
         {
-            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == id);
+            var clinic = await _context.AddClinics.FirstOrDefaultAsync(c => c.Id == id && c.UserId == userId);
             if (clinic == null)
             {
                 return NotFound();
@@ -50,9 +51,10 @@ namespace Capstone_project.Controllers
             // Get logged-in user's ID to save as PatientId in Select
             var currentUserEmail = User.Identity.Name;
 
-            // Create new Select reservation
+            // Create new Select reservation and save doctorId from URL
             var reservation = new Select
             {
+                DoctorId = userId, // doctor's UserId
                 DoctorName = clinic.DoctorName,
                 Location = clinic.Location,
                 Time = selectedTime,

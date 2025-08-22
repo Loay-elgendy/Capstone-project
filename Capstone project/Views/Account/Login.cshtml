@@ -6,26 +6,56 @@
 }
 
 <link rel="stylesheet" href="~/css/site.css" />
-<style>
-    /* Role dropdown */
-    .form-group select {
-        padding: 10px;
-        border: 1px solid #ccc;
-        border-radius: 8px;
-        font-size: 16px;
-        width: 100%;
-        background-color: #fff;
-        appearance: none;
-    }
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
 
-    /* Adjust spacing for form groups */
+<style>
     .form-group {
         margin-bottom: 20px;
         display: flex;
         flex-direction: column;
     }
 
-    /* Professional Sign Up link */
+    .password-container {
+        position: relative;
+        display: flex;
+        align-items: center;
+    }
+
+        .password-container input {
+            width: 100%;
+            padding-right: 40px; /* space for eye icon */
+            box-sizing: border-box;
+        }
+
+    .toggle-password {
+        position: absolute;
+        right: 10px;
+        cursor: pointer;
+        font-size: 18px;
+        color: #666;
+        transition: color 0.3s;
+    }
+
+        .toggle-password:hover {
+            color: #007bff;
+        }
+
+    .btn-login {
+        width: 100%;
+        padding: 10px;
+        background-color: #4f99d8;
+        color: white;
+        border: none;
+        border-radius: 8px;
+        cursor: pointer;
+        font-size: 16px;
+        transition: background 0.3s;
+    }
+
+        .btn-login:hover {
+            background-color: #407fc0;
+        }
+
     .signup-link {
         text-align: center;
         margin-top: 20px;
@@ -43,6 +73,16 @@
                 color: #407fc0;
                 text-decoration: underline;
             }
+
+    .remember a.forgot {
+        font-size: 14px;
+        text-decoration: none;
+        color: #555;
+    }
+
+        .remember a.forgot:hover {
+            text-decoration: underline;
+        }
 </style>
 
 <div class="container">
@@ -51,69 +91,44 @@
             <img src="~/Images/Logo white.png" alt="logo" />
         </div>
 
-        <form asp-controller="Account" asp-action="Login" method="post" class="login-form">
+        <form asp-controller="Account" asp-action="Login" method="post">
             @Html.AntiForgeryToken()
-
             @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
-            <!-- Email -->
             <div class="form-group">
-                <label asp-for="Email" class="form-label"></label>
+                <label asp-for="Email"></label>
                 <input asp-for="Email" class="form-control" placeholder="example@domain.com" />
                 <span asp-validation-for="Email" class="text-danger"></span>
             </div>
 
-            <!-- Password -->
-            <div class="form-group">
-                <label asp-for="Password" class="form-label"></label>
-                <input asp-for="Password" class="form-control" placeholder="********" type="password" />
+            <div class="form-group password-group">
+                <label asp-for="Password"></label>
+                <div class="password-container">
+                    <input asp-for="Password" placeholder="********" type="password" id="Password" />
+                    <i class="fas fa-eye toggle-password" onclick="togglePassword('Password', this)"></i>
+                </div>
                 <span asp-validation-for="Password" class="text-danger"></span>
             </div>
 
-            <!-- Role selection -->
-            <div class="form-group">
-                <label asp-for="Role" class="form-label">Role</label>
-                <select asp-for="Role" class="form-control">
-                    <option value="" disabled selected>Select Role</option>
-                    <option value="Doctor">Doctor</option>
-                    <option value="Patient">Patient</option>
-                    <option value="Admin">Admin</option>
-                </select>
-                <span asp-validation-for="Role" class="text-danger"></span>
-            </div>
-
-            <div class="remember">
+            <div class="remember" style="display:flex; align-items:center; justify-content:space-between;">
                 <div class="form-check">
                     <input asp-for="RememberMe" class="form-check-input" />
                     <label asp-for="RememberMe" class="form-check-label"></label>
                 </div>
-                <a href="@Url.Action("Forgetpassword","Forget")" class="forgot">Forgot password?</a>
+                <a href="@Url.Action("Forgetpassword", "Forget")" class="forgot">Forgot password?</a>
             </div>
 
-            <div class="btns">
+            <div class="btns" style="margin-top: 15px;">
                 <button type="submit" class="btn-login">Login</button>
             </div>
         </form>
 
-        <div class="or">Or</div>
-
-        <!-- Google External-Login Form (Hidden) -->
-        <form asp-controller="Account" asp-action="ExternalLogin" method="post" style="display:none;">
-            @Html.AntiForgeryToken()
-            <input type="hidden" name="provider" value="Google" />
-            <button type="submit" class="google-btn">
-                <img src="~/images/Google.png" alt="Google logo" />
-                <span>Sign in with Google</span>
-            </button>
-        </form>
-
-        <!-- Professional Sign Up link -->
+        <div class="or" style="text-align:center; margin:15px 0;">Or</div>
         <div class="signup-link">
             Don't have an account?
             <a asp-controller="Account" asp-action="SignUp">Sign Up</a>
         </div>
-
-        <div class="copyright">
+        <div class="copyright" style="margin-top: 15px;">
             © 2025 Pro Clinic corporation
         </div>
     </div>
@@ -124,6 +139,21 @@
         <img src="~/images/Pro Clinic.png" alt="clinic illustration" />
     </div>
 </div>
+
+<script>
+    function togglePassword(id, el) {
+        const input = document.getElementById(id);
+        if (input.type === "password") {
+            input.type = "text";
+            el.classList.remove("fa-eye");
+            el.classList.add("fa-eye-slash");
+        } else {
+            input.type = "password";
+            el.classList.remove("fa-eye-slash");
+            el.classList.add("fa-eye");
+        }
+    }
+</script>
 
 @section Scripts {
     <partial name="_ValidationScriptsPartial" />

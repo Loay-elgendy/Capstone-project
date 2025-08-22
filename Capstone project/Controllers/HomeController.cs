@@ -21,9 +21,9 @@ namespace Capstone_project.Controllers
         [HttpPost]
         public async Task<IActionResult> Dashboard(int id)
         {
-            // Fetch reservation by Select.Id (previously DoctorID)
+            // Fetch reservations for this doctor
             var reservations = await _context.Selects
-                .Where(r => r.Id == id)
+                .Where(r => r.DoctorId == id) // id is the doctor's UserId from the URL
                 .ToListAsync();
 
             // Fetch all patients
@@ -43,38 +43,39 @@ namespace Capstone_project.Controllers
 
         // ---------------- Show AddClinic Form ----------------
         [HttpGet]
-        public IActionResult AddClinic()
+        public IActionResult AddClinic(int userId)
         {
-            var model = new AddClinic();
+            var model = new AddClinic { UserId = userId };
             return View(model);
         }
 
         // ---------------- Handle AddClinic POST ----------------
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> AddClinic(AddClinic model)
+        public async Task<IActionResult> AddClinic(int userId, AddClinic model)
         {
             if (!ModelState.IsValid)
                 return View(model);
 
+            model.UserId = userId; // Ensure the correct userId is set
+
             _context.AddClinics.Add(model);
             await _context.SaveChangesAsync();
 
-            return RedirectToAction("Dashboard", new { id = model.Id });
+            return RedirectToAction("Dashboard", "Home", new { id = model.UserId });
         }
-
 
         // ---------------- Home Page ----------------
         public async Task<IActionResult> Home(int id)
         {
-            // id comes from the previous page (Dashboard, AddClinic, etc.)
-
-            // Fetch all clinics (or filter if you want by user ID)
             var clinics = await _context.AddClinics.ToListAsync();
 
-            ViewBag.UserId = id; // pass the ID to the view if needed
+            // Save the logged-in user ID to ViewBag
+            ViewBag.UserId = id;
+
             return View(clinics);
         }
+
 
     }
 }

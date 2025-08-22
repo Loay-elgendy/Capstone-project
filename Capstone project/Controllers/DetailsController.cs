@@ -16,16 +16,10 @@ namespace Capstone_project.Controllers
             _context = context;
         }
 
-        // GET: View the latest patient data by PatientId (max Id entry)
-        public async Task<IActionResult> AddDetails(string patientId)
+        public async Task<IActionResult> AddDetails(int id)
         {
-            if (string.IsNullOrEmpty(patientId))
-            {
-                return BadRequest("Patient ID is missing.");
-            }
-
             var statusData = await _context.Status
-                .Where(s => s.PatientId.ToString() == patientId )
+                .Where(s => s.PatientId == id)
                 .OrderByDescending(s => s.id)
                 .FirstOrDefaultAsync();
 
@@ -33,10 +27,10 @@ namespace Capstone_project.Controllers
             {
                 return NotFound("No record found with matching Patient ID.");
             }
-            else
-            {
-                return View("AddDetails", statusData);
-            }
+
+            // Show the AddDetails page with patient data
+            return View(statusData);
         }
+
     }
 }

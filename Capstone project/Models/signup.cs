@@ -26,6 +26,6 @@ namespace Capstone_project.Models
         public string Password { get; set; }
 
         [Display(Name = "Role")]
-        public string? Role { get; set; }   // Doctor / Patient (Optional)
+        public string? Role { get; set; }   
     }
 }

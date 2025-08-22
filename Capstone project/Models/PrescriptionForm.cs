@@ -8,6 +8,14 @@ namespace Capstone_project.Models
         [Key]
         public int Id { get; set; }
 
+        public int PatientId { get; set; }
+
+        public int DoctorId { get; set; }
+        
+        [Required]
+        [EmailAddress]
+        public string Email { get; set; } // Changed to string
+
         [Required]
         public string Diagnosis { get; set; }
 

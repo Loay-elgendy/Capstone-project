@@ -8,11 +8,6 @@ namespace Capstone_project.Models
         [Key]
         public int Id { get; set; }
 
-
-        [Required(ErrorMessage = "Please select your role")]
-        [Display(Name = "Role")]
-        public string Role { get; set; }  // Doctor, Patient, Admin
-
         [Required(ErrorMessage = "Please enter your email")]
         [EmailAddress(ErrorMessage = "Invalid email address")]
         [Display(Name = "Email")]

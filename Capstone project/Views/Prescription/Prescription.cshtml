@@ -9,7 +9,7 @@
     <link rel="stylesheet" href="~/css/Prescription.css" />
     <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
     <style>
-        back-btn {
+        .back-btn {
             font-size: 20px;
             color: #0d47a1;
             text-decoration: none;
@@ -21,7 +21,6 @@
     <div class="container" id="prescription-content">
 
         <div class="header">
-
             <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
             <img src="~/Images/Logo white.png" alt="Logo" />
             <h1>Pro Clinic</h1>
@@ -66,7 +65,6 @@
     <script>
         document.querySelector('.download-btn').addEventListener('click', function () {
             const element = document.getElementById('prescription-content');
-
             const opt = {
                 margin: 0.5,
                 filename: 'prescription.pdf',
@@ -82,7 +80,6 @@
                 jsPDF: { unit: 'in', format: 'letter', orientation: 'portrait' },
                 pagebreak: { mode: ['css', 'legacy'] }
             };
-
             html2pdf().set(opt).from(element).save();
         });
     </script>

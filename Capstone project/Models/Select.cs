@@ -7,6 +7,8 @@ namespace Capstone_project.Models
         [Key]
         public int Id { get; set; }
 
+        public int DoctorId { get; set; }
+
         [Required]
         public string DoctorName { get; set; }
 

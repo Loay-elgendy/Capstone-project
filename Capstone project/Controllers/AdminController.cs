@@ -82,5 +82,29 @@ namespace CapstoneAdminSample.Controllers
             }
             return RedirectToAction("Bookings");
         }
+
+        // GET: /Admin/DoctorClinics
+        public async Task<IActionResult> DoctorClinics()
+        {
+            var clinics = await _db.AddClinics.ToListAsync(); // just get all clinics
+            return View(clinics); // matches the view model type: IEnumerable<AddClinic>
+        }
+
+
+
+        // Optional: Add DeleteDoctor functionality
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteDoctor(int id)
+        {
+            var doctor = await _db.AddClinics.FindAsync(id);
+            if (doctor != null)
+            {
+                _db.AddClinics.Remove(doctor);
+                await _db.SaveChangesAsync();
+            }
+            return RedirectToAction("DoctorClinics"); // Redirect back to the DoctorClinics page
+        }
+
     }
 }

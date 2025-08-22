@@ -14,8 +14,10 @@
 <body>
     <div class="form-container">
 
-        <form asp-action="AddClinic" asp-controller="Home" method="post">
-            <input type="hidden" name="DoctorID" value="@ViewBag.DoctorID" />
+        <form asp-action="AddClinic" asp-controller="Home" method="post" asp-route-userId="@Model.UserId">
+
+            @* Validation summary *@
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
 
             <div class="form-section">
                 <a href="javascript:history.back()" class="back-btn"><i class="fas fa-arrow-left"></i></a>
@@ -23,10 +25,12 @@
                     <div class="form-group">
                         <label asp-for="DoctorName">Full Name</label>
                         <input asp-for="DoctorName" class="form-control" />
+                        <span asp-validation-for="DoctorName" class="text-danger"></span>
                     </div>
                     <div class="form-group">
                         <label asp-for="ConsultationFee"></label>
                         <input asp-for="ConsultationFee" class="form-control" />
+                        <span asp-validation-for="ConsultationFee" class="text-danger"></span>
                     </div>
                 </div>
                 <div class="form-group">
@@ -40,14 +44,15 @@
                             </label>
                         }
                     </div>
+                    <span asp-validation-for="AvailableDays" class="text-danger"></span>
                 </div>
 
                 <div class="form-group">
                     <label asp-for="AvailableTimes">What are your available time slots?</label>
                     <div class="time-checkboxes">
                         @foreach (var slot in new[] {
-                        "9:00 AM - 11:00 AM", "11:00 AM - 1:00 PM", "2:00 PM - 4:00 PM",
-                        "5:00 PM - 7:00 PM", "7:00 PM - 9:00 PM" })
+                                                "9:00 AM - 11:00 AM", "11:00 AM - 1:00 PM", "2:00 PM - 4:00 PM",
+                                                "5:00 PM - 7:00 PM", "7:00 PM - 9:00 PM" })
                         {
                             <label>
                                 <input type="checkbox" name="AvailableTimes" value="@slot" />
@@ -55,6 +60,7 @@
                             </label>
                         }
                     </div>
+                    <span asp-validation-for="AvailableTimes" class="text-danger"></span>
                 </div>
             </div>
 
@@ -63,10 +69,12 @@
                 <div class="form-group">
                     <label asp-for="Specialty"></label>
                     <input asp-for="Specialty" class="form-control" />
+                    <span asp-validation-for="Specialty" class="text-danger"></span>
                 </div>
                 <div class="form-group">
                     <label asp-for="Location">Where is the clinic located?</label>
                     <input asp-for="Location" class="form-control" id="clinicLocation" placeholder="Write address or choose from map" />
+                    <span asp-validation-for="Location" class="text-danger"></span>
                     <div class="location-buttons">
                         <button type="button" class="map-btn" onclick="openMap()">🗺 Choose from Map</button>
                         <button type="button" class="map-btn" onclick="getLiveLocation()">📍 Use My Live Location</button>
@@ -82,6 +90,9 @@
     </div>
 
     <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validate/1.19.5/jquery.validate.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-validation-unobtrusive/3.2.12/jquery.validate.unobtrusive.min.js"></script>
     <script>
         let mapInitialized = false;
         let map, marker;

@@ -1,46 +1,220 @@
 @model IEnumerable<Capstone_project.Models.Select>
 @{
-    ViewData["Title"] = "Bookings";
     Layout = null;
+    ViewData["Title"] = "Bookings";
+    var totalBookings = Model.Count();
+    var totalDoctors = Model.Select(b => b.DoctorName).Distinct().Count();
 }
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet" />
-<link href="~/css/admin.css" rel="stylesheet" />
 
-<!-- Navbar (same as Users page) -->
-<nav class="navbar navbar-expand-lg navbar-light bg-white shadow-lg rounded-3 animate-fadeIn py-3 mb-4">
-    <div class="container">
-        <a class="navbar-brand fw-bold text-primary" href="#">Admin Panel</a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarContent"
-                aria-controls="navbarContent" aria-expanded="false" aria-label="Toggle navigation">
-            <span class="navbar-toggler-icon"></span>
-        </button>
-        <div class="collapse navbar-collapse" id="navbarContent">
-            <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                <li class="nav-item">
-                    <a class="nav-link @((ViewData["Title"]?.ToString() == "Admin Dashboard" ? "fw-bold text-primary" : ""))"
-                       asp-controller="Admin" asp-action="Users">Users</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link @((ViewData["Title"]?.ToString() == "Bookings" ? "active fw-bold text-primary" : ""))"
-                       asp-controller="Admin" asp-action="Bookings">Bookings</a>
-                </li>
-            </ul>
-            <form asp-controller="Account" asp-action="Logout" method="post" class="d-flex">
-                <button type="submit" class="btn fancy-btn btn-sm shadow-sm">Logout</button>
-            </form>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>Admin Dashboard - Bookings</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
+    <link rel="stylesheet" href="~/css/admin.css" />
+    <style>
+        /* Global Reset & Base */
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        html, body {
+            height: 100%;
+            background: #f9fafc;
+            color: #333;
+        }
+
+        .navbar, header {
+            background-color: #a1e3f9;
+            padding: 15px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            border-radius: 12px;
+            margin: 20px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            flex-wrap: wrap;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 30px;
+            flex-wrap: wrap;
+            flex: 1;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+        }
+
+            .logo img {
+                height: 50px;
+                width: 50px;
+            }
+
+            .logo span {
+                font-size: 22px;
+                font-weight: bold;
+                color: #333;
+            }
+
+        nav {
+            display: flex;
+            gap: 24px;
+            flex-wrap: wrap;
+        }
+
+            nav a {
+                text-decoration: none;
+                color: #000;
+                font-weight: 600;
+                font-size: 16px;
+            }
+
+                nav a:hover {
+                    color: #007acc;
+                }
+
+        .logout-link {
+            background: #ff5e5e;
+            color: #fff;
+            font-weight: 600;
+            padding: 8px 20px;
+            border-radius: 10px;
+            border: none;
+            text-decoration: none;
+            cursor: pointer;
+            display: inline-block;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            transition: all 0.3s ease;
+        }
+
+            .logout-link:hover {
+                background: #e04e4e;
+                transform: translateY(-2px);
+                box-shadow: 0 6px 14px rgba(0,0,0,0.2);
+            }
+
+            .logout-link:active {
+                background: #b83b3b;
+                transform: translateY(0);
+                box-shadow: 0 3px 6px rgba(0,0,0,0.2);
+            }
+
+            .logout-link:focus {
+                outline: none;
+                box-shadow: 0 0 0 3px rgba(255,94,94,0.4);
+            }
+
+        .section-title {
+            text-align: center;
+            margin: 50px 0 25px;
+            color: #4ca1af;
+            font-size: 28px;
+            font-weight: 700;
+        }
+
+        .table-responsive {
+            background: #fff;
+            padding: 20px;
+            border-radius: 14px;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            margin: 0 20px 30px;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            text-align: center;
+        }
+
+            table th, table td {
+                padding: 12px 10px;
+                border: 1px solid #ccc;
+                font-size: 14px;
+            }
+
+        thead {
+            background: #e7f4ff;
+        }
+
+        tbody tr:hover {
+            background: #f2fbff;
+        }
+
+        .info-cards {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 20px;
+            margin: 0 auto 40px;
+        }
+
+        .info-card {
+            background: linear-gradient(135deg,#43cea2,#185a9d);
+            border-radius: 12px;
+            width: 200px;
+            padding: 30px 20px;
+            text-align: center;
+            box-shadow: 0 6px 16px rgba(0,0,0,0.06);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+        }
+
+            .info-card h5 {
+                font-size: 16px;
+                margin-bottom: 10px;
+                color: #fff;
+            }
+
+            .info-card h2 {
+                font-size: 28px;
+                font-weight: 600;
+                color: #fff;
+            }
+
+        .modal-content {
+            border-radius: 12px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navbar -->
+    <header>
+        <div class="header-left">
+            <div class="logo">
+                <img src="~/Images/Logoafteredit.png" alt="Pro Clinic Logo" />
+                <span>Pro Clinic Admin</span>
+            </div>
+            <nav>
+                <a href="@Url.Action("Users", "Admin")">Users</a>
+                <a href="@Url.Action("Bookings", "Admin")" class="fw-bold text-primary">Bookings</a>
+                <a href="@Url.Action("DoctorClinics", "Admin")">Clinics</a>
+            </nav>
         </div>
-    </div>
-</nav>
+        <form asp-controller="Account" asp-action="Login" method="post">
+            <button type="submit" class="logout-link">Logout</button>
+        </form>
+    </header>
 
-<div class="form-section animate-fadeIn">
-    <h2>Bookings Management</h2>
+    <!-- Table showing bookings -->
     <div class="table-responsive">
-        <table class="table table-hover table-bordered shadow-sm align-middle">
+        <table class="table table-hover table-bordered align-middle mb-0">
             <thead class="table-dark">
                 <tr>
                     <th>Doctor</th>
                     <th>Day</th>
                     <th>Time</th>
+                    <th>Location</th>
                     <th>Actions</th>
                 </tr>
             </thead>
@@ -53,10 +227,7 @@
                         <td>@b.Time</td>
                         <td>@b.Location</td>
                         <td>
-                            <!-- Details/Edit Modal -->
                             <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#bookingModal-@b.Id">Details / Edit</button>
-
-                            <!-- Delete -->
                             <form asp-action="DeleteBooking" method="post" class="d-inline">
                                 <input type="hidden" name="id" value="@b.Id" />
                                 <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this booking?')">Delete</button>
@@ -73,7 +244,7 @@
                                         <div class="modal-body">
                                             <form asp-action="EditBooking" method="post">
                                                 <input type="hidden" name="id" value="@b.Id" />
-                                                <p><strong>Patient:</strong> @b.Id</p>
+                                                <p><strong>Patient ID:</strong> @b.Id</p>
                                                 <div class="mb-2">
                                                     <label>Day</label>
                                                     <input type="text" name="day" value="@b.Day" class="form-control" />
@@ -83,7 +254,7 @@
                                                     <input type="text" name="time" value="@b.Time" class="form-control" />
                                                 </div>
                                                 <div class="text-end">
-                                                    <button type="submit" class="btn fancy-btn btn-sm">Save</button>
+                                                    <button type="submit" class="btn btn-primary btn-sm">Save</button>
                                                     <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
                                                 </div>
                                             </form>
@@ -98,6 +269,15 @@
             </tbody>
         </table>
     </div>
-</div>
+    <h2 class="section-title">Bookings</h2>
 
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <div class="info-cards">
+        <div class="info-card">
+            <h5>Total Bookings</h5>
+            <h2>@totalBookings</h2>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>

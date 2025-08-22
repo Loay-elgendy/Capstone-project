@@ -65,9 +65,9 @@
                                 <td>@(res.Day ?? "N/A")</td>
                                 <td>@(res.Location ?? "N/A")</td>
                                 <td>
-                                    <a href="@Url.Action("AddDetails", "Details", new { id = patient.Id })">
-                                        Check Reservation
-                                    </a>
+                                    <a href="@Url.Action("AddDetails", "Details", new { id = patient.UserId })">
+       Check Reservation
+   </a>
                                 </td>
                             </tr>
                             count++;

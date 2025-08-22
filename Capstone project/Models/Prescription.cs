@@ -10,5 +10,6 @@ namespace Capstone_project.Models
         public List<statusmodel> Prescriptions { get; set; } = new List<statusmodel>();
         public List<PrescriptionForm> Prescriptionforms { get; set; } = new List<PrescriptionForm>();
         public List<Select> Reservations { get; set; } = new List<Select>();
+        public List<home> HomeId { get; set; } = new List<home>();
     }
 }

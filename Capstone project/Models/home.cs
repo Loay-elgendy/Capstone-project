@@ -6,14 +6,8 @@ namespace Capstone_project.Models
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name = "Name")]
-        public string Name { get; set; }
-        [Display(Name = "Price")]
-        public string price { get; set; }
-        [Display(Name = "Date")]
-        public string Date { get; set; }
-        [Display(Name = "Specialty")]
-        public string Specialty { get; set; }
+
+        public int UserId { get; set; }
 
     }
 }

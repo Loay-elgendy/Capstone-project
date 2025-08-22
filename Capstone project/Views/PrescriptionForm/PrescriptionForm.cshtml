@@ -21,12 +21,25 @@
 
     <main class="container">
         <h1 class="main-title">Prescription</h1>
-        <form asp-action="Dashboard" asp-controller="Home" method="post">
+        <form asp-action="Create" asp-controller="PrescriptionForm" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+
+            <!-- Hidden IDs -->
+            <input type="hidden" asp-for="DoctorId" />
+            <input type="hidden" asp-for="PatientId" />
+
+            <!-- Email -->
+            <section class="form-section">
+                <h2 class="section-title">Doctor Email</h2>
+                <label for="email">Doctor's Email:</label>
+                <input asp-for="Email" class="form-control" type="text" placeholder="doctor@gmail.com" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </section>
 
             <!-- Diagnosis -->
             <section class="form-section">
                 <h2 class="section-title">Diagnosis</h2>
-                <label for="diagnosis">A clear summary of the patient's condition (e.g., "acute bronchitis").</label>
+                <label for="diagnosis">A clear summary of the patient's condition</label>
                 <select asp-for="Diagnosis" class="form-control">
                     <option selected disabled>Select Item</option>
                     <option value="Acute Bronchitis">Acute Bronchitis</option>
@@ -89,9 +102,9 @@
             </section>
 
             <!-- Submit -->
-            <section class="form-section">
-                <button type="submit" class="back-btn">Send</button>
-            </section>
+            <div class="submit-container">
+                <button type="submit" class="submit-btn">Send Prescription</button>
+            </div>
         </form>
     </main>
 </body>

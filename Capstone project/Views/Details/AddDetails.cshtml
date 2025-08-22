@@ -1,4 +1,5 @@
 ﻿@model Capstone_project.Models.statusmodel
+
 @{
     Layout = null;
 }
@@ -77,8 +78,9 @@
         <p><strong>How many hours of sleep per day?</strong><br />@Model.SleepPattern</p>
         <p><strong>Describe physical activity level:</strong><br />@Model.ActivityLevel</p>
 
+        <!-- ✅ Hidden PatientId passed into button -->
         <div class="submit-container">
-            <a href="@Url.Action("PrescriptionForm", "PrescriptionForm")">
+            <a href="@Url.Action("PrescriptionForm", "PrescriptionForm", new { patientId = Model.PatientId })">
                 Add Prescription Form
             </a>
         </div>

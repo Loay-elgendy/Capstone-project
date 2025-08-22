@@ -95,7 +95,7 @@
                 <div class="doctor">
                     <h3>@clinic.DoctorName</h3>
                     <p>Specialty: @clinic.Specialty</p>
-                    <a class="doctor-link" href="@Url.Action("Select","Select", new { id = clinic.Id })">Book</a>
+                    <a class="doctor-link" href="@Url.Action("Select","Select", new { id = clinic.Id, userId = clinic.UserId })">Book</a>
                 </div>
             }
         }
@@ -121,7 +121,10 @@
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.DoctorName</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">@item.ConsultationFee</td>
                             <td style="padding: 10px; border: 1px solid #ccc;">
-                                <a class="doctor-link" href="@Url.Action("Prescription","Prescription", new { id = item.Id })">Check Reservation</a>
+                                <a class="doctor-link"
+                                   href="@Url.Action("Prescription", "Prescription", new { userId = ViewBag.UserId, doctorId = item.UserId })">
+                                    Check Reservation
+                                </a>
                             </td>
                         </tr>
                     }

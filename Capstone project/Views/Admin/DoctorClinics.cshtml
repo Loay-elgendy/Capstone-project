@@ -1,15 +1,14 @@
-@model IEnumerable<Capstone_project.Models.SignUp>
+﻿@model IEnumerable<Capstone_project.Models.AddClinic>
 @{
+    ViewData["Title"] = "Doctors Management";
     Layout = null;
-    var patientCount = Model.Count(u => u.Role == "Patient");
-    var doctorCount = Model.Count(u => u.Role == "Doctor");
 }
+
 <html lang="en">
 <head>
     <meta charset="utf-8" />
-    <title>Admin Dashboard - Pro Clinic</title>
+    <title>Doctors Management - Pro Clinic Admin</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" />
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css" />
     <link rel="stylesheet" href="~/css/admin.css" />
     <style>
         /* Global Reset & Base */
@@ -224,6 +223,8 @@
             text-align: center;
             box-shadow: 0 4px 14px rgba(0,0,0,0.08);
             transition: transform 0.3s ease;
+            margin: 15px;
+            display: inline-block;
         }
 
             .doctor:hover {
@@ -254,8 +255,6 @@
             font-weight: 600;
             font-size: 14px;
             transition: all 0.3s ease;
-            position: relative;
-            overflow: hidden;
             cursor: pointer;
         }
 
@@ -277,7 +276,6 @@
     </style>
 </head>
 <body>
-
     <!-- Navbar -->
     <header>
         <div class="header-left">
@@ -286,79 +284,96 @@
                 <span>Pro Clinic Admin</span>
             </div>
             <nav>
-                <a href="@Url.Action("Users", "Admin")" class="fw-bold text-primary">Users</a>
+                <a href="@Url.Action("Users", "Admin")">Users</a>
                 <a href="@Url.Action("Bookings", "Admin")">Bookings</a>
-                <a href="@Url.Action("DoctorClinics", "Admin")">Clinics</a>
+                <a href="@Url.Action("DoctorClinics", "Admin")" class="fw-bold text-primary">Clinics</a>
             </nav>
         </div>
         <a class="logout-link" href="@Url.Action("Login", "Account")">Logout</a>
     </header>
 
-    <!-- Section Title -->
-    <h2 class="section-title">Admin Dashboard</h2>
+    <h2 class="section-title">Doctor / Clinic Management</h2>
 
-    <!-- User Table -->
-    <div class="table-responsive">
-        <table>
-            <thead>
+    <div class="table-responsive shadow-lg rounded-3 mx-3">
+        <table class="table table-hover table-bordered align-middle mb-0">
+            <thead class="table-dark">
                 <tr>
-                    <th>Full Name</th>
-                    <th>Email</th>
-                    <th>Role</th>
+                    <th>Doctor Name</th>
+                    <th>Specialty</th>
+                    <th>Location</th>
+                    <th>Available Days</th>
+                    <th>Available Time</th>
                     <th>Actions</th>
                 </tr>
             </thead>
             <tbody>
-                @foreach (var user in Model)
+                @foreach (var doc in Model)
                 {
                     <tr>
-                        <td>@user.FirstName @user.LastName</td>
-                        <td>@user.Email</td>
-                        <td>@user.Role</td>
+                        <td>@doc.DoctorName</td>
+                        <td>@doc.Specialty</td>
+                        <td>@doc.Location</td>
+                        <td>@string.Join(", ", doc.AvailableDays ?? new List<string>())</td>
+                        <td>@string.Join(", ", doc.AvailableTimes ?? new List<string>())</td>
                         <td>
-                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#userModal-@user.Id">Details</button>
-                            <form asp-action="DeleteUser" method="post" class="d-inline">
-                                <input type="hidden" name="id" value="@user.Id" />
-                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this user?')">Delete</button>
+                            <button class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#doctorModal-@doc.Id">Edit</button>
+                            <form asp-action="DeleteDoctor" method="post" class="d-inline">
+                                <input type="hidden" name="id" value="@doc.Id" />
+                                @Html.AntiForgeryToken()
+                                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Delete this doctor?')">
+                                    Delete
+                                </button>
                             </form>
 
+
+
                             <!-- Modal -->
-                            <div class="modal fade" id="userModal-@user.Id" tabindex="-1">
+                            <div class="modal fade" id="doctorModal-@doc.Id" tabindex="-1">
                                 <div class="modal-dialog modal-dialog-centered">
                                     <div class="modal-content">
                                         <div class="modal-header">
-                                            <h5 class="modal-title">User Details</h5>
+                                            <h5 class="modal-title">Doctor Details</h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <p><strong>Full Name:</strong> @user.FirstName @user.LastName</p>
-                                            <p><strong>Email:</strong> @user.Email</p>
-                                            <p><strong>Role:</strong> @user.Role</p>
-                                            <p><strong>Password:</strong> *******</p>
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                            <form asp-action="EditDoctor" method="post">
+                                                <input type="hidden" name="id" value="@doc.Id" />
+                                                <div class="mb-2">
+                                                    <label>Doctor Name</label>
+                                                    <input type="text" name="DoctorName" value="@doc.DoctorName" class="form-control" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label>Specialty</label>
+                                                    <input type="text" name="Specialty" value="@doc.Specialty" class="form-control" />
+                                                </div>
+                                                <div class="mb-2">
+                                                    <label>Location</label>
+                                                    <input type="text" name="Location" value="@doc.Location" class="form-control" />
+                                                </div><div class="mb-2">
+                                                    <label>Available Days</label>
+                                                    <input type="text" name="Days" value="@string.Join(", ", doc.AvailableDays ?? new List<string>())" class="form-control" />
+                                                </div>
+
+                                                <div class="mb-2">
+                                                    <label>Available Time</label>
+                                                    <input type="text" name="Time" value="@string.Join(", ", doc.AvailableTimes ?? new List<string>())" class="form-control" />
+                                                </div>
+
+                                                <div class="text-end">
+                                                    <button type="submit" class="btn fancy-btn btn-sm">Save</button>
+                                                    <button type="button" class="btn btn-secondary btn-sm" data-bs-dismiss="modal">Close</button>
+                                                </div>
+                                            </form>
                                         </div>
                                     </div>
                                 </div>
                             </div>
+
                         </td>
                     </tr>
                 }
             </tbody>
         </table>
-    </div>
-
-    <!-- Info Cards -->
-    <div class="info-cards">
-        <div class="info-card bg-patient">
-            <h5>Patients</h5>
-            <h2>@patientCount</h2>
-        </div>
-        <div class="info-card bg-doctor">
-            <h5>Doctors</h5>
-            <h2>@doctorCount</h2>
-        </div>
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

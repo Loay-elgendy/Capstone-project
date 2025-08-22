@@ -67,6 +67,11 @@ namespace Capstone_project.Controllers
             else if (!System.Text.RegularExpressions.Regex.IsMatch(model.Password, @"[\W_]"))
                 ModelState.AddModelError("Password", "Password must contain at least one special character.");
 
+            // Read ConfirmPassword from form
+            var confirmPassword = Request.Form["ConfirmPassword"].ToString();
+            if (model.Password != confirmPassword)
+                ModelState.AddModelError("ConfirmPassword", "Passwords do not match.");
+
             if (!ModelState.IsValid)
                 return View(model);
 
@@ -75,24 +80,31 @@ namespace Capstone_project.Controllers
             _context.SignUps.Add(model);
             await _context.SaveChangesAsync();
 
+            // Set UserId to the generated Id (primary key)
+            model.UserId = model.Id;
+            _context.SignUps.Update(model);
+            await _context.SaveChangesAsync();
+
             TempData["Success"] = "Account created successfully. You can now login.";
             return RedirectToAction("Login");
         }
+
+
 
 
         // ------------------------ Login ------------------------
         [HttpGet]
         public IActionResult Login()
         {
-            ViewBag.SuccessMessage = TempData["Success"]?.ToString();
-            return View();
+            return View(new Login());
         }
 
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(Login model)
         {
-            if (!ModelState.IsValid) return View(model);
+            if (!ModelState.IsValid)
+                return View(model);
 
             // Special case: Admin login
             if (model.Email.ToLower() == "admin@admin.com" && model.Password == "admin1234")
@@ -100,7 +112,8 @@ namespace Capstone_project.Controllers
                 return RedirectToAction("Users", "Admin");
             }
 
-            var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email == model.Email);
+            // Case-insensitive email search
+            var user = await _context.SignUps.FirstOrDefaultAsync(u => u.Email.ToLower() == model.Email.ToLower());
 
             if (user == null ||
                 _signUpHasher.VerifyHashedPassword(user, user.Password, model.Password) != PasswordVerificationResult.Success)
@@ -109,27 +122,28 @@ namespace Capstone_project.Controllers
                 return View(model);
             }
 
+
+            // Save the login attempt
             _context.Logins.Add(model);
             await _context.SaveChangesAsync();
 
-            // Role based redirection
-            if (user.Role?.ToLower() == "doctor")
+            if (string.Equals(user.Role, "doctor", StringComparison.OrdinalIgnoreCase))
             {
                 var existingClinic = await _context.AddClinics
-                    .FirstOrDefaultAsync(c => c.Id == user.Id);
+                    .FirstOrDefaultAsync(c => c.UserId == user.UserId);
 
                 if (existingClinic != null)
                 {
-                    return RedirectToAction("Dashboard", "Home", new { Email = user.Email });
+                    return RedirectToAction("Dashboard", "Home", new { id = user.UserId });
                 }
 
-                TempData["DoctorID"] = user.Role;
-                return RedirectToAction("AddClinic", "Home");
+                // Redirect to AddClinic with correct userId in URL
+                return RedirectToAction("AddClinic", "Home", new { userId = user.UserId });
             }
 
-            // Patient goes to Home
-            return RedirectToAction("Home", "Home");
+            return RedirectToAction("Home", "Home", new { id = user.UserId });
         }
+
 
         // ------------------------ Reset Password ------------------------
         [HttpGet]
