@@ -70,10 +70,28 @@ namespace Capstone_project.Controllers
         {
             var clinics = await _context.AddClinics.ToListAsync();
 
-            // Save the logged-in user ID to ViewBag
             ViewBag.UserId = id;
 
             return View(clinics);
+        }
+
+        // ---------------- Delete Reservation ----------------
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeletePrescription(int prescriptionFormId, int doctorId)
+        {
+            // Find the prescription form
+            var prescriptionForm = await _context.PrescriptionForms
+                .FirstOrDefaultAsync(p => p.Id == prescriptionFormId);
+
+            if (prescriptionForm != null)
+            {
+                _context.PrescriptionForms.Remove(prescriptionForm);
+                await _context.SaveChangesAsync();
+            }
+
+            // Redirect back to Home page for the doctor
+            return RedirectToAction("Home", new { id = doctorId });
         }
 
 
